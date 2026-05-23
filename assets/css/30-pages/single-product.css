@@ -1,0 +1,1019 @@
+/* ============================================================
+   Dr. Peri — Single Product Page
+   Greift auf body.wa-single-product (von class-single-product-renderer
+   gesetzt). Hero-Layout mit Gallery + Summary, dann Shortfacts /
+   Single-Panel / Accordion / Reviews / Related-Upsells.
+
+   Trust-Badges -> 40-blocks/trust-badges.css
+   Accordion    -> 40-blocks/accordion.css
+   Card-Optik fuer Related/Upsells -> 20-components/product-card.css
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+body.wa-single-product {
+    --wa-bg:        var(--color-bg-soft);
+    --wa-surface:   var(--color-bg);
+    --wa-text:      var(--color-accent);
+    --wa-text-soft: rgba(71, 94, 118, 0.72);
+    --wa-text-mute: var(--color-text-muted);
+    --wa-accent:    var(--color-accent);
+    --wa-accent-d:  var(--color-accent-2);
+    --wa-border:    rgba(71, 94, 118, 0.12);
+    --wa-border-2:  rgba(71, 94, 118, 0.06);
+    --wa-shadow:    var(--shadow-sm);
+    --wa-shadow-lg: var(--shadow-md);
+    --wa-radius:    var(--radius-xl);
+    --wa-radius-sm: var(--radius-lg);
+
+    background: var(--wa-bg) !important;
+    font-family: var(--font-base) !important;
+    color: var(--wa-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Reset WP-Container-Optik nur auf Single-Product
+   (Divi-Section/Row/Column wird NICHT angefasst — die uebernimmt Divi.) */
+body.wa-single-product #main-content,
+body.wa-single-product #et-main-area {
+    background: var(--wa-bg) !important;
+}
+
+/* WP/WC-Wrapper auf 100% — eigene .wa-product-page steuert max-width */
+body.wa-single-product #main-content .container,
+body.wa-single-product #main-content > .container,
+body.wa-single-product #content-area,
+body.wa-single-product #left-area,
+body.wa-single-product article.product,
+body.wa-single-product .et_pb_wc_description,
+body.wa-single-product .et_pb_wc_breadcrumb,
+body.wa-single-product .et_pb_wc_gallery,
+body.wa-single-product .et_pb_wc_title,
+body.wa-single-product .et_pb_wc_price,
+body.wa-single-product .et_pb_wc_add_to_cart,
+body.wa-single-product .et_pb_wc_meta,
+body.wa-single-product .et_pb_wc_tabs,
+body.wa-single-product .et_pb_wc_related_products,
+body.wa-single-product .et_pb_wc_upsells {
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+body.wa-single-product #sidebar { display: none !important; }
+body.wa-single-product article.product { background: transparent !important; box-shadow: none !important; border: 0 !important; }
+
+/* Wrapper-Typografie: nur am Wrapper definieren, NICHT auf "*".
+ * Eine "color"-Regel auf .wa-product-page * greift sonst in
+ * SVG-Icons mit stroke="currentColor" durch (z. B. die weissen
+ * Cart-Icons in den Related-Products) und faerbt sie dunkel.
+ */
+body.wa-single-product .wa-product-page {
+    font-family: var(--font-base);
+    color: var(--wa-text);
+}
+/* Schriftfamilie auch auf alle Kinder, damit Divis Element-Defaults
+ * (h1/h2/p/.entry-title) nicht in andere Fonts kippen. Keine Farbe! */
+body.wa-single-product .wa-product-page :where(h1, h2, h3, h4, h5, h6, p, span, a, li, button, input, select, textarea, label) {
+    font-family: var(--font-base);
+}
+
+body.wa-single-product .wa-product-page {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 2.5rem 80px;
+    box-sizing: border-box;
+}
+@media (max-width: 767px) {
+    body.wa-single-product .wa-product-page {
+        padding: 28px 1.5rem 64px;
+    }
+}
+
+/* ---------- Breadcrumbs (WC default) ---------- */
+body.wa-single-product .woocommerce-breadcrumb {
+    font-size: var(--fs-caption);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--wa-text-mute);
+    margin: 0 0 10px !important;
+    padding: 0;
+}
+body.wa-single-product .woocommerce-breadcrumb a {
+    color: var(--wa-text-soft);
+    text-decoration: none;
+    transition: color 200ms ease;
+}
+body.wa-single-product .woocommerce-breadcrumb a:hover { color: var(--wa-accent); }
+
+/* ---------- HERO GRID ---------- */
+.wa-product-hero {
+    position: relative;
+}
+.wa-product-hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+}
+@media (max-width: 860px) {
+    .wa-product-hero__inner {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+/* ---------- GALLERY ---------- */
+.wa-product-hero__gallery {
+    position: relative;
+    /* Container-Query-Anchor fuer .wa-product-facts. */
+    container-type: inline-size;
+    container-name: wa-gallery;
+}
+body.wa-single-product .woocommerce-product-gallery {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    padding: 0 !important;
+    box-shadow: var(--wa-shadow);
+    width: 100% !important;
+    float: none !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+body.wa-single-product .woocommerce-product-gallery__wrapper { margin: 0; }
+body.wa-single-product .woocommerce-product-gallery__image,
+body.wa-single-product .woocommerce-product-gallery__image:nth-child(n+2) {
+    border-radius: 0;
+    overflow: hidden;
+}
+body.wa-single-product .woocommerce-product-gallery__image img {
+    border-radius: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+}
+body.wa-single-product .woocommerce-product-gallery .flex-control-thumbs {
+    display: flex !important;
+    flex-wrap: nowrap;
+    gap: 10px;
+    margin: 0 !important;
+    padding: 14px !important;
+    list-style: none;
+}
+@media (max-width: 767px) {
+    body.wa-single-product .woocommerce-product-gallery .flex-control-thumbs { padding: 10px !important; gap: 8px; }
+}
+body.wa-single-product .flex-control-thumbs li {
+    flex: 1 1 0 !important;
+    width: auto !important;
+    min-width: 0;
+    margin: 0 !important;
+    list-style: none;
+}
+body.wa-single-product .flex-control-thumbs img {
+    border-radius: 10px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    opacity: .7;
+    transition: opacity 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+body.wa-single-product .flex-control-thumbs img:hover { opacity: 1; transform: translateY(-1px); }
+body.wa-single-product .flex-control-thumbs img.flex-active {
+    opacity: 1;
+    border-color: var(--wa-accent);
+}
+
+/* Sale-Flash custom */
+body.wa-single-product .wa-sale-flash {
+    position: absolute;
+    top: 24px; left: 24px;
+    z-index: 5;
+    background: var(--wa-text);
+    color: #fff;
+    font-size: var(--fs-tag);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 999px;
+}
+body.wa-single-product .onsale { display: none !important; } /* WC default verstecken */
+
+/* ---------- SUMMARY (rechte Spalte) ---------- */
+body.wa-single-product .summary.entry-summary {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    padding: 36px 32px;
+    box-shadow: var(--wa-shadow);
+    width: 100% !important;
+    float: none !important;
+    margin: 0 !important;
+    position: sticky;
+    top: 24px;
+    box-sizing: border-box;
+}
+@media (max-width: 860px) {
+    body.wa-single-product .summary.entry-summary {
+        position: static;
+        padding: 28px 22px;
+    }
+}
+@media (max-width: 767px) {
+    body.wa-single-product .summary.entry-summary { padding: 24px 20px; }
+}
+
+.wa-product-eyebrow {
+    font-size: var(--fs-tag);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--wa-accent);
+    font-weight: 600;
+    margin: 0 0 14px;
+}
+.wa-product-eyebrow a {
+    color: inherit;
+    text-decoration: none;
+}
+
+body.wa-single-product .summary .product_title {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-h1) !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--color-heading) !important;
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+    overflow-wrap: anywhere;
+}
+
+body.wa-single-product .summary .woocommerce-product-rating {
+    margin: 0 0 18px !important;
+    font-size: var(--fs-meta);
+    color: var(--wa-text-soft);
+}
+body.wa-single-product .star-rating { color: var(--wa-accent); }
+
+/* Short Description als Intro: leicht groesser, einheitlich fuer den
+   gesamten Block. Volle Textfarbe (--wa-text = #475e76) -- konsistent
+   mit der Long Description in .wa-single-panel/.wa-detail-block__panel. */
+body.wa-single-product .summary .woocommerce-product-details__short-description {
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    color: var(--wa-text);
+    margin: 0 0 6px;
+}
+/* Dezenter "Produktbeschreibung lesen"-Link direkt unter der Short
+   Description. Bewusst Text-Look (kein Button), Pfeil-SVG als Affordance.
+   Sitzt zwischen .woocommerce-product-details__short-description und
+   den Key-Points -- wird nur gerendert, wenn eine Long Description
+   vorhanden ist (siehe render_short_description_more_link()). */
+body.wa-single-product .summary .wa-readmore-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: -2px 0 4px;
+    padding: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--wa-text-soft);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 160ms ease, border-color 160ms ease, gap 160ms ease;
+}
+body.wa-single-product .summary .wa-readmore-link:hover,
+body.wa-single-product .summary .wa-readmore-link:focus-visible {
+    color: var(--wa-accent);
+    border-bottom-color: currentColor;
+    gap: 9px;
+}
+body.wa-single-product .summary .wa-readmore-link:focus-visible {
+    outline: none;
+}
+body.wa-single-product .summary .wa-readmore-link__arrow {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    transform: translateY(0.5px);
+}
+
+.wa-divider {
+    border: 0;
+    height: 1px;
+    background: var(--wa-border);
+    margin: 24px 0 !important;
+}
+
+body.wa-single-product .summary .price {
+    font-size: var(--fs-price) !important;
+    font-weight: 700 !important;
+    color: var(--color-accent) !important;
+    margin: 0 0 4px !important;
+    line-height: 1.2;
+}
+body.wa-single-product .summary .price del {
+    font-size: var(--fs-price-old);
+    color: var(--color-text-muted);
+    margin-right: 12px;
+    font-weight: 400;
+    text-decoration: line-through;
+}
+body.wa-single-product .summary .price ins {
+    background: transparent;
+    text-decoration: none;
+    color: var(--wa-text);
+}
+
+/* Features Pills */
+body.wa-single-product .wa-product-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 24px;
+    padding: 0 !important;
+    list-style: none !important;
+    list-style-type: none !important;
+    counter-reset: none !important;
+}
+body.wa-single-product .wa-product-features__pill {
+    font-size: var(--fs-caption);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--wa-text);
+    background: var(--wa-bg);
+    border: 1px solid var(--wa-border);
+    padding: 7px 14px;
+    margin: 0 !important;
+    border-radius: 999px;
+    list-style: none !important;
+    list-style-type: none !important;
+    text-indent: 0 !important;
+    counter-increment: none !important;
+}
+body.wa-single-product .wa-product-features__pill::before,
+body.wa-single-product .wa-product-features__pill::after {
+    content: none !important;
+    display: none !important;
+    counter-increment: none !important;
+}
+body.wa-single-product .wa-product-features__pill::marker { content: '' !important; }
+
+/* Cart */
+body.wa-single-product .summary form.cart {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 12px;
+    margin: 0 0 22px !important;
+    padding: 0;
+}
+body.wa-single-product .summary form.cart .quantity {
+    margin: 0;
+}
+body.wa-single-product .summary form.cart .quantity .qty {
+    width: 88px;
+    height: 56px;
+    border-radius: 14px;
+    border: 1px solid var(--wa-border);
+    background: var(--wa-bg);
+    color: var(--wa-text);
+    font-family: inherit;
+    font-size: var(--fs-h6);
+    font-weight: 600;
+    text-align: center;
+    transition: border-color 200ms ease, background 200ms ease;
+}
+body.wa-single-product .summary form.cart .quantity .qty:focus {
+    outline: none;
+    border-color: var(--wa-accent);
+    background: #fff;
+}
+
+/* Quantity +/- Stepper */
+body.wa-single-product .summary form.cart .wa-qty-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--wa-bg);
+    border: 1px solid var(--wa-border);
+    border-radius: 14px;
+    padding: 4px;
+    height: 56px;
+}
+body.wa-single-product .summary form.cart .wa-qty-wrap .qty {
+    width: 56px;
+    height: 100%;
+    border: 0;
+    background: transparent;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+}
+body.wa-single-product .wa-qty-btn {
+    width: 40px; height: 100%;
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    color: var(--wa-text);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 180ms ease, color 180ms ease;
+}
+body.wa-single-product .wa-qty-btn:hover { background: #fff; color: var(--wa-accent); }
+body.wa-single-product .wa-qty-btn:focus-visible {
+    outline: 2px solid var(--wa-accent);
+    outline-offset: 1px;
+}
+
+body.wa-single-product .summary .single_add_to_cart_button,
+body.wa-single-product .summary form.cart button.button.alt,
+body.wa-single-product .summary .button.alt {
+    flex: 1 1 180px;
+    min-width: 0;
+    height: 56px;
+    padding: 0 28px !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+    background: var(--wa-text) !important;
+    color: #fff !important;
+    font-family: inherit !important;
+    font-size: var(--fs-small) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    cursor: pointer;
+    transition: background 220ms ease, transform 200ms ease, box-shadow 200ms ease !important;
+    box-shadow: var(--shadow-cta);
+}
+body.wa-single-product .summary .single_add_to_cart_button:hover,
+body.wa-single-product .summary form.cart button.button.alt:hover {
+    background: var(--color-accent-2) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-cta-hover);
+}
+body.wa-single-product .summary .single_add_to_cart_button:focus-visible {
+    outline: 3px solid var(--wa-accent);
+    outline-offset: 3px;
+}
+body.wa-single-product .summary .single_add_to_cart_button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+@media (max-width: 420px) {
+    body.wa-single-product .summary form.cart {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    body.wa-single-product .summary form.cart .quantity,
+    body.wa-single-product .summary form.cart .wa-qty-wrap { width: 100%; }
+    body.wa-single-product .summary form.cart .wa-qty-wrap { justify-content: space-between; }
+    body.wa-single-product .summary .single_add_to_cart_button { width: 100%; }
+}
+
+/* ---------- ACTION BLOCK (form.cart .. wa-product-meta) ----------
+   Visueller Wrapper am Boden der Summary-Card, hebt die Aktions-/
+   Konversions-Zone (Cart, Trust-Badges, Meta) klar vom Lese-Inhalt
+   (Eyebrow / Titel / Excerpt / Keypoints / Price / Features) ab.
+
+   Strategie:
+   - Negative horizontale + bottom-Margins matchen die Summary-Card-
+     Paddings -> der Action-Block bleedet bis zur Card-Kante.
+   - --wa-bg (#f7f8fa nach DESIGN-Token-Update) gibt der Zone eine
+     soft-getoenten Background, der sich vom weissen Card-Body
+     abhebt. Bottom-Corners runden mit der Summary-Card mit.
+*/
+body.wa-single-product .summary .wa-product-action {
+    margin: 24px -32px -36px;
+    padding: 28px 32px 32px;
+    background: var(--wa-bg);
+    border-top: 1px solid var(--wa-border);
+    border-bottom-left-radius: var(--wa-radius);
+    border-bottom-right-radius: var(--wa-radius);
+    /* Container-Query-Anchor fuer .wa-product-trust. */
+    container-type: inline-size;
+    container-name: wa-action;
+}
+@media (max-width: 860px) {
+    body.wa-single-product .summary .wa-product-action {
+        margin: 22px -22px -28px;
+        padding: 24px 22px 28px;
+    }
+}
+@media (max-width: 767px) {
+    body.wa-single-product .summary .wa-product-action {
+        margin: 20px -20px -24px;
+        padding: 22px 20px 24px;
+    }
+}
+
+/* Form.cart sitzt direkt am Action-Block-Top -> eigene Top-Margin
+   raus, Bottom-Margin reduziert (Block-Padding uebernimmt Spacing). */
+body.wa-single-product .summary .wa-product-action form.cart {
+    margin: 0 0 18px !important;
+}
+
+/* Trust-Card sitzt direkt unter der Cart -- der 18px-Bottom-Margin
+   der Cart liefert den ganzen Vertikal-Gap. Eigene Margins der
+   Trust-Card (default 10px-top wegen Facts-Spiegelung) im Action-
+   Block neutralisieren, damit das Layout kompakt bleibt. */
+body.wa-single-product .summary .wa-product-action .wa-product-trust {
+    margin: 0 !important;
+}
+
+/* Variations Tabelle */
+body.wa-single-product .variations { margin: 0 0 18px; width: 100%; }
+body.wa-single-product .variations,
+body.wa-single-product .variations tbody,
+body.wa-single-product .variations tr,
+body.wa-single-product .variations td,
+body.wa-single-product .variations th {
+    background: transparent;
+    border: 0;
+}
+body.wa-single-product .variations td,
+body.wa-single-product .variations th {
+    padding: 6px 0;
+    vertical-align: middle;
+}
+body.wa-single-product .variations th.label {
+    font-size: var(--fs-caption);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--wa-text-mute);
+    padding-right: 14px;
+    width: 1%;
+    white-space: nowrap;
+}
+body.wa-single-product .variations select {
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid var(--wa-border);
+    padding: 0 14px;
+    font-family: inherit;
+    font-size: var(--fs-small);
+    color: var(--wa-text);
+    background: var(--wa-bg);
+    transition: border-color 200ms ease, background 200ms ease;
+}
+body.wa-single-product .variations select:focus {
+    outline: none;
+    border-color: var(--wa-accent);
+    background: #fff;
+}
+body.wa-single-product .reset_variations {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: var(--fs-caption);
+    color: var(--wa-accent);
+    text-decoration: none;
+}
+body.wa-single-product .single_variation_wrap .woocommerce-variation-price { margin: 8px 0 14px; }
+body.wa-single-product .woocommerce-variation-availability { font-size: var(--fs-meta); color: var(--wa-text-soft); margin: 6px 0 12px; }
+
+@media (max-width: 540px) {
+    body.wa-single-product .variations,
+    body.wa-single-product .variations tbody,
+    body.wa-single-product .variations tr,
+    body.wa-single-product .variations td,
+    body.wa-single-product .variations th { display: block; width: 100%; }
+    body.wa-single-product .variations th.label { padding: 0 0 6px; }
+    body.wa-single-product .variations td.value { padding: 0 0 12px; }
+}
+
+/* Meta (aktuell ausgeblendet — Markup bleibt im Renderer fuer spaetere Reaktivierung) */
+.wa-product-meta { display: none !important; }
+.wa-product-meta--visible {
+    border-top: 1px solid var(--wa-border-2);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.wa-product-meta__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: var(--fs-caption);
+}
+.wa-product-meta__row span {
+    color: var(--wa-text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+}
+.wa-product-meta__row strong {
+    color: var(--wa-text);
+    font-weight: 500;
+}
+.wa-product-meta__row a { color: var(--wa-text); text-decoration: none; }
+.wa-product-meta__row a:hover { color: var(--wa-accent); }
+
+
+/* ---------- SINGLE PANEL (Fallback bei nur 1 Tab) ---------- */
+.wa-single-panel {
+    margin: 56px 0 0;
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 32px;
+}
+@media (max-width: 767px) {
+    .wa-single-panel { margin-top: 40px; padding: 24px 20px; }
+}
+.wa-single-panel__body {
+    font-size: var(--fs-body);
+    line-height: 1.75;
+    color: var(--wa-text);
+    overflow-wrap: anywhere;
+}
+@media (max-width: 767px) {
+    .wa-single-panel__body { font-size: var(--fs-small); line-height: 1.7; }
+}
+.wa-single-panel__body > h2:first-child { display: none; }
+.wa-single-panel__body h2,
+.wa-single-panel__body h3 {
+    font-size: var(--fs-h5);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-heading);
+    margin: 18px 0 10px;
+}
+.wa-single-panel__body p { margin: 0 0 14px; }
+.wa-single-panel__body p:last-child { margin-bottom: 0; }
+.wa-single-panel__body a { color: var(--wa-accent); text-decoration: none; }
+.wa-single-panel__body a:hover { color: var(--wa-accent-d); }
+.wa-single-panel__body ul,
+.wa-single-panel__body ol { padding-left: 1.2em; margin: 0 0 14px; }
+.wa-single-panel__body li { margin-bottom: 6px; }
+
+/* Reviews */
+body.wa-single-product #reviews .commentlist { padding: 0; list-style: none; }
+body.wa-single-product #reviews .commentlist li {
+    border: 0;
+    padding: 22px 0;
+    border-top: 1px solid var(--wa-border-2);
+}
+body.wa-single-product #reviews .commentlist li:first-child { border-top: 0; padding-top: 0; }
+body.wa-single-product #review_form_wrapper {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid var(--wa-border-2);
+}
+body.wa-single-product #review_form input[type="text"],
+body.wa-single-product #review_form input[type="email"],
+body.wa-single-product #review_form textarea {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--wa-border);
+    background: var(--wa-bg);
+    padding: 14px 16px;
+    font-family: inherit;
+    color: var(--wa-text);
+    font-size: var(--fs-small);
+    transition: border-color 200ms ease, background 200ms ease;
+}
+body.wa-single-product #review_form input:focus,
+body.wa-single-product #review_form textarea:focus {
+    outline: none;
+    border-color: var(--wa-accent);
+    background: #fff;
+}
+body.wa-single-product #review_form .submit {
+    background: var(--wa-text) !important;
+    color: #fff !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    padding: 14px 28px !important;
+    font-family: inherit !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    cursor: pointer;
+    transition: background 200ms ease, transform 200ms ease;
+}
+body.wa-single-product #review_form .submit:hover {
+    background: var(--wa-accent) !important;
+    transform: translateY(-1px);
+}
+
+/* ---------- RELATED / UPSELLS ----------
+ * Layout-Wrapper. Card-Optik (Bild, Titel, Preis, Action-Buttons)
+ * kommt aus 20-components/product-card.css (laedt auf is_product() mit).
+ * Hier nur: Section-Abstaende, Heading, Spaltenanzahl auf 3.
+ */
+body.wa-single-product .related,
+body.wa-single-product .upsells {
+    margin-top: clamp(4rem, 8vw, 6rem);
+    width: 100%;
+}
+/* Heading nutzt geteilte .wa-section__heading-Klasse
+   (siehe 20-components/section-heading.css) -- gleicher
+   Eyebrow-Stil wie Accordion + FAQ. Kein Display-Heading,
+   kein Underline-::after mehr. */
+
+/* WC/Divi setzt einen Default `.product .related h2 { font-size: 26px
+   !important; padding-bottom: 16px; }` -- der ueberschreibt unseren
+   Section-Heading-Stil. Hier mit hoeherer Spezifitaet + !important
+   wieder zurueckziehen. */
+body.wa-single-product .product .related h2,
+body.wa-single-product article.product .related h2 {
+    font-size: var(--fs-h3) !important;
+    padding-bottom: 0 !important;
+}
+
+/* Spaltenzahl: erbt aus 20-components/product-card.css ueber columns-N
+   (WC setzt columns-* via wc_set_loop_prop, Default 4 -> User-Spec). */
+
+/* WC Notices */
+body.wa-single-product .woocommerce-message,
+body.wa-single-product .woocommerce-info,
+body.wa-single-product .woocommerce-error {
+    border: 0 !important;
+    border-radius: var(--wa-radius-sm);
+    background: #fff !important;
+    color: var(--wa-text) !important;
+    box-shadow: var(--wa-shadow);
+    padding: 16px 20px !important;
+}
+body.wa-single-product .woocommerce-message::before,
+body.wa-single-product .woocommerce-info::before {
+    color: var(--wa-accent);
+}
+body.wa-single-product .woocommerce-message a.button,
+body.wa-single-product .woocommerce-info a.button {
+    background: var(--wa-accent) !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    padding: 8px 16px !important;
+    font-size: var(--fs-caption) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+}
+
+/* ---------- PRODUCT FACTS (an Bild gedockt) ----------
+   ACF Group `wa_product_facts` -> 1-3 Pluspunkte mit Icon + Text.
+   Sitzt im Gallery-Col direkt UNTER der Gallery-Card.
+
+   Design-Konzept "Extension":
+   Wenn Facts vorhanden sind, lifteten wir Shadow + Radius auf den
+   gemeinsamen Parent .wa-product-hero__gallery (siehe :has() Block
+   weiter unten), sodass Gallery + Facts wie ein Element wirken --
+   oben Bild (weiss), unten Trust-Pluspunkte (--color-bg-soft) mit
+   einer feinen Innen-Trennlinie.
+
+   CI: --color-bg-soft (DESIGN.md "Section-Soft") differenziert das
+   Pluspunkt-Footer-Zone visuell vom Bild-Hero ohne neue Farb-
+   abstufung einzufuehren.
+
+   Fallback: Browser ohne :has() Support (sehr alte Safari/FF)
+   sehen die Original-Variante (zwei separate Cards) -- funktional
+   identisch, nur weniger "merged".
+*/
+/* Mobile-First Default: 1 Spalte, kompaktes Padding.
+   Padding skaliert fluid via clamp() (16->22 horizontal, 14->18 vertical).
+   Spalten-Layout wird via Container-Queries weiter unten erweitert,
+   sobald der Parent (.wa-product-hero__gallery) genug Breite bietet. */
+.wa-product-facts {
+    list-style: none !important;
+    margin: 10px 0 0 !important;
+    padding: clamp(14px, 0.75rem + 0.6vw, 18px) clamp(16px, 0.75rem + 1.2vw, 22px) !important;
+    background: var(--color-bg-soft);
+    border: 1px solid var(--wa-border);
+    border-radius: var(--wa-radius-sm);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px 16px;
+    box-sizing: border-box;
+}
+
+/* count-1 ist immer 1 Spalte -- unabhaengig vom Container. */
+.wa-product-facts--count-1 {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+/* Container-Aware Responsive Stages (gemessen am Gallery-Col,
+   nicht am Viewport -- so funktioniert es auch wenn der Hero in
+   1-Col-Mode ist und der Gallery-Col plotzlich voll-breit wird).
+   Stages:
+     >=380cqi : count-2 darf nebeneinander
+     >=520cqi : count-3 darf nebeneinander
+*/
+@container wa-gallery (min-width: 380px) {
+    .wa-product-facts {
+        gap: 12px 18px;
+    }
+    .wa-product-facts--count-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@container wa-gallery (min-width: 520px) {
+    .wa-product-facts--count-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Fallback fuer Browser ohne Container-Query-Support
+   (Safari <16, Chrome <105, Firefox <110).
+   Greift nur, wenn @container nicht supported wird -- moderne
+   Browser ueberschreiben das durch den Container-Query-Block oben. */
+@supports not (container-type: inline-size) {
+    .wa-product-facts--count-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .wa-product-facts--count-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    @media (max-width: 540px) {
+        .wa-product-facts--count-2,
+        .wa-product-facts--count-3 {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+/* Merge-Pattern: wenn der Gallery-Col einen Facts-Block enthaelt,
+   wird Schatten + Radius auf den Wrapper gelegt. Kinder werden
+   randlos und flush -- es entsteht eine zusammenhaengende Card.
+   overflow: hidden klippt die Innenflaechen auf die Wrapper-Radii. */
+.wa-product-hero__gallery:has(.wa-product-facts) {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    overflow: hidden;
+}
+body.wa-single-product .wa-product-hero__gallery:has(.wa-product-facts) .woocommerce-product-gallery {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}
+.wa-product-hero__gallery:has(.wa-product-facts) .wa-product-facts {
+    margin: 0 !important;
+    border-top: 1px solid var(--wa-border);
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0;
+}
+.wa-product-facts__item {
+    list-style: none !important;
+    list-style-type: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: var(--fs-meta);
+    font-weight: 500;
+    color: var(--wa-text);
+    line-height: 1.4;
+    text-align: center;
+}
+.wa-product-facts__item::before,
+.wa-product-facts__item::after {
+    content: none !important;
+    display: none !important;
+}
+.wa-product-facts__item .wa-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--wa-accent);
+}
+.wa-product-facts__item .wa-icon svg {
+    width: 22px;
+    height: 22px;
+}
+.wa-product-facts__text {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- KEYPOINTS (zwischen Short Description und Divider) ----------
+   ACF Group `wa_product_keypoints` -> bis zu 5 Label/Value-Zeilen.
+
+   CI: Label = Eyebrow-Spec aus DESIGN.md (--fs-overline, weight 600,
+   letter-spacing 0.12em, uppercase, --wa-text-mute = rgba(accent, .6)).
+   Value = Body-Spec (--fs-body, line-height 1.6, --wa-text).
+*/
+.wa-product-keypoints {
+    margin: 14px 0 4px;
+    padding: 14px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid var(--wa-border-2);
+}
+.wa-product-keypoints__row {
+    display: grid;
+    grid-template-columns: minmax(120px, 32%) 1fr;
+    gap: 14px;
+    align-items: baseline;
+}
+.wa-product-keypoints__label {
+    margin: 0;
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #769cc1;
+    line-height: 1.5;
+}
+.wa-product-keypoints__value {
+    margin: 0;
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    color: var(--wa-text);
+    max-width: 65ch;
+    overflow-wrap: anywhere;
+}
+@media (max-width: 540px) {
+    .wa-product-keypoints__row {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+}
+
+/* ---------- FAQ (vor Related Products, mit JSON-LD im <head>) ----------
+   Container analog zu .wa-single-panel; Items reusen das bestehende
+   .wa-accordion-Pattern aus 40-blocks/accordion.css.
+
+   CI: H2 nach DESIGN.md Spec (var(--fs-h2), weight 700, line-height 1.2,
+   letter-spacing -0.015em, color --color-accent). Description-Spalte
+   auf 65ch begrenzt (Best-Practice "max-width: 65ch" aus DESIGN.md #8).
+*/
+.wa-product-faq {
+    margin: clamp(4rem, 8vw, 6rem) 0 0;
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 32px;
+}
+@media (max-width: 767px) {
+    .wa-product-faq { padding: 24px 20px; }
+}
+.wa-product-faq__head {
+    margin: 0 0 20px;
+}
+/* H2 nutzt geteilte .wa-section__heading-Klasse
+   (siehe 20-components/section-heading.css) -- gleicher
+   Eyebrow-Stil wie Accordion + Related Products. Margin
+   innerhalb .wa-product-faq__head wird dort auf 0 gesetzt,
+   damit die Description direkt drunter sitzen kann. */
+.wa-product-faq__description {
+    margin: 14px 0 0;
+    font-family: var(--font-base);
+    font-size: var(--fs-body);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--wa-text);
+}
+
+/* ---------- FAQ ITEMS (direkte <details>-Kinder) ----------
+   Kein .wa-accordion-Wrapper -- die Items sitzen direkt in der
+   .wa-product-faq Card und erben das borderless Accordion-
+   Pattern aus 40-blocks/accordion.css.
+
+   Nur 2 Anpassungen fuer den Card-Kontext:
+     1. Zarter Hairline (--wa-border-2 statt --wa-border) --
+        da bereits in einer Card sitzt, soll der Trenner noch
+        leiser sein.
+     2. Erstes Item bekommt eigenen Top-Hairline + 18px Abstand
+        zur Description (kein .wa-accordion-Container vorhanden,
+        der den Top-Hairline normalerweise stellt).
+*/
+.wa-product-faq > .wa-accordion__item {
+    border-bottom-color: var(--wa-border-2);
+}
+.wa-product-faq > .wa-accordion__item:first-of-type {
+    border-top: 1px solid var(--wa-border-2);
+    margin-top: 18px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    body.wa-single-product *,
+    body.wa-single-product *::before,
+    body.wa-single-product *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}

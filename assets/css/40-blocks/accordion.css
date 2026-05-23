@@ -1,0 +1,209 @@
+/* ============================================================
+   Dr. Peri — Product Accordion (Apple-Style Borderless)
+
+   Native <details>/<summary>-Akkordeon, das auf Single-Product
+   die Default-WC-Tabs ersetzt (Beschreibung / Inhaltsstoffe /
+   Anwendung / Versand / Reviews / etc.).
+
+   Pattern (analog zu apple.com Produktseiten):
+   - Kein Card-Chrome, keine schwebenden Boxen
+   - Section wird durch dezente Hairlines (top + bottom je Item)
+     gegliedert, sitzt direkt auf der Page-Bg (--color-bg-soft)
+   - Title als echte Heading-Schrift (--fs-h6, weight 500),
+     kein UPPERCASE -- gibt der Sektion Lese-Charakter statt
+     UI-Charakter
+   - Plus -> Minus Icon (vertikale Linie skaliert auf 0 wenn open)
+   - Body-Text auf 65ch begrenzt fuer Lesbarkeit (DESIGN.md #8)
+
+   Wird auch vom FAQ-Block (.wa-product-faq) konsumiert -- die
+   FAQ-Card-Huelle bleibt, die Items erben das Hairline-Pattern.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+/* Hinweis: Section-Heading "Produktdetails" verwendet die
+   geteilte Klasse .wa-section__heading aus
+   20-components/section-heading.css -- gleicher Eyebrow-Stil
+   wie FAQ + Related Products (Single Heading-Sprache fuer alle
+   3 Sektionen auf der Single-Product Seite). */
+
+/* ----------------------------------------------------------
+   Container -- borderless. Top-Hairline gibt der Liste den
+   Beginn-Anker, Bottom-Hairline kommt vom letzten Item.
+---------------------------------------------------------- */
+.wa-accordion {
+    margin: clamp(4rem, 8vw, 6rem) 0 0;
+    display: block;
+    border-top: 1px solid var(--wa-border);
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+/* ----------------------------------------------------------
+   Items -- transparent, nur Bottom-Hairline.
+   Kein Box-Shadow im open-State (Apple-pure).
+---------------------------------------------------------- */
+.wa-accordion__item {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+    border-bottom: 1px solid var(--wa-border);
+    margin: 0;
+    transition: none;
+}
+.wa-accordion__item[open] {
+    box-shadow: none;
+}
+
+/* ----------------------------------------------------------
+   Head -- echte Heading-Schrift, full-bleed Padding,
+   kein Hover-Background.
+---------------------------------------------------------- */
+.wa-accordion__head {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: clamp(20px, 1rem + 0.6vw, 26px) 0;
+    font-family: var(--font-base);
+    font-size: var(--fs-h6);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    text-transform: none;
+    line-height: 1.35;
+    color: var(--color-heading);
+    transition: color 200ms ease;
+    background: transparent;
+}
+.wa-accordion__head::-webkit-details-marker { display: none; }
+.wa-accordion__head::marker { display: none; content: ''; }
+.wa-accordion__head:hover {
+    background: transparent;
+    color: var(--wa-accent);
+}
+.wa-accordion__head:focus-visible {
+    outline: 2px solid var(--wa-accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+.wa-accordion__title { flex: 1 1 auto; }
+
+/* ----------------------------------------------------------
+   Plus -> Minus Icon
+   Markup: <svg> mit zwei <line>-Elementen
+     - .wa-accordion__icon-h : horizontale Linie (immer sichtbar)
+     - .wa-accordion__icon-v : vertikale Linie (skaliert auf 0
+                                wenn das Item open ist)
+---------------------------------------------------------- */
+.wa-accordion__icon {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    color: #475e76;
+    overflow: visible;
+    transition: color 200ms ease;
+}
+.wa-accordion__head:hover .wa-accordion__icon {
+    color: #475e76;
+}
+.wa-accordion__item[open] > .wa-accordion__head .wa-accordion__icon {
+    color: #475e76;
+}
+
+.wa-accordion__icon-h,
+.wa-accordion__icon-v {
+    transform-origin: center;
+    transition: transform 240ms cubic-bezier(.2, .7, .2, 1);
+}
+.wa-accordion__item[open] > .wa-accordion__head .wa-accordion__icon-v {
+    transform: scaleY(0);
+}
+
+/* ----------------------------------------------------------
+   Body -- ruhige Lese-Spalte, max-width 65ch fuer Lesbarkeit.
+---------------------------------------------------------- */
+.wa-accordion__body {
+    padding: 0 0 clamp(22px, 1.25rem + 0.4vw, 30px);
+    font-size: var(--fs-body);
+    line-height: 1.7;
+    color: #475e76;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+@media (max-width: 767px) {
+    .wa-accordion__body {
+        font-size: var(--fs-small);
+        line-height: 1.65;
+    }
+}
+
+/* WC-Tabs rendern intern ein H2 mit dem Tab-Title -- in unserem
+   Accordion-Markup waere das eine doppelte Ueberschrift. */
+.wa-accordion__body > h2:first-child { display: none; }
+
+.wa-accordion__body h2,
+.wa-accordion__body h3 {
+    font-family: var(--font-base);
+    font-size: var(--fs-h5);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-heading);
+    margin: 18px 0 10px;
+}
+.wa-accordion__body p {
+    margin: 0 0 14px;
+}
+.wa-accordion__body p:last-child { margin-bottom: 0; }
+.wa-accordion__body a {
+    color: var(--wa-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 200ms ease, color 200ms ease;
+}
+.wa-accordion__body a:hover {
+    color: var(--wa-accent-d);
+    border-bottom-color: var(--wa-accent-d);
+}
+.wa-accordion__body ul,
+.wa-accordion__body ol {
+    padding-left: 1.2em;
+    margin: 0 0 14px;
+}
+.wa-accordion__body li { margin-bottom: 6px; }
+
+/* ----------------------------------------------------------
+   Smooth-Open-Animation (modern browsers).
+   Funktioniert weiter -- kein Box-Shadow-Flash mehr im
+   borderless Pattern, das Auf/Zu wirkt sogar ruhiger.
+---------------------------------------------------------- */
+@supports (interpolate-size: allow-keywords) {
+    .wa-accordion__item { interpolate-size: allow-keywords; }
+    .wa-accordion__item::details-content {
+        block-size: 0;
+        overflow: clip;
+        transition: block-size 280ms ease, content-visibility 280ms ease allow-discrete;
+    }
+    .wa-accordion__item[open]::details-content { block-size: auto; }
+}
+
+/* ----------------------------------------------------------
+   Reduced Motion
+---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .wa-accordion__icon-h,
+    .wa-accordion__icon-v,
+    .wa-accordion__head,
+    .wa-accordion__icon,
+    .wa-accordion__body a {
+        transition: none !important;
+    }
+}
+
+/* Default WC-Tabs ausblenden (falls noch irgendwo gerendert) */
+body.wa-single-product .woocommerce-tabs { display: none !important; }

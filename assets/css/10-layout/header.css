@@ -1,0 +1,504 @@
+/* ============================================================
+   HEADER - Dr. Peri Skincare
+   Konsumiert Tokens aus design-tokens.css.
+   Lokale --wah-* Aliase fuer Backward-Compat & Header-spezifische Tweaks.
+============================================================ */
+
+#wa-header,
+.wa-mobile-dropdown {
+    --wah-surface:    var(--color-bg);
+    --wah-text:       var(--color-accent);
+    --wah-text-soft:  var(--color-accent);
+    --wah-text-mute:  var(--color-text-muted);
+    --wah-accent:     var(--color-accent);
+    --wah-accent-d:   var(--color-accent);
+    --wah-border:     var(--color-border);
+    --wah-shadow-s:   var(--shadow-sm);
+    --wah-shadow-m:   var(--shadow-md);
+    --wah-shadow-cta: var(--shadow-cta);
+    --wah-radius:     var(--radius-lg);
+}
+
+/* Im Divi Visual Builder ausblenden */
+.et_fb #wa-header,
+.et-fb #wa-header,
+.et_fb .wa-mobile-dropdown,
+.et-fb .wa-mobile-dropdown {
+    display: none !important;
+}
+
+/* ============================================================
+   1. HEADER BAR
+============================================================ */
+#wa-header {
+    position: relative;
+    width: 100%;
+    z-index: 999999;
+    background-color: var(--wah-surface);
+    border-bottom: 1px solid var(--wah-border);
+    transition: background-color 220ms ease, box-shadow 220ms ease, border-color 220ms ease, padding 220ms ease;
+    font-family: var(--font-base);
+}
+
+.wa-header-container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 14px 2.5rem;
+    box-sizing: border-box;
+}
+@media (max-width: 980px) { .wa-header-container { padding: 10px 2rem; gap: 16px; } }
+@media (max-width: 767px) { .wa-header-container { padding: 8px 1.5rem; } }
+
+/* ============================================================
+   2. LOGO
+============================================================ */
+.wa-header-logo { flex-shrink: 0; min-width: 0; }
+.wa-header-logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+.wa-header-logo img {
+    height: 52px !important;
+    width: auto;
+    max-width: none;
+    display: block;
+    object-fit: contain;
+    object-position: left center;
+    transition: height 220ms ease;
+}
+.wa-logo-text {
+    font-family: var(--font-base);
+    font-size: var(--fs-h6);
+    font-weight: 600;
+    color: var(--wah-text);
+    letter-spacing: -0.01em;
+    text-decoration: none;
+}
+
+/* ============================================================
+   3. DESKTOP NAV
+============================================================ */
+.wa-header-nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+.wa-nav-list {
+    display: flex;
+    list-style: none !important;
+    margin: 0;
+    padding: 0;
+    gap: 36px;
+    align-items: center;
+}
+.wa-nav-list li {
+    margin: 0;
+    padding: 0;
+    list-style: none !important;
+}
+.wa-nav-list li::before,
+.wa-nav-list li::after { content: none !important; display: none !important; }
+.wa-nav-list li::marker { content: '' !important; }
+
+.wa-nav-list li a {
+    position: relative;
+    display: inline-block;
+    padding: 8px 2px;
+    font-family: var(--font-base);
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--wah-text);
+    text-decoration: none;
+    transition: color 200ms ease;
+}
+.wa-nav-list li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--wah-accent);
+    transition: width 280ms cubic-bezier(.2,.7,.2,1);
+}
+.wa-nav-list li a:hover {
+    color: var(--wah-accent);
+}
+.wa-nav-list li a:hover::after,
+.wa-nav-list li.current-menu-item > a::after,
+.wa-nav-list li.current_page_item > a::after {
+    width: 100%;
+}
+.wa-nav-list li.current-menu-item > a,
+.wa-nav-list li.current_page_item > a {
+    color: var(--wah-accent);
+}
+.wa-nav-list li a:focus-visible {
+    outline: 2px solid var(--wah-accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+/* WPML Flag */
+.wa-nav-list li.wpml-ls-menu-item a { display: inline-flex; align-items: center; padding: 4px 0; }
+.wa-nav-list li.wpml-ls-menu-item img.wpml-ls-flag {
+    width: 22px; height: auto;
+    border-radius: 3px;
+    transition: transform 220ms ease;
+}
+.wa-nav-list li.wpml-ls-menu-item a:hover img.wpml-ls-flag { transform: scale(1.08); }
+.wa-nav-list li.wpml-ls-menu-item a::after { display: none; }
+
+/* ============================================================
+   4. ACTIONS (Cart + CTA)
+============================================================ */
+.wa-header-actions {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.wa-header-cart {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px; height: 42px;
+    margin: 0;
+    padding: 0;
+    color: var(--wah-text);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease;
+}
+.wa-header-cart:hover {
+    color: var(--wah-accent);
+    background-color: rgba(118, 156, 193, 0.10);
+}
+.wa-header-cart:focus-visible {
+    outline: 2px solid var(--wah-accent);
+    outline-offset: 2px;
+}
+.wa-header-cart__icon { display: flex; line-height: 0; }
+.wa-header-cart__count {
+    position: absolute;
+    top: 4px; right: 4px;
+    min-width: 18px; height: 18px;
+    padding: 0 5px;
+    font-family: var(--font-base);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    color: #fff;
+    background-color: var(--wah-accent);
+    border: 2px solid var(--wah-surface);
+    border-radius: 999px;
+    transform: translate(35%, -35%);
+    box-sizing: content-box;
+    transition: transform 220ms cubic-bezier(.2,.9,.3,1.4), opacity 200ms ease;
+}
+.wa-header-cart__count--empty {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(35%, -35%) scale(0.6);
+}
+
+.wa-header-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    padding: 0 24px;
+    font-family: var(--font-base);
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: var(--wah-text);
+    text-decoration: none;
+    border: 0;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--wah-shadow-cta);
+    cursor: pointer;
+    transition: background-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+    white-space: nowrap;
+}
+.wa-header-cta:hover {
+    background-color: var(--wah-accent);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(118, 156, 193, 0.32);
+}
+.wa-header-cta:focus-visible {
+    outline: 3px solid var(--wah-accent);
+    outline-offset: 3px;
+}
+@media (max-width: 380px) { .wa-header-cta { display: none !important; } }
+
+/* ============================================================
+   5. HAMBURGER
+============================================================ */
+.wa-header-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 42px; height: 42px;
+    background: none;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    z-index: 1000001;
+    flex-shrink: 0;
+    gap: 5px;
+    transition: background-color 200ms ease;
+}
+.wa-header-hamburger:hover { background-color: rgba(118, 156, 193, 0.10); }
+.wa-header-hamburger:focus-visible { outline: 2px solid var(--wah-accent); outline-offset: 2px; }
+
+.wa-hamburger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: var(--wah-text);
+    border-radius: 2px;
+    transition: transform 280ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
+    transform-origin: center;
+}
+.wa-header-hamburger.active .wa-hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.wa-header-hamburger.active .wa-hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.wa-header-hamburger.active .wa-hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ============================================================
+   6. STICKY HEADER
+============================================================ */
+#wa-header.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: var(--wah-surface);
+    border-bottom-color: transparent;
+    box-shadow: var(--wah-shadow-m);
+    animation: waHeaderSlideDown 360ms cubic-bezier(.2,.7,.2,1) both;
+}
+
+/* Body-Spacer wenn Sticky aktiv — verhindert Content-Ueberlappung.
+   --wa-header-h wird vom JS gesetzt. !important schlaegt Divi-Overrides. */
+body.wa-sticky-on {
+    padding-top: var(--wa-header-h, 76px) !important;
+}
+#wa-header.sticky .wa-header-container { padding-top: 10px; padding-bottom: 10px; }
+#wa-header.sticky .wa-header-logo img { height: 44px !important; }
+
+@keyframes waHeaderSlideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ============================================================
+   7. MOBILE DROPDOWN
+============================================================ */
+.wa-mobile-dropdown {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999998;
+    pointer-events: none;
+    font-family: var(--font-base);
+}
+.wa-mobile-dropdown.active {
+    display: block;
+    pointer-events: auto;
+}
+
+.wa-mobile-dropdown-nav {
+    margin: 0 1.5rem;
+    padding: 8px;
+    background: var(--wah-surface);
+    border: 1px solid var(--wah-border);
+    border-radius: 16px;
+    box-shadow: var(--wah-shadow-m);
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    animation: waDropdownIn 280ms cubic-bezier(.2,.7,.2,1) both;
+}
+@media (max-width: 767px) { .wa-mobile-dropdown-nav { margin: 0 1rem; } }
+
+@keyframes waDropdownIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.wa-mobile-nav-list {
+    list-style: none !important;
+    margin: 0;
+    padding: 4px 0;
+}
+.wa-mobile-nav-list li {
+    margin: 0;
+    padding: 0;
+    list-style: none !important;
+}
+.wa-mobile-nav-list li::before,
+.wa-mobile-nav-list li::after { content: none !important; display: none !important; }
+.wa-mobile-nav-list li::marker { content: '' !important; }
+
+.wa-mobile-nav-list li a {
+    display: block;
+    padding: 14px 16px;
+    font-family: var(--font-base);
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--wah-text);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: background-color 200ms ease, color 200ms ease, padding-left 240ms cubic-bezier(.2,.7,.2,1);
+}
+.wa-mobile-nav-list li a:hover {
+    background-color: rgba(118, 156, 193, 0.10);
+    color: var(--wah-accent);
+    padding-left: 22px;
+}
+.wa-mobile-nav-list li.current-menu-item > a,
+.wa-mobile-nav-list li.current_page_item > a {
+    color: var(--wah-accent);
+    background-color: rgba(118, 156, 193, 0.12);
+}
+
+.wa-mobile-nav-list li.wpml-ls-menu-item a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 16px;
+}
+.wa-mobile-nav-list li.wpml-ls-menu-item img.wpml-ls-flag {
+    width: 22px; height: auto;
+    border-radius: 3px;
+}
+
+/* Mobile Cart + CTA */
+.wa-mobile-cart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 6px 0 0;
+    padding: 14px 16px;
+    font-family: var(--font-base);
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--wah-text);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--wah-border);
+    border-radius: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 200ms ease, color 200ms ease;
+}
+.wa-mobile-cart:hover {
+    background-color: rgba(118, 156, 193, 0.08);
+    color: var(--wah-accent);
+}
+.wa-mobile-cart__label { flex: 1; }
+.wa-mobile-cart .wa-mobile-cart__badge {
+    position: static;
+    transform: none;
+    min-width: 22px; height: 22px;
+    line-height: 22px;
+    font-size: 11px;
+    border: 0;
+    margin-left: 10px;
+    padding: 0 7px;
+}
+
+.wa-mobile-cta {
+    display: block;
+    width: 100%;
+    margin: 8px 0 4px;
+    padding: 14px 24px;
+    font-family: var(--font-base);
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: var(--wah-text);
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--wah-shadow-cta);
+    transition: background-color 200ms ease, transform 200ms ease;
+    box-sizing: border-box;
+}
+.wa-mobile-cta:hover {
+    background-color: var(--wah-accent);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* ============================================================
+   8. RESPONSIVE: 980px (mobile layout)
+============================================================ */
+@media (max-width: 980px) {
+    .wa-header-nav { display: none; }
+    .wa-header-hamburger { display: inline-flex; }
+    .wa-header-logo { flex: 1 1 auto; min-width: 0; }
+    .wa-header-logo a { min-width: 0; max-width: 100%; flex-shrink: 1; }
+    .wa-header-logo img { height: auto !important; max-height: 38px; max-width: 100%; flex-shrink: 1; }
+    .wa-header-actions { order: 2; gap: 8px; }
+    .wa-header-hamburger { order: 3; }
+    .wa-header-cta { height: 38px; padding: 0 16px; }
+}
+
+@media (max-width: 767px) {
+    .wa-header-logo img { max-height: 32px; }
+    .wa-header-cart { width: 38px; height: 38px; }
+    .wa-header-hamburger { width: 38px; height: 38px; }
+    .wa-header-cta { padding: 0 14px; }
+}
+
+/* ============================================================
+   9. ADMIN BAR FIX
+============================================================ */
+body.admin-bar #wa-header.sticky { top: 32px; }
+@media (max-width: 782px) { body.admin-bar #wa-header.sticky { top: 46px; } }
+@media (max-width: 600px) { body.admin-bar #wa-header.sticky { top: 0; } }
+
+/* ============================================================
+   10. REDUCED MOTION
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    #wa-header,
+    #wa-header *,
+    .wa-mobile-dropdown,
+    .wa-mobile-dropdown * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

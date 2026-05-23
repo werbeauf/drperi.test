@@ -1,0 +1,176 @@
+/* ============================================================
+   Dr. Peri — WooCommerce Product Category Cards
+   Editorial luxury skincare — passt auf shop-products-grid.css
+   - Greift auf [product_categories], [product_category],
+     Shop-Archiv (Subcategories) und Category-Archive (Subcategories)
+   - Konsumiert globale Tokens aus design-tokens.css
+============================================================ */
+
+/* ------------------------------------------------------------
+   Card Shell
+   Card-Geometrie + Hover-Lift erbt aus shop-products-grid.css.
+   Hier nur Category-spezifische Anpassungen.
+------------------------------------------------------------ */
+.woocommerce ul.products li.product.product-category {
+    text-align: center;
+}
+
+/* Inner link wraps image + body — full card click target */
+.woocommerce ul.products li.product.product-category > a {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none !important;
+}
+
+/* ------------------------------------------------------------
+   Image Pedestal
+   Tinted Hintergrund + Aspect-Ratio damit alle Cards gleich
+   hoch werden, auch wenn Term-Bilder unterschiedliche Formate
+   haben.
+------------------------------------------------------------ */
+.woocommerce ul.products li.product.product-category img,
+.woocommerce ul.products li.product.product-category .wp-post-image,
+.woocommerce ul.products li.product.product-category .attachment-woocommerce_thumbnail {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--color-bg-soft) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    transition: transform var(--drp-dur, 280ms) var(--drp-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+.woocommerce ul.products li.product.product-category:hover img,
+.woocommerce ul.products li.product.product-category:hover .wp-post-image {
+    transform: scale(1.04);
+}
+
+/* WooCommerce-Placeholder (kein Bild gesetzt) — neutral tinted */
+.woocommerce ul.products li.product.product-category img.wp-post-image[src*="placeholder"] {
+    object-fit: contain;
+    padding: 18% !important;
+    opacity: 0.55;
+}
+
+/* ------------------------------------------------------------
+   Body — Eyebrow + Title + CTA gestapelt
+------------------------------------------------------------ */
+.woocommerce ul.products li.product.product-category .wa-cat-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1;
+    padding: 24px 22px 26px;
+    gap: 0;
+}
+
+/* Eyebrow — Produkt-Anzahl */
+.woocommerce ul.products li.product.product-category .wa-cat-card__eyebrow {
+    display: block;
+    font-family: var(--font-base);
+    font-size: var(--fs-tag);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0 0 10px;
+}
+
+/* Title — Guide-Token --fs-card-title (18 -> 21px), Weight 600 */
+.woocommerce ul.products li.product.product-category .wa-cat-card__title,
+.woocommerce ul.products li.product.product-category h2.woocommerce-loop-category__title {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-card-title) !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    color: var(--color-accent) !important;
+    margin: 0 0 18px !important;
+    padding: 0 !important;
+    text-align: center !important;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    transition: color var(--drp-dur, 280ms) var(--drp-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+.woocommerce ul.products li.product.product-category:hover .wa-cat-card__title,
+.woocommerce ul.products li.product.product-category:hover h2.woocommerce-loop-category__title {
+    color: var(--color-accent) !important;
+}
+
+/* Default WC mark.count abklemmen — wir rendern den Count selbst als Eyebrow */
+.woocommerce ul.products li.product.product-category h2.woocommerce-loop-category__title mark.count {
+    display: none !important;
+}
+
+/* ------------------------------------------------------------
+   CTA — Guide-Button-Stil (1:1 zu style.css globalem Button)
+   Gefuellt Akzent, weisser Text, 6px Radius, shadow-cta.
+   Hover: dunklere Akzentstufe (700) + shadow-cta-hover.
+------------------------------------------------------------ */
+.woocommerce ul.products li.product.product-category .wa-cat-card__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    padding: .9em 2em;
+    box-sizing: border-box;
+
+    background: var(--color-accent);
+    color: #ffffff;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-cta);
+
+    font-family: var(--font-base);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.woocommerce ul.products li.product.product-category:hover .wa-cat-card__cta {
+    background: var(--color-accent-2);
+    border-color: var(--color-accent-2);
+    box-shadow: var(--shadow-cta-hover);
+}
+
+/* ------------------------------------------------------------
+   Mobile
+------------------------------------------------------------ */
+@media (max-width: 480px) {
+    .woocommerce ul.products li.product.product-category .wa-cat-card__body {
+        padding: 20px 18px 22px;
+    }
+    .woocommerce ul.products li.product.product-category .wa-cat-card__title,
+    .woocommerce ul.products li.product.product-category h2.woocommerce-loop-category__title {
+        margin-bottom: 14px !important;
+    }
+}
+
+/* ------------------------------------------------------------
+   Reduced Motion
+------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+    .woocommerce ul.products li.product.product-category img,
+    .woocommerce ul.products li.product.product-category .wa-cat-card__title,
+    .woocommerce ul.products li.product.product-category .wa-cat-card__cta {
+        transition: none !important;
+    }
+    .woocommerce ul.products li.product.product-category:hover img {
+        transform: none !important;
+    }
+}

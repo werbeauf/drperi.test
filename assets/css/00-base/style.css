@@ -1,0 +1,423 @@
+/* ============================================================
+   4. GLOBAL BUTTON RESET (Divi + WordPress + WooCommerce)
+   - Primary: Main-Akzent-Hintergrund, weisser Text, 6px Radius
+   - Hover: Wechsel auf Second accent (--color-accent-2) — der einzige
+     Punkt im System, wo #769cc1 als Fuellung erscheint
+   - Padding: .9em 2em (em-basiert fuer Skalierbarkeit)
+   - "body.et_button_no_icon" hebt Spezifitaet ueber Divis Defaults
+============================================================ */
+
+.et_pb_button,
+body.et_button_no_icon .et_pb_button,
+body.et_button_no_icon .et_button_icon_visible.et_button_left .et_pb_button,
+.et_pb_more_button,
+.et_pb_promo_button,
+.et_pb_newsletter_button,
+.et_pb_contact_submit,
+.et_pb_contact_reset,
+.et_pb_pricing_table_button,
+.et_pb_subscribe_button,
+.et_pb_signup_submit,
+.et_pb_search_submit,
+#et_pb_searchsubmit,
+.et_password_protected_form .et_submit_button,
+.et_pb_module .et_pb_button,
+
+/* Comments / Forms */
+.form-submit input,
+.comment-reply-link,
+#commentform input[type="submit"],
+
+/* WooCommerce - Frontend */
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt,
+.woocommerce-page a.button,
+.woocommerce-page button.button,
+.woocommerce-page input.button,
+.woocommerce-page a.button.alt,
+.woocommerce-page button.button.alt,
+.woocommerce-page input.button.alt,
+.woocommerce #respond input#submit,
+.woocommerce #respond input#submit.alt,
+.woocommerce a.added_to_cart,
+.woocommerce-cart .checkout-button,
+.woocommerce-checkout #place_order,
+.woocommerce .add_to_cart_button,
+.woocommerce .single_add_to_cart_button,
+.woocommerce-MyAccount-content .button,
+
+/* WooCommerce Blocks */
+.wc-block-components-button,
+.wc-block-cart__submit-button,
+.wc-block-components-checkout-place-order-button,
+
+/* Divi WC Modul-Buttons */
+.et_pb_wc_add_to_cart .single_add_to_cart_button,
+.et_pb_wc_cart_totals .checkout-button {
+    padding: .9em 2em !important;
+    margin: 0 !important;
+    font-family: var(--font-base) !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    color: #ffffff !important;
+    background: var(--color-accent) !important;
+    border: 2px solid var(--color-accent) !important;
+    border-radius: var(--radius-sm) !important;
+    box-shadow: var(--shadow-cta) !important;
+    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+/* Divi Button-Icons unterdruecken (frisst Padding/Hover-Layout) */
+.et_pb_button:after,
+.et_pb_button:before,
+.et_pb_more_button:after,
+.et_pb_promo_button:after,
+.et_pb_newsletter_button:after,
+.et_pb_contact_submit:after,
+.et_pb_pricing_table_button:after,
+.woocommerce a.button:after,
+.woocommerce button.button:after,
+.woocommerce input.button:after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Hover */
+.et_pb_button:hover,
+body.et_button_no_icon .et_pb_button:hover,
+body.et_button_no_icon .et_button_left .et_pb_button:hover,
+.et_pb_more_button:hover,
+.et_pb_promo_button:hover,
+.et_pb_newsletter_button:hover,
+.et_pb_contact_submit:hover,
+.et_pb_contact_reset:hover,
+.et_pb_pricing_table_button:hover,
+.et_pb_module .et_pb_button:hover,
+.form-submit input:hover,
+.comment-reply-link:hover,
+#commentform input[type="submit"]:hover,
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover,
+.woocommerce input.button.alt:hover,
+.woocommerce-page a.button:hover,
+.woocommerce-page button.button:hover,
+.woocommerce-checkout #place_order:hover,
+.woocommerce .single_add_to_cart_button:hover,
+.wc-block-components-button:hover,
+.wc-block-cart__submit-button:hover {
+    background: var(--color-accent-2) !important;
+    border-color: var(--color-accent-2) !important;
+    box-shadow: var(--shadow-cta-hover) !important;
+    padding: .9em 2em !important;
+    font-size: 16px !important;
+    color: #ffffff !important;
+    cursor: pointer;
+}
+
+/* Responsive Button-Schriftgroesse -- gilt fuer alle Button-Klassen
+   inkl. .second-btn / .third-btn (greift via .et_pb_button). */
+@media (max-width: 980px) {
+    .et_pb_button,
+    body.et_button_no_icon .et_pb_button,
+    .et_pb_more_button,
+    .et_pb_promo_button,
+    .et_pb_newsletter_button,
+    .et_pb_contact_submit,
+    .et_pb_contact_reset,
+    .et_pb_pricing_table_button,
+    .et_pb_subscribe_button,
+    .et_pb_signup_submit,
+    .et_pb_search_submit,
+    #et_pb_searchsubmit,
+    .et_password_protected_form .et_submit_button,
+    .et_pb_module .et_pb_button,
+    .form-submit input,
+    .comment-reply-link,
+    #commentform input[type="submit"],
+    .woocommerce a.button,
+    .woocommerce button.button,
+    .woocommerce input.button,
+    .woocommerce a.button.alt,
+    .woocommerce button.button.alt,
+    .woocommerce input.button.alt,
+    .woocommerce-page a.button,
+    .woocommerce-page button.button,
+    .woocommerce-page input.button,
+    .woocommerce-page a.button.alt,
+    .woocommerce-page button.button.alt,
+    .woocommerce-page input.button.alt,
+    .woocommerce #respond input#submit,
+    .woocommerce #respond input#submit.alt,
+    .woocommerce a.added_to_cart,
+    .woocommerce-cart .checkout-button,
+    .woocommerce-checkout #place_order,
+    .woocommerce .add_to_cart_button,
+    .woocommerce .single_add_to_cart_button,
+    .woocommerce-MyAccount-content .button,
+    .wc-block-components-button,
+    .wc-block-cart__submit-button,
+    .wc-block-components-checkout-place-order-button,
+    .et_pb_wc_add_to_cart .single_add_to_cart_button,
+    .et_pb_wc_cart_totals .checkout-button {
+        font-size: 15px !important;
+    }
+}
+@media (max-width: 767px) {
+    .et_pb_button,
+    body.et_button_no_icon .et_pb_button,
+    .et_pb_more_button,
+    .et_pb_promo_button,
+    .et_pb_newsletter_button,
+    .et_pb_contact_submit,
+    .et_pb_contact_reset,
+    .et_pb_pricing_table_button,
+    .et_pb_subscribe_button,
+    .et_pb_signup_submit,
+    .et_pb_search_submit,
+    #et_pb_searchsubmit,
+    .et_password_protected_form .et_submit_button,
+    .et_pb_module .et_pb_button,
+    .form-submit input,
+    .comment-reply-link,
+    #commentform input[type="submit"],
+    .woocommerce a.button,
+    .woocommerce button.button,
+    .woocommerce input.button,
+    .woocommerce a.button.alt,
+    .woocommerce button.button.alt,
+    .woocommerce input.button.alt,
+    .woocommerce-page a.button,
+    .woocommerce-page button.button,
+    .woocommerce-page input.button,
+    .woocommerce-page a.button.alt,
+    .woocommerce-page button.button.alt,
+    .woocommerce-page input.button.alt,
+    .woocommerce #respond input#submit,
+    .woocommerce #respond input#submit.alt,
+    .woocommerce a.added_to_cart,
+    .woocommerce-cart .checkout-button,
+    .woocommerce-checkout #place_order,
+    .woocommerce .add_to_cart_button,
+    .woocommerce .single_add_to_cart_button,
+    .woocommerce-MyAccount-content .button,
+    .wc-block-components-button,
+    .wc-block-cart__submit-button,
+    .wc-block-components-checkout-place-order-button,
+    .et_pb_wc_add_to_cart .single_add_to_cart_button,
+    .et_pb_wc_cart_totals .checkout-button {
+        font-size: 14px !important;
+    }
+}
+
+/* ============================================================
+   5. BUTTON-VARIANTEN
+============================================================ */
+
+/* === Outline-Button .second-btn ====================================
+   Transparenter Hintergrund + Main-Accent-Rahmen. Beim Hover fuellt
+   sich der Hintergrund mit --color-bg-soft, Text + Border bleiben Main.
+==================================================================== */
+body.et_button_no_icon .et_pb_button.second-btn,
+.et_pb_button.second-btn {
+    padding: .9em 2em !important;
+    font-size: 16px !important;
+    background: transparent !important;
+    color: var(--color-accent) !important;
+    border: 2px solid var(--color-accent) !important;
+    box-shadow: none !important;
+}
+
+body.et_button_no_icon .et_pb_button.second-btn:hover,
+.et_pb_button.second-btn:hover {
+    padding: .9em 2em !important;
+    font-size: 16px !important;
+    background: var(--color-bg-soft) !important;
+    color: var(--color-accent) !important;
+    border: 2px solid var(--color-accent) !important;
+    box-shadow: none !important;
+}
+
+@media (max-width: 980px) {
+    body.et_button_no_icon .et_pb_button.second-btn,
+    .et_pb_button.second-btn,
+    body.et_button_no_icon .et_pb_button.second-btn:hover,
+    .et_pb_button.second-btn:hover {
+        font-size: 15px !important;
+    }
+}
+@media (max-width: 767px) {
+    body.et_button_no_icon .et_pb_button.second-btn,
+    .et_pb_button.second-btn,
+    body.et_button_no_icon .et_pb_button.second-btn:hover,
+    .et_pb_button.second-btn:hover {
+        font-size: 14px !important;
+    }
+}
+
+/* === Outline-Button .third-btn (fuer dunkle Sections) ==============
+   Komplett weiss (Text + Rahmen), transparenter Hintergrund. Gedacht
+   fuer Buttons, die auf dunklen Section-Hintergruenden sitzen.
+==================================================================== */
+body.et_button_no_icon .et_pb_button.third-btn,
+.et_pb_button.third-btn {
+    padding: .9em 2em !important;
+    font-size: 16px !important;
+    background: transparent !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: none !important;
+}
+
+body.et_button_no_icon .et_pb_button.third-btn:hover,
+.et_pb_button.third-btn:hover {
+    padding: .9em 2em !important;
+    font-size: 16px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.08) !important;
+}
+
+@media (max-width: 980px) {
+    body.et_button_no_icon .et_pb_button.third-btn,
+    .et_pb_button.third-btn,
+    body.et_button_no_icon .et_pb_button.third-btn:hover,
+    .et_pb_button.third-btn:hover {
+        font-size: 15px !important;
+    }
+}
+@media (max-width: 767px) {
+    body.et_button_no_icon .et_pb_button.third-btn,
+    .et_pb_button.third-btn,
+    body.et_button_no_icon .et_pb_button.third-btn:hover,
+    .et_pb_button.third-btn:hover {
+        font-size: 14px !important;
+    }
+}
+
+/* ============================================================
+   6. SPECIFICITY-BOOSTER fuer Button-Schriftgroesse
+   ------------------------------------------------------------
+   Divi Visual Builder generiert pro Button-Modul Regeln wie
+     body #page-container .et_pb_section .et_pb_button_0 { font-size: 16px !important; }
+   Specificity: 0,1,2,1 (1 ID + 2 Klassen + 1 Element) -- schlaegt
+   unsere Klassen-only-Selektoren oben (0,0,3,1).
+
+   Damit unsere Buttons (Standard + .second-btn + .third-btn) auch
+   *inside* eines Divi-Section-Buttons-Moduls die korrekten responsive
+   Werte haben, prefixen wir hier mit `body #page-container`.
+   Specificity: 0,1,3,2 oder 0,1,4,2 -- gewinnt zuverlaessig.
+
+   Nur `font-size`, nichts anderes -- alle uebrigen Properties
+   kommen weiterhin aus den Hauptregeln oben.
+============================================================ */
+body #page-container .et_pb_button,
+body #page-container .et_pb_button:hover,
+body #page-container .et_pb_more_button,
+body #page-container .et_pb_promo_button,
+body #page-container .et_pb_newsletter_button,
+body #page-container .et_pb_contact_submit,
+body #page-container .et_pb_contact_reset,
+body #page-container .et_pb_pricing_table_button,
+body #page-container .et_pb_subscribe_button,
+body #page-container .et_pb_signup_submit,
+body #page-container .et_pb_button.second-btn,
+body #page-container .et_pb_button.second-btn:hover,
+body #page-container .et_pb_button.third-btn,
+body #page-container .et_pb_button.third-btn:hover,
+body #page-container .woocommerce a.button,
+body #page-container .woocommerce button.button,
+body #page-container .woocommerce input.button,
+body #page-container .woocommerce a.button.alt,
+body #page-container .woocommerce button.button.alt,
+body #page-container .woocommerce input.button.alt,
+body #page-container .woocommerce-checkout #place_order,
+body #page-container .woocommerce .single_add_to_cart_button,
+body #page-container .woocommerce-cart .checkout-button,
+body #page-container .wc-block-components-button,
+body #page-container .wc-block-cart__submit-button,
+body #page-container .wc-block-components-checkout-place-order-button {
+    font-size: 16px !important;
+}
+@media (max-width: 980px) {
+    body #page-container .et_pb_button,
+    body #page-container .et_pb_button:hover,
+    body #page-container .et_pb_more_button,
+    body #page-container .et_pb_promo_button,
+    body #page-container .et_pb_newsletter_button,
+    body #page-container .et_pb_contact_submit,
+    body #page-container .et_pb_contact_reset,
+    body #page-container .et_pb_pricing_table_button,
+    body #page-container .et_pb_subscribe_button,
+    body #page-container .et_pb_signup_submit,
+    body #page-container .et_pb_button.second-btn,
+    body #page-container .et_pb_button.second-btn:hover,
+    body #page-container .et_pb_button.third-btn,
+    body #page-container .et_pb_button.third-btn:hover,
+    body #page-container .woocommerce a.button,
+    body #page-container .woocommerce button.button,
+    body #page-container .woocommerce input.button,
+    body #page-container .woocommerce a.button.alt,
+    body #page-container .woocommerce button.button.alt,
+    body #page-container .woocommerce input.button.alt,
+    body #page-container .woocommerce-checkout #place_order,
+    body #page-container .woocommerce .single_add_to_cart_button,
+    body #page-container .woocommerce-cart .checkout-button,
+    body #page-container .wc-block-components-button,
+    body #page-container .wc-block-cart__submit-button,
+    body #page-container .wc-block-components-checkout-place-order-button {
+        font-size: 15px !important;
+    }
+}
+@media (max-width: 767px) {
+    body #page-container .et_pb_button,
+    body #page-container .et_pb_button:hover,
+    body #page-container .et_pb_more_button,
+    body #page-container .et_pb_promo_button,
+    body #page-container .et_pb_newsletter_button,
+    body #page-container .et_pb_contact_submit,
+    body #page-container .et_pb_contact_reset,
+    body #page-container .et_pb_pricing_table_button,
+    body #page-container .et_pb_subscribe_button,
+    body #page-container .et_pb_signup_submit,
+    body #page-container .et_pb_button.second-btn,
+    body #page-container .et_pb_button.second-btn:hover,
+    body #page-container .et_pb_button.third-btn,
+    body #page-container .et_pb_button.third-btn:hover,
+    body #page-container .woocommerce a.button,
+    body #page-container .woocommerce button.button,
+    body #page-container .woocommerce input.button,
+    body #page-container .woocommerce a.button.alt,
+    body #page-container .woocommerce button.button.alt,
+    body #page-container .woocommerce input.button.alt,
+    body #page-container .woocommerce-checkout #place_order,
+    body #page-container .woocommerce .single_add_to_cart_button,
+    body #page-container .woocommerce-cart .checkout-button,
+    body #page-container .wc-block-components-button,
+    body #page-container .wc-block-cart__submit-button,
+    body #page-container .wc-block-components-checkout-place-order-button {
+        font-size: 14px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,582 @@
+/* ============================================================
+   Dr. Peri — WooCommerce [products] Grid
+   Editorial luxury skincare aesthetic
+   - Greift auf [products], [recent_products], [featured_products],
+     [sale_products], [best_selling_products], [top_rated_products],
+     [product_category], [products ids="..."] und das Shop-Archiv
+   - Selbsttragend (laeuft ohne woocommerce.css)
+============================================================ */
+
+/* ------------------------------------------------------------
+   Token-Scope
+   Konsumiert die globalen Tokens aus design-tokens.css. Lokale --drp-*
+   Aliase bleiben bestehen, damit Card-Geometrie + Motion bequem
+   anpassbar bleiben.
+------------------------------------------------------------ */
+.woocommerce ul.products {
+    /* Brand-Mappings (lesen aus globalen Tokens) */
+    --drp-surface:      var(--color-bg);
+    --drp-surface-tint: var(--color-bg-soft);
+    --drp-text:         var(--color-text);
+    --drp-text-soft:    var(--color-text);
+    --drp-text-mute:    var(--color-text-muted);
+    --drp-accent:       var(--color-accent);
+    --drp-accent-d:     var(--color-accent-2);
+    --drp-line:         var(--color-border);
+    --drp-line-soft:    var(--color-border);
+
+    /* Elevation */
+    --drp-elev-1:       var(--shadow-sm);
+    --drp-elev-2:       var(--shadow-md);
+
+    /* Geometry */
+    --drp-radius:       var(--radius-lg);
+    --drp-radius-sm:    var(--radius-md);
+    --drp-gap:          16px;
+
+    /* Motion */
+    --drp-ease:         cubic-bezier(0.22, 0.61, 0.36, 1);
+    --drp-dur:          280ms;
+}
+
+/* ------------------------------------------------------------
+   Grid — Responsive Spalten-Leiter (User-Spec)
+   Greift auf alle ul.products-Markups:
+     - [products] / [recent_products] / [featured_products]
+     - [related_products]
+     - [product_categories] / [product_category]
+     - Shop-/Kategorie-/Tag-Archiv
+
+   Wichtig: Das Grid nimmt IMMER 100% der Containerbreite ein
+   (width: 100%). Die User-Komponente steuert die Aussen-Breite
+   selbst (Divi-Section/Row, Code-Modul, Container).
+
+   Spec nach Spalten-Attribut (columns-N) und Viewport:
+
+     columns-6:
+       >= 1301px : 6 cols, gap 30px
+       <= 1300px : 5 cols, gap 30px
+       <= 1200px : 4 cols, gap 30px
+       <=  980px : 2 cols, gap 2.5rem
+       <=  767px : 1 col,  gap 1.5rem
+
+     columns-5:
+       >= 1201px : 5 cols, gap 30px
+       <= 1200px : 4 cols, gap 30px
+       <=  980px : 2 cols, gap 2.5rem
+       <=  767px : 1 col,  gap 1.5rem
+
+     columns-4 (= Default ohne explizite Klasse):
+       >=  981px : 4 cols, gap 30px
+       <=  980px : 2 cols, gap 2.5rem
+       <=  767px : 1 col,  gap 1.5rem
+
+     columns-3:
+       >=  981px : 3 cols, gap 30px
+       <=  980px : 2 cols, gap 2.5rem
+       <=  767px : 1 col,  gap 1.5rem
+
+     columns-2:
+       >=  981px : 2 cols, gap 30px
+       <=  980px : 2 cols, gap 2.5rem
+       <=  767px : 1 col,  gap 1.5rem
+
+     columns-1:
+       >=  981px : 1 col,  gap 30px
+       <=  980px : 1 col,  gap 2.5rem
+       <=  767px : 1 col,  gap 1.5rem
+------------------------------------------------------------ */
+
+/* Mobile-first Default: 1 Spalte, gap 1.5rem.
+   100% Breite damit die Grid den Container fluten kann.
+
+   WICHTIG: Wir prefixen alle Selektoren mit `body`, damit unsere Specificity
+   die Divi-WC-Defaults schlaegt — Divi setzt:
+     .woocommerce ul.products[class*="columns-"] li { width: 47%; float: left; ... !important }
+   mit Specificity (0,3,2). `body .woocommerce ul.products[class*="columns-"] li.product`
+   = (0,3,3) und gewinnt. */
+body .woocommerce ul.products,
+body .woocommerce ul.products[class*="columns-"] {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 56px !important;
+    padding: 0 !important;
+    list-style: none !important;
+    list-style-type: none !important;
+}
+
+body .woocommerce ul.products::before,
+body .woocommerce ul.products::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Tablet (768px - 980px): 2 Spalten Default, gap 2.5rem.
+   columns-1 bleibt 1 Spalte. */
+@media (min-width: 768px) {
+    body .woocommerce ul.products,
+    body .woocommerce ul.products[class*="columns-"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 2.5rem !important;
+    }
+    body .woocommerce ul.products.columns-1 {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Desktop (981px - 1200px): gap 30px.
+   Default + columns-4/5/6 -> 4 Spalten.
+   columns-1/2/3 jeweils ihre eigene Spaltenzahl. */
+@media (min-width: 981px) {
+    body .woocommerce ul.products,
+    body .woocommerce ul.products[class*="columns-"] {
+        gap: 30px !important;
+    }
+    body .woocommerce ul.products,
+    body .woocommerce ul.products.columns-4,
+    body .woocommerce ul.products.columns-5,
+    body .woocommerce ul.products.columns-6 {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+    body .woocommerce ul.products.columns-1 {
+        grid-template-columns: 1fr !important;
+    }
+    body .woocommerce ul.products.columns-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+    body .woocommerce ul.products.columns-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Large (1201px - 1300px): columns-5 + columns-6 -> 5 Spalten */
+@media (min-width: 1201px) {
+    body .woocommerce ul.products.columns-5,
+    body .woocommerce ul.products.columns-6 {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    }
+}
+
+/* XL (>= 1301px): columns-6 -> 6 Spalten */
+@media (min-width: 1301px) {
+    body .woocommerce ul.products.columns-6 {
+        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    }
+}
+
+/* ------------------------------------------------------------
+   Card — fuellt IMMER 100% ihrer Grid-Zelle (kein WC-Spalten-Float).
+
+   Wichtig: `body` Prefix + class-attribute-Selektor fuer Specificity-Win
+   gegen Divi's:
+     .woocommerce ul.products[class*="columns-"] li {
+         width: 22.617%/47%; float: left; margin: 0 3.17%/6% ... !important
+     }
+   Unsere Selektoren = (0,3,3), Divi = (0,3,2). Wir gewinnen.
+------------------------------------------------------------ */
+body .woocommerce ul.products li.product,
+body .woocommerce ul.products[class*="columns-"] li.product {
+    position: relative;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+    clear: none !important;
+    list-style: none !important;
+    text-indent: 0 !important;
+
+    background: var(--drp-surface);
+    border: 1px solid var(--drp-line-soft);
+    border-radius: var(--drp-radius);
+    box-shadow: var(--drp-elev-1);
+    overflow: hidden;
+    isolation: isolate;
+
+    display: flex;
+    flex-direction: column;
+
+    transition:
+        transform var(--drp-dur) var(--drp-ease),
+        box-shadow var(--drp-dur) var(--drp-ease),
+        border-color var(--drp-dur) var(--drp-ease);
+    cursor: pointer;
+}
+
+.woocommerce ul.products li.product:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--drp-elev-2);
+    border-color: var(--drp-line);
+}
+
+.woocommerce ul.products li.product::before,
+.woocommerce ul.products li.product::after {
+    content: none !important;
+    display: none !important;
+    counter-increment: none !important;
+}
+.woocommerce ul.products li.product::marker { content: '' !important; }
+
+/* Klickbare Bereiche neutral halten — Layout uebernimmt die Card */
+.woocommerce ul.products li.product > a,
+.woocommerce ul.products li.product > a.woocommerce-LoopProduct-link,
+.woocommerce ul.products li.product .woocommerce-loop-product__link {
+    display: block;
+    color: inherit;
+    text-decoration: none !important;
+    outline: none;
+}
+.woocommerce ul.products li.product > a:focus-visible,
+.woocommerce ul.products li.product > a.woocommerce-LoopProduct-link:focus-visible {
+    box-shadow: 0 0 0 3px rgba(118, 156, 193, 0.35);
+    border-radius: var(--drp-radius);
+}
+
+/* ------------------------------------------------------------
+   Image Pedestal
+   (Produktbild auf getoenten Hintergrund — luxurioeser Look)
+------------------------------------------------------------ */
+.woocommerce ul.products li.product .woocommerce-loop-product__link,
+.woocommerce ul.products li.product > a {
+    position: relative;
+}
+
+.woocommerce ul.products li.product img,
+.woocommerce ul.products li.product .attachment-woocommerce_thumbnail,
+.woocommerce ul.products li.product .wp-post-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* Divi Shop-Loop Overlay (.et_overlay) komplett unterdruecken */
+.woocommerce ul.products li.product .et_overlay,
+.woocommerce ul.products li.product .et_shop_image .et_overlay {
+    display: none !important;
+    opacity: 0 !important;
+    background: transparent !important;
+    pointer-events: none !important;
+}
+
+/* ------------------------------------------------------------
+   Body (alles unterhalb des Bildes)
+------------------------------------------------------------ */
+.woocommerce ul.products li.product .woocommerce-loop-product__title,
+.woocommerce ul.products li.product .price,
+.woocommerce ul.products li.product .star-rating,
+.woocommerce ul.products li.product .button,
+.woocommerce ul.products li.product .added_to_cart {
+    margin-left: 22px !important;
+    margin-right: 22px !important;
+}
+
+/* Eyebrow (optional Kategorie-Label) — Guide-Token: --fs-tag */
+.woocommerce ul.products li.product .wc-loop-product__categories,
+.woocommerce ul.products li.product .product_meta_categories {
+    margin: 14px 22px 0 !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-tag) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent) !important;
+    text-align: center !important;
+}
+
+/* Titel — Guide-Token: --fs-product-title (16 -> 17px), Weight 500 */
+.woocommerce ul.products li.product .woocommerce-loop-product__title,
+.woocommerce ul.products li.product h2.woocommerce-loop-product__title,
+.woocommerce ul.products li.product h3.woocommerce-loop-product__title {
+    font-family: var(--font-base) !important;
+    font-weight: 500 !important;
+    font-size: var(--fs-product-title) !important;
+    line-height: 1.4 !important;
+    letter-spacing: -0.005em;
+    color: var(--color-heading) !important;
+    padding: 0 !important;
+    margin: 12px 22px 4px !important;
+    text-align: center !important;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    transition: color var(--drp-dur) var(--drp-ease);
+}
+.woocommerce ul.products li.product:hover .woocommerce-loop-product__title {
+    color: var(--color-accent) !important;
+}
+
+/* Sterne */
+.woocommerce ul.products li.product .star-rating {
+    margin: 0 auto 4px !important;
+    color: var(--color-accent);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+}
+
+/* Preis — Guide-Token: --fs-price (20 -> 23px), Weight 700, Color Accent */
+.woocommerce ul.products li.product .price {
+    margin: 0 22px !important;
+    font-family: var(--font-base) !important;
+    color: var(--color-accent) !important;
+    font-size: var(--fs-price) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    text-align: center !important;
+}
+/* Alter Preis — Guide-Token: --fs-price-old (14 -> 15px), Weight 400, Muted */
+.woocommerce ul.products li.product .price del,
+.woocommerce ul.products li.product .price del .woocommerce-Price-amount {
+    color: var(--color-text-muted) !important;
+    font-weight: 400 !important;
+    font-size: var(--fs-price-old) !important;
+    text-decoration: line-through;
+    opacity: 1;
+}
+/* Sale-Preis — Akzent (gleiche Skala wie Standard-Preis) */
+.woocommerce ul.products li.product .price ins,
+.woocommerce ul.products li.product .price ins .woocommerce-Price-amount {
+    background: transparent !important;
+    text-decoration: none !important;
+    color: var(--color-accent) !important;
+    font-weight: 700 !important;
+    font-size: var(--fs-price) !important;
+}
+.woocommerce ul.products li.product .price .woocommerce-Price-currencySymbol {
+    margin-right: 2px;
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+   Card Actions — Dual Pill Buttons
+   "Produkt anzeigen" (Outline) + "In den Warenkorb" (Filled)
+   28px Top-Margin = bewusster Abstand zum Preis
+------------------------------------------------------------ */
+.woocommerce ul.products li.product .drp-card-actions {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 28px 22px 22px !important;
+}
+
+/* Icon-Pill — Basis fuer beide Buttons (statisch, kein Reveal) */
+.woocommerce ul.products li.product .drp-card-actions__btn {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 999px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+
+    line-height: 1 !important;
+    text-decoration: none !important;
+    overflow: hidden;
+
+    box-shadow: none !important;
+    cursor: pointer;
+    transition: background var(--drp-dur) var(--drp-ease),
+                color var(--drp-dur) var(--drp-ease),
+                border-color var(--drp-dur) var(--drp-ease),
+                transform var(--drp-dur) var(--drp-ease);
+}
+
+.woocommerce ul.products li.product .drp-card-actions__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.75 !important;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+.woocommerce ul.products li.product .drp-card-actions__icon path,
+.woocommerce ul.products li.product .drp-card-actions__icon line,
+.woocommerce ul.products li.product .drp-card-actions__icon circle {
+    stroke: currentColor !important;
+    fill: none !important;
+}
+.woocommerce ul.products li.product .drp-card-actions__icon circle[fill="currentColor"] {
+    fill: currentColor !important;
+}
+
+/* Sichtbarer Text wird ausgeblendet — a11y haengt an aria-label + .screen-reader-text */
+.woocommerce ul.products li.product .drp-card-actions__label {
+    display: none !important;
+}
+
+/* Outline — Produkt anzeigen */
+.woocommerce ul.products li.product .drp-card-actions__view {
+    background: transparent !important;
+    color: var(--drp-text) !important;
+    border: 1.5px solid var(--drp-line) !important;
+}
+.woocommerce ul.products li.product .drp-card-actions__view .drp-card-actions__icon {
+    color: var(--drp-text) !important;
+    stroke: var(--drp-text) !important;
+}
+.woocommerce ul.products li.product .drp-card-actions__view:hover,
+.woocommerce ul.products li.product .drp-card-actions__view:focus-visible {
+    background: var(--drp-text) !important;
+    color: #ffffff !important;
+    border-color: var(--drp-text) !important;
+    outline: 0;
+}
+.woocommerce ul.products li.product .drp-card-actions__view:hover .drp-card-actions__icon,
+.woocommerce ul.products li.product .drp-card-actions__view:focus-visible .drp-card-actions__icon {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+/* Filled — In den Warenkorb */
+.woocommerce ul.products li.product .drp-card-actions__cart {
+    background: var(--drp-text) !important;
+    color: #ffffff !important;
+    border: 1.5px solid var(--drp-text) !important;
+}
+.woocommerce ul.products li.product .drp-card-actions__cart .drp-card-actions__icon {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+.woocommerce ul.products li.product .drp-card-actions__cart:hover,
+.woocommerce ul.products li.product .drp-card-actions__cart:focus-visible {
+    background: var(--drp-accent-d) !important;
+    color: #ffffff !important;
+    border-color: var(--drp-accent-d) !important;
+    outline: 0;
+}
+.woocommerce ul.products li.product .drp-card-actions__cart:hover .drp-card-actions__icon,
+.woocommerce ul.products li.product .drp-card-actions__cart:focus-visible .drp-card-actions__icon {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+/* AJAX-State: WC haengt .loading / .added an den Cart-Button */
+.woocommerce ul.products li.product .drp-card-actions__cart.loading {
+    opacity: 0.85;
+    pointer-events: none;
+}
+.woocommerce ul.products li.product .drp-card-actions__cart.loading::after,
+.woocommerce ul.products li.product .drp-card-actions__cart.added::after {
+    display: none !important;
+}
+
+/* Tastatur-Focus a11y */
+.woocommerce ul.products li.product .drp-card-actions__btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(118, 156, 193, 0.35);
+}
+
+/* "wurde hinzugefuegt"-Bestaetigung — sitzt nach AJAX als Sibling der Buttons */
+.woocommerce ul.products li.product a.added_to_cart {
+    flex-basis: 100% !important;
+    order: 99;
+    margin: 4px 0 0 !important;
+    padding: 6px 0 0 !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-tag) !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent) !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-align: center;
+    text-decoration: none !important;
+}
+
+/* ------------------------------------------------------------
+   Sale Badge — Prozent-Rabatt (Guide-Token: --fs-tag)
+------------------------------------------------------------ */
+.woocommerce ul.products li.product .onsale {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    margin: 0 !important;
+    padding: 5px 11px !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+
+    background: var(--color-accent) !important;
+    color: #ffffff !important;
+    border: 0 !important;
+    border-radius: var(--radius-pill) !important;
+
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-tag) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    font-variant-numeric: tabular-nums;
+
+    box-shadow: 0 6px 18px rgba(71, 94, 118, 0.22);
+    z-index: 3;
+}
+
+/* ------------------------------------------------------------
+   Out of Stock Hint
+------------------------------------------------------------ */
+.woocommerce ul.products li.product.outofstock img {
+    filter: grayscale(0.6) opacity(0.85);
+}
+.woocommerce ul.products li.product.outofstock::before {
+    content: 'Ausverkauft' !important;
+    display: block !important;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 5px 11px;
+    background: var(--color-accent);
+    color: #fff;
+    font-family: var(--font-base);
+    font-size: var(--fs-tag);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+    z-index: 3;
+}
+
+/* ------------------------------------------------------------
+   Reduced Motion
+------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+    .woocommerce ul.products li.product,
+    .woocommerce ul.products li.product img,
+    .woocommerce ul.products li.product .drp-card-actions__btn,
+    .woocommerce ul.products li.product .woocommerce-loop-product__title {
+        transition: none !important;
+    }
+    .woocommerce ul.products li.product:hover {
+        transform: none !important;
+    }
+}

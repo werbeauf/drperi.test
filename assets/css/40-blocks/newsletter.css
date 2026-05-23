@@ -1,0 +1,306 @@
+/* ============================================================
+   DATEI: assets/css/40-blocks/newsletter.css
+   ZWECK: Phorest-Newsletter-Widget -- zwei Varianten:
+            .wa-newsletter--regular  Card mit Titel + Lead + Feldern
+            .wa-newsletter--footer   kompakt, transparent
+          + Checkout-Optin (.wa-newsletter-optin) im WC-Blocks-Checkout
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+/* ============================================================
+   1. Shared Base (Variant-unabhaengig)
+============================================================ */
+.wa-newsletter {
+    box-sizing: border-box;
+    width: 100%;
+    color: var(--color-text);
+    font-family: var(--font-base);
+    line-height: 1.5;
+}
+.wa-newsletter *,
+.wa-newsletter *::before,
+.wa-newsletter *::after { box-sizing: inherit; }
+
+.wa-newsletter__hp {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Inputs */
+.wa-newsletter input[type="text"],
+.wa-newsletter input[type="email"] {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: var(--fs-body);
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.wa-newsletter input[type="text"]:focus,
+.wa-newsletter input[type="email"]:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(71, 94, 118, 0.15);
+}
+
+/* Field-Wrapper */
+.wa-newsletter__field {
+    display: block;
+    margin: 0;
+}
+.wa-newsletter__label {
+    display: block;
+    font-size: var(--fs-meta);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+}
+
+/* Consent */
+.wa-newsletter__consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: var(--fs-meta);
+    color: var(--color-text-muted);
+    line-height: 1.45;
+    cursor: pointer;
+}
+.wa-newsletter__consent input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+}
+.wa-newsletter__consent a {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+.wa-newsletter__consent a:hover { text-decoration: none; }
+
+/* Submit-Button */
+.wa-newsletter__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding: 0 28px;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border: 0;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: var(--shadow-cta);
+    transition: background 200ms ease, box-shadow 200ms ease, transform 100ms ease;
+}
+.wa-newsletter__submit:hover {
+    background: var(--color-accent-2);
+    box-shadow: var(--shadow-cta-hover);
+}
+.wa-newsletter__submit:active { transform: translateY(1px); }
+.wa-newsletter__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Status-Message
+   !important auf padding: globales `p { padding-bottom: 1em }` aus dem
+   Theme-Stack schlaegt sonst durch und kippt das vertikale Innen-Padding. */
+.wa-newsletter__msg {
+    margin: 0;
+    padding: 12px 16px !important;
+    border-radius: var(--radius-md);
+    font-size: var(--fs-meta);
+    line-height: 1.45;
+}
+.wa-newsletter[data-wa-state="success"] .wa-newsletter__msg {
+    background: var(--color-good-bg);
+    color: var(--color-good-text);
+}
+.wa-newsletter[data-wa-state="error"] .wa-newsletter__msg {
+    background: var(--color-bad-bg);
+    color: var(--color-bad-text);
+}
+.wa-newsletter[data-wa-state="success"] .wa-newsletter__row,
+.wa-newsletter[data-wa-state="success"] .wa-newsletter__field,
+.wa-newsletter[data-wa-state="success"] .wa-newsletter__consent,
+.wa-newsletter[data-wa-state="success"] .wa-newsletter__submit { display: none; }
+
+/* ============================================================
+   2. Regular Variant -- Card mit Titel + Lead
+============================================================ */
+.wa-newsletter--regular {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+@media (max-width: 640px) {
+    .wa-newsletter--regular { padding: 22px 18px; gap: 14px; }
+}
+
+.wa-newsletter--regular .wa-newsletter__title {
+    margin: 0;
+    font-family: var(--font-base);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--color-heading);
+}
+.wa-newsletter--regular .wa-newsletter__lead {
+    margin: 0;
+    font-size: var(--fs-body);
+    line-height: 1.55;
+    color: var(--color-text-muted);
+}
+.wa-newsletter--regular .wa-newsletter__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+@media (max-width: 540px) {
+    .wa-newsletter--regular .wa-newsletter__row { grid-template-columns: 1fr; }
+}
+.wa-newsletter--regular .wa-newsletter__submit {
+    align-self: flex-start;
+    min-width: 180px;
+}
+
+/* ============================================================
+   3. Footer Variant -- kompakt, transparent
+   Erbt Farbe vom Parent-Footer; Inputs nutzen subtile
+   currentColor-basierte Borders.
+============================================================ */
+.wa-newsletter--footer {
+    background: transparent;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: inherit;
+}
+.wa-newsletter--footer .wa-newsletter__title,
+.wa-newsletter--footer .wa-newsletter__lead { display: none; }
+
+.wa-newsletter--footer .wa-newsletter__label {
+    font-size: var(--fs-tag);
+    color: inherit;
+    opacity: 0.85;
+    margin-bottom: 4px;
+}
+.wa-newsletter--footer .wa-newsletter__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+@media (max-width: 540px) {
+    .wa-newsletter--footer .wa-newsletter__row { grid-template-columns: 1fr; }
+}
+
+.wa-newsletter--footer input[type="text"],
+.wa-newsletter--footer input[type="email"] {
+    height: 42px;
+    background: transparent;
+    border-color: currentColor;
+    color: inherit;
+}
+.wa-newsletter--footer input[type="text"]::placeholder,
+.wa-newsletter--footer input[type="email"]::placeholder {
+    color: currentColor;
+    opacity: 0.55;
+}
+.wa-newsletter--footer input[type="text"]:focus,
+.wa-newsletter--footer input[type="email"]:focus {
+    border-color: currentColor;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
+}
+
+.wa-newsletter--footer .wa-newsletter__consent {
+    font-size: var(--fs-tag);
+    color: inherit;
+    opacity: 0.85;
+}
+.wa-newsletter--footer .wa-newsletter__consent a { color: inherit; }
+
+/* Footer-Variante laeuft auf dem dunklen Footer-Surface (#475e76).
+   White-Outline-Stil analog zu DESIGN.md §7.4 .third-btn, !important
+   weil globale Button-Regeln in 00-base/style.css starke Specificity
+   haben. */
+.wa-newsletter--footer .wa-newsletter__submit {
+    height: 42px;
+    align-self: flex-start;
+    min-width: 140px;
+    padding: .9em 2em !important;
+    font-size: 16px !important;
+    background: transparent !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: none !important;
+}
+
+.wa-newsletter--footer .wa-newsletter__submit:hover,
+.wa-newsletter--footer .wa-newsletter__submit:focus-visible {
+    padding: .9em 2em !important;
+    font-size: 16px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ============================================================
+   4. Checkout-Optin -- DOM-injected zwischen Billing & Payment
+   Fuegt sich als eigene Step-Card in den WC-Blocks-Checkout-Flow ein.
+============================================================ */
+.wa-newsletter-optin {
+    display: block;
+    margin: 0 0 24px;
+    padding: 18px 22px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+.wa-newsletter-optin__label {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+    font-family: var(--font-base);
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    color: var(--color-text);
+    margin: 0;
+}
+.wa-newsletter-optin__check {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+}

@@ -1,0 +1,27 @@
+/* ============================================================
+   Dr. Peri — WooCommerce Breadcrumb
+   Greift auf .woocommerce-breadcrumb innerhalb body.wa-woocommerce.
+   Wird auf allen WC-Seiten geladen.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+body.wa-woocommerce .woocommerce-breadcrumb {
+    max-width: 1400px;
+    margin: 0 auto !important;
+    padding: 24px 1.5rem clamp(20px, 1rem + 1.5vw, 32px);
+    box-sizing: border-box;
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--wa-text-mute);
+}
+@media (max-width: 980px) {
+    body.wa-woocommerce .woocommerce-breadcrumb { padding: 24px 2.5rem clamp(16px, 1rem + 1vw, 24px); }
+}
+@media (max-width: 767px) {
+    body.wa-woocommerce .woocommerce-breadcrumb { padding: 18px 1.5rem 16px; }
+}
+body.wa-woocommerce .woocommerce-breadcrumb a { color: var(--wa-text-soft); text-decoration: none; transition: color 200ms ease; }
+body.wa-woocommerce .woocommerce-breadcrumb a:hover { color: var(--wa-accent); }

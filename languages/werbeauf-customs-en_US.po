@@ -1,0 +1,652 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Werbeauf Customs 2.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/werbeauf-customs\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-30T13:31:39+02:00\n"
+"PO-Revision-Date: 2026-05-16T17:40:00+02:00\n"
+"Language: en_US\n"
+"X-Generator: hand\n"
+"X-Domain: werbeauf-customs\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+#: werbeauf-customs.php
+msgid "Werbeauf Customs"
+msgstr "Werbeauf Customs"
+
+#. Author of the plugin
+#: werbeauf-customs.php
+msgid "Werbeauf"
+msgstr "Werbeauf"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: werbeauf-customs.php
+msgid "https://www.werbeauf.com/"
+msgstr "https://www.werbeauf.com/"
+
+#: admin/admin-menu.php:49
+#: admin/phorest-newsletter.php:99
+#: admin/phorest-stocks.php:238
+#: admin/phorest-stocks.php:257
+#: admin/phorest-stocks.php:305
+msgid "Fehler"
+msgstr "Error"
+
+#: admin/admin-menu.php:50
+msgid "Datei nicht gefunden:"
+msgstr "File not found:"
+
+#: admin/phorest-data.php:169
+#: admin/phorest-data.php:171
+#: admin/product-content-prefill.php:255
+msgid "Produkte"
+msgstr "Products"
+
+#: admin/phorest-newsletter.php:93
+msgid "Log leeren"
+msgstr "Clear log"
+
+#: admin/phorest-newsletter.php:96
+msgid "Created"
+msgstr "Created"
+
+#: admin/phorest-newsletter.php:97
+msgid "Updated"
+msgstr "Updated"
+
+#: admin/phorest-newsletter.php:98
+msgid "Bereits"
+msgstr "Existing"
+
+#: admin/phorest-stocks.php:211
+msgid "Anpassen"
+msgstr "Adjust"
+
+#: admin/phorest-stocks.php:225
+msgid "Gesamt"
+msgstr "Total"
+
+#: admin/phorest-stocks.php:229
+msgid "Abgezogen"
+msgstr "Deducted"
+
+#: admin/phorest-stocks.php:233
+msgid "Erhöht"
+msgstr "Increased"
+
+#: admin/phorest-stocks.php:248
+msgid "Bestellung #, Produkt, Barcode …"
+msgstr "Order #, product, barcode …"
+
+#: admin/phorest-stocks.php:250
+msgid "Alle Operationen"
+msgstr "All operations"
+
+#: admin/phorest-stocks.php:255
+msgid "Alle Status"
+msgstr "All statuses"
+
+#: admin/phorest-stocks.php:256
+msgid "Erfolgreich"
+msgstr "Successful"
+
+#: admin/phorest-stocks.php:259
+msgid "Filtern"
+msgstr "Filter"
+
+#: admin/phorest-stocks.php:261
+msgid "Zurücksetzen"
+msgstr "Reset"
+
+#: admin/phorest-stocks.php:268
+msgid "Keine Einträge gefunden."
+msgstr "No entries found."
+
+#: admin/phorest-stocks.php:274
+msgid "Datum"
+msgstr "Date"
+
+#: admin/phorest-stocks.php:275
+msgid "Quelle"
+msgstr "Source"
+
+#: admin/phorest-stocks.php:276
+#: includes/shortcodes/at-a-glance.php:136
+#: includes/shortcodes/at-a-glance.php:192
+msgid "Produkt"
+msgstr "Product"
+
+#: admin/phorest-stocks.php:277
+msgid "Barcode"
+msgstr "Barcode"
+
+#: admin/phorest-stocks.php:278
+msgid "Menge"
+msgstr "Quantity"
+
+#: admin/phorest-stocks.php:279
+msgid "Operation"
+msgstr "Operation"
+
+#: admin/phorest-stocks.php:280
+msgid "Status"
+msgstr "Status"
+
+#: admin/phorest-stocks.php:291
+msgid "Manuell"
+msgstr "Manual"
+
+#: admin/product-content-prefill.php:256
+msgid "mit Facts"
+msgstr "with Facts"
+
+#: admin/product-content-prefill.php:257
+msgid "mit Keypoints"
+msgstr "with Keypoints"
+
+#: admin/product-content-prefill.php:258
+msgid "mit FAQ"
+msgstr "with FAQ"
+
+#: admin/product-facts-column.php:33
+#: admin/product-facts-column.php:38
+#: admin/product-facts-column.php:167
+msgid "Facts"
+msgstr "Facts"
+
+#: includes/core/footer-menus.php:20
+#: templates/footer.php:259
+msgid "Footer Menu 2"
+msgstr "Footer Menu 2"
+
+#: includes/core/footer-menus.php:21
+#: templates/footer.php:280
+msgid "Footer Menu 3"
+msgstr "Footer Menu 3"
+
+#: includes/layout/wc-shell.php:83
+#, php-format
+msgid "%d%% Rabatt"
+msgstr "%d%% off"
+
+#: includes/layout/wc-shell.php:162
+#, php-format
+msgid "%d Produkt"
+msgid_plural "%d Produkte"
+msgstr[0] "%d product"
+msgstr[1] "%d products"
+
+#: includes/layout/wc-shell.php:168
+msgid "Entdecken"
+msgstr "Discover"
+
+#: includes/layout/wc-shell.php:186
+msgid "Produkt anzeigen"
+msgstr "View product"
+
+#: includes/layout/wc-shell.php:187
+#, php-format
+msgid "%s ansehen"
+msgstr "View %s"
+
+#: includes/layout/wc-shell.php:435
+#: includes/layout/wc-shell.php:454
+msgid "Mein Konto"
+msgstr "My account"
+
+#: includes/layout/wc-shell.php:436
+msgid "Bestellungen"
+msgstr "Orders"
+
+#: includes/layout/wc-shell.php:437
+msgid "Bestellung"
+msgstr "Order"
+
+#: includes/layout/wc-shell.php:438
+msgid "Downloads"
+msgstr "Downloads"
+
+#: includes/layout/wc-shell.php:439
+msgid "Adressen"
+msgstr "Addresses"
+
+#: includes/layout/wc-shell.php:440
+msgid "Zahlungsmethoden"
+msgstr "Payment methods"
+
+#: includes/layout/wc-shell.php:441
+msgid "Zahlungsmethode hinzufuegen"
+msgstr "Add payment method"
+
+#: includes/layout/wc-shell.php:442
+msgid "Kontodetails"
+msgstr "Account details"
+
+#: includes/layout/wc-shell.php:443
+msgid "Passwort zuruecksetzen"
+msgstr "Reset password"
+
+#: includes/layout/wc-shell.php:514
+#: includes/layout/wc-shell.php:538
+#: includes/shortcodes/newsletter-form.php:63
+msgid "Anmelden"
+msgstr "Sign up"
+
+#: includes/phorest/newsletter.php:46
+msgid "Phorest API ist deaktiviert."
+msgstr "Phorest API is disabled."
+
+#: includes/phorest/newsletter.php:51
+msgid "Ungueltige E-Mail-Adresse."
+msgstr "Invalid email address."
+
+#: includes/phorest/newsletter.php:60
+msgid "Vor- und Nachname sind erforderlich."
+msgstr "First and last name are required."
+
+#: includes/phorest/newsletter.php:65
+msgid "Phorest Business ID fehlt."
+msgstr "Phorest Business ID is missing."
+
+#: includes/phorest/newsletter.php:69
+msgid "Phorest API-Wrapper nicht verfuegbar."
+msgstr "Phorest API wrapper is not available."
+
+#: includes/phorest/newsletter.php:337
+msgid "Du bist eingetragen -- vielen Dank!"
+msgstr "You're signed up – thank you!"
+
+#: includes/phorest/newsletter.php:338
+msgid "Newsletter aktiviert -- vielen Dank!"
+msgstr "Newsletter activated – thank you!"
+
+#: includes/phorest/newsletter.php:339
+msgid "Du bist bereits eingetragen."
+msgstr "You're already signed up."
+
+#: includes/phorest/newsletter.php:344
+msgid "Erfolgreich."
+msgstr "Successful."
+
+#: includes/shortcodes/newsletter-form.php:49
+msgid "Sende..."
+msgstr "Sending..."
+
+#: includes/shortcodes/newsletter-form.php:50
+msgid "Es ist ein Fehler aufgetreten."
+msgstr "An error occurred."
+
+#: includes/shortcodes/newsletter-form.php:51
+msgid "Netzwerkfehler. Bitte erneut versuchen."
+msgstr "Network error. Please try again."
+
+#: includes/shortcodes/newsletter-form.php:61
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: includes/shortcodes/newsletter-form.php:104
+msgid "Vorname"
+msgstr "First name"
+
+#: includes/shortcodes/newsletter-form.php:108
+msgid "Nachname"
+msgstr "Last name"
+
+#: includes/shortcodes/newsletter-form.php:114
+msgid "E-Mail"
+msgstr "Email"
+
+#: includes/shortcodes/product-references.php:173
+msgid "Zum Produkt"
+msgstr "View product"
+
+#: includes/shortcodes/product-references.php:231
+#: includes/shortcodes/product-references.php:239
+msgid "und"
+msgstr "and"
+
+#: includes/shortcodes/shop-filter.php:58
+msgid "Alle"
+msgstr "All"
+
+#: includes/shortcodes/shop-filter.php:120
+msgid "Kategorie-Filter"
+msgstr "Category filter"
+
+#: includes/woocommerce/flyout-cart.php:63
+#: templates/header.php:102
+msgid "Warenkorb"
+msgstr "Cart"
+
+#: includes/woocommerce/flyout-cart.php:64
+msgid "Ihre Auswahl"
+msgstr "Your selection"
+
+#: includes/woocommerce/flyout-cart.php:68
+msgid "Warenkorb schließen"
+msgstr "Close cart"
+
+#: includes/woocommerce/single-product-renderer.php:186
+msgid "Produktbeschreibung lesen"
+msgstr "Read product description"
+
+#: includes/woocommerce/single-product-renderer.php:346
+msgid "Häufig gestellte Fragen"
+msgstr "Frequently Asked Questions"
+
+#: includes/woocommerce/single-product-renderer.php:497
+msgid "Kategorie"
+msgstr "Category"
+
+#: includes/woocommerce/single-product-renderer.php:556
+msgid "Ähnliche Produkte"
+msgstr "Related products"
+
+#: includes/woocommerce/single-product-renderer.php:612
+#: includes/woocommerce/single-product-renderer.php:644
+#: includes/woocommerce/single-product-renderer.php:657
+msgid "Produktdetails"
+msgstr "Product details"
+
+#: includes/woocommerce/single-product-renderer.php:613
+msgid "Zusätzliche Informationen"
+msgstr "Additional information"
+
+#: includes/woocommerce/single-product-renderer.php:659
+msgid "Produkt-Sektionen"
+msgstr "Product sections"
+
+#: includes/woocommerce/single-product-renderer.php:709
+msgid "Bewertungen"
+msgstr "Reviews"
+
+#: templates/footer.php:166
+msgid "Social Media"
+msgstr "Social media"
+
+#: templates/footer.php:213
+msgid "Oeffnungszeiten"
+msgstr "Opening hours"
+
+#: templates/footer.php:236
+msgid "Aktuelle Beitraege"
+msgstr "Latest posts"
+
+#: templates/footer.php:299
+msgid "Rechtliches"
+msgstr "Legal"
+
+#. translators: 1: year, 2: copyright text from ACF
+#: templates/footer.php:317
+#, php-format
+msgid "© %1$s %2$s"
+msgstr "© %1$s %2$s"
+
+#: templates/header.php:59
+#: templates/header.php:101
+#, php-format
+msgid "Zum Warenkorb, %d Artikel"
+msgid_plural "Zum Warenkorb, %d Artikel"
+msgstr[0] "View cart, %d item"
+msgstr[1] "View cart, %d items"
+
+#: templates/header.php:73
+#: templates/header.php:110
+msgid "Kontakt"
+msgstr "Contact"
+
+#: templates/header.php:78
+msgid "Menu"
+msgstr "Menu"
+
+#: admin/phorest-data.php:179
+#: admin/phorest-data.php:248
+msgid "Keine Produkte geladen."
+msgstr "No products loaded."
+
+#: admin/phorest-data.php:180
+#: admin/phorest-data.php:248
+msgid "Klicke auf „Sync now\" um Produkte von der Phorest API zu laden."
+msgstr ""
+
+#: admin/phorest-newsletter.php:105
+msgid "Einträge"
+msgstr "Entries"
+
+#: admin/phorest-newsletter.php:107
+msgid "Neueste oben"
+msgstr "Newest first"
+
+#: admin/phorest-newsletter.php:107
+#, php-format
+msgid "max %d Einträge"
+msgstr "max %d entries"
+
+#: admin/phorest-newsletter.php:113
+msgid "Noch keine Anmeldungen."
+msgstr "No sign-ups yet."
+
+#: admin/phorest-newsletter.php:114
+msgid "Sobald sich jemand ueber das Widget oder den Checkout anmeldet, erscheint hier ein Eintrag."
+msgstr "As soon as someone subscribes via the widget or checkout, an entry will appear here."
+
+#: admin/phorest-newsletter.php:162
+msgid "Wirklich alle Log-Einträge löschen?"
+msgstr "Really delete all log entries?"
+
+#: admin/phorest-newsletter.php:164
+msgid "Lösche..."
+msgstr "Deleting..."
+
+#: admin/phorest-stocks.php:182
+msgid "Keine Produkte mit Phorest-Verknüpfung und Barcode gefunden."
+msgstr "No products with a Phorest link and barcode found."
+
+#: admin/phorest-stocks.php:307
+msgid "OK"
+msgstr "OK"
+
+#: admin/phorest-stocks.php:339
+#, php-format
+msgid "%d Eintrag gefunden"
+msgid_plural "%d Einträge gefunden"
+msgstr[0] "%d entry found"
+msgstr[1] "%d entries found"
+
+#: includes/shortcodes/at-a-glance.php:127
+msgid "Produktuebersicht nach Kategorie"
+msgstr "Product overview by category"
+
+#: includes/shortcodes/at-a-glance.php:137
+#: includes/shortcodes/at-a-glance.php:201
+msgid "Preis"
+msgstr "Price"
+
+#: includes/shortcodes/at-a-glance.php:138
+#: includes/shortcodes/at-a-glance.php:217
+msgid "Fakten"
+msgstr "Facts"
+
+#: includes/shortcodes/at-a-glance.php:139
+#: includes/shortcodes/at-a-glance.php:223
+msgid "Wichtigste Punkte"
+msgstr "Most important points"
+
+#: includes/shortcodes/newsletter-form.php:48
+msgid "Ich möchte den Newsletter erhalten."
+msgstr "I'd like to receive the newsletter."
+
+#: includes/shortcodes/newsletter-form.php:62
+msgid "Erhalte Hautwissen und exklusive Angebote direkt in dein Postfach!"
+msgstr "Get skincare insights and exclusive offers straight to your inbox!"
+
+#. translators: %s: link to privacy policy
+#: includes/shortcodes/newsletter-form.php:82
+#, php-format
+msgid "Ich möchte den Newsletter erhalten. <a href=\"%s\">Datenschutz</a>"
+msgstr ""
+
+#: includes/shortcodes/shop-layout-short.php:55
+#: includes/shortcodes/shop-layout.php:72
+msgid "Unsere Top-Sets"
+msgstr "Our top sets"
+
+#: includes/shortcodes/shop-layout-short.php:56
+#: includes/shortcodes/shop-layout.php:73
+msgid "Sorgfältig kombinierte Pflegesets für deine Hauttypen-Routine."
+msgstr "Carefully combined skincare sets for your skin-type routine."
+
+#: includes/shortcodes/shop-layout-short.php:60
+#: includes/shortcodes/shop-layout.php:77
+msgid "Alle Produkte"
+msgstr "All products"
+
+#: includes/shortcodes/shop-layout.php:69
+msgid "Shop Dr. Peri Skincare"
+msgstr "Shop Dr. Peri Skincare"
+
+#: includes/shortcodes/shop-layout.php:70
+msgid "Erleben Sie die Dr. Peri Skincare Linie – hochwertige Pflegeprodukte für eine rundum gesunde, ausgeglichene Haut. Unsere präzise entwickelten Formulierungen reinigen sanft, pflegen intensiv und beugen Hautalterung und Hautunreinheiten gezielt vor. Für ein sichtbar reines, harmonisches Hautbild – Tag für Tag."
+msgstr "Experience the Dr. Peri Skincare line – high-quality care products for healthy, balanced skin. Our precisely developed formulations cleanse gently, nourish intensively, and specifically prevent skin aging and impurities. For visibly clear, harmonious skin – day after day."
+
+#: includes/shortcodes/shop-layout.php:81
+msgid "Kategorien entdecken"
+msgstr "Discover categories"
+
+#: includes/woocommerce/single-product-renderer.php:146
+msgid "Sale"
+msgstr "Sale"
+
+#. Description of the plugin
+#: werbeauf-customs.php
+msgid "Site-specific WordPress + WooCommerce customizations for Dr. Peri Skincare (layout shells, single-product hero, shop layout, Phorest sync, flyout cart, admin tools). Not portable to other sites."
+msgstr "Site-specific WordPress + WooCommerce customizations for Dr. Peri Skincare (layout shells, single-product hero, shop layout, Phorest sync, flyout cart, admin tools). Not portable to other sites."
+
+#: admin/admin-menu.php:16
+msgid "Admin Docu"
+msgstr "Admin Docs"
+
+#: admin/admin-menu.php:17
+msgid "Phorest API"
+msgstr "Phorest API"
+
+#: admin/admin-menu.php:18
+msgid "Phorest Produkte"
+msgstr "Phorest Products"
+
+#: admin/admin-menu.php:19
+msgid "Phorest Lager"
+msgstr "Phorest Stock"
+
+#: admin/admin-menu.php:20
+msgid "Newsletter Log"
+msgstr "Newsletter Log"
+
+#: admin/admin-menu.php:21
+msgid "Produkt-Inhalte"
+msgstr "Product Content"
+
+#: admin/product-cat-colors.php:44
+#: admin/product-cat-colors.php:65
+msgid "Hintergrundfarbe"
+msgstr "Background colour"
+
+#: admin/product-cat-colors.php:46
+#: admin/product-cat-colors.php:68
+msgid "Wird in Set-Tabellen als Spalten-Hintergrund verwendet."
+msgstr "Used as column background in set tables."
+
+#: admin/product-cat-colors.php:49
+#: admin/product-cat-colors.php:72
+msgid "Schriftfarbe"
+msgstr "Text colour"
+
+#: includes/phorest/newsletter.php:293
+msgid "Sicherheits-Check fehlgeschlagen. Bitte Seite neu laden."
+msgstr "Security check failed. Please reload the page."
+
+#: includes/phorest/newsletter.php:297
+msgid "Ungueltige Anfrage."
+msgstr "Invalid request."
+
+#: includes/phorest/newsletter.php:302
+msgid "Bitte etwas langsamer."
+msgstr "Please slow down a little."
+
+#: includes/phorest/newsletter.php:309
+msgid "Zu viele Anfragen. Bitte spaeter erneut versuchen."
+msgstr "Too many requests. Please try again later."
+
+#: includes/phorest/newsletter.php:316
+msgid "Einwilligung erforderlich."
+msgstr "Consent required."
+
+#: includes/shortcodes/blog-archive-grid.php:115
+msgid "Thema"
+msgstr "Topic"
+
+#: includes/shortcodes/blog-archive-grid.php:116
+msgid "Alle Themen"
+msgstr "All topics"
+
+#: includes/shortcodes/blog-archive-grid.php:117
+msgid "Sortieren"
+msgstr "Sort"
+
+#: includes/shortcodes/blog-archive-grid.php:118
+msgid "Neueste zuerst"
+msgstr "Newest first"
+
+#: includes/shortcodes/blog-archive-grid.php:119
+msgid "Älteste zuerst"
+msgstr "Oldest first"
+
+#: includes/shortcodes/blog-archive-grid.php:120
+msgid "Anwenden"
+msgstr "Apply"
+
+#: includes/shortcodes/blog-archive-grid.php:121
+msgid "Keine Beiträge gefunden."
+msgstr "No posts found."
+
+#: includes/shortcodes/blog-archive-grid.php:122
+msgid "Weiterlesen →"
+msgstr "Read more →"
+
+#: includes/shortcodes/blog-archive-grid.php:123
+msgid "Seitennavigation"
+msgstr "Pagination"
+
+#: includes/shortcodes/blog-archive-grid.php:124
+msgid "‹ Vorherige"
+msgstr "‹ Previous"
+
+#: includes/shortcodes/blog-archive-grid.php:125
+msgid "Nächste ›"
+msgstr "Next ›"
+
+#: includes/shortcodes/global-blog3-authorbox.php:12
+msgid "Benutzerdefiniertes Profilbild (URL)"
+msgstr "Custom profile image (URL)"
+
+#: includes/shortcodes/global-blog3-authorbox.php:30
+msgid "Bitte fülle die Biografie im Benutzerprofil aus!"
+msgstr "Please fill in your bio in your user profile!"
+
+#: includes/shortcodes/global-blog3-authorbox.php:41
+msgid "Über den Autor"
+msgstr "About the author"
+
+#: includes/shortcodes/global-blog3-authorbox.php:47
+msgid "Alle Beiträge ansehen"
+msgstr "View all posts"
+
+#: includes/layout/wc-shell.php
+msgid "Ihr Zugang"
+msgstr "Your Account"

@@ -1,0 +1,41 @@
+{
+	"_embedded": {
+		"clients": [
+			{
+				"email": "dev@werbeauf.com",
+				"clientSince": "2026-04-28T12:09:07.000Z",
+				"gender": "FEMALE",
+				"smsMarketingConsent": false,
+				"emailMarketingConsent": true,
+				"smsReminderConsent": false,
+				"emailReminderConsent": false,
+				"archived": false,
+				"banned": false,
+				"clientCategoryIds": [
+					"f8-7zDrclzLELKLTN17GFQ"
+				],
+				"clientId": "_HehLuvyANkxL39VpMb_nw",
+				"version": 1,
+				"firstName": "Maximilian",
+				"lastName": "Rodriguez",
+				"createdAt": "2026-04-28T12:09:07.000Z",
+				"updatedAt": "2026-04-28T12:09:07.000Z",
+				"creditAccount": {
+					"creditDays": 0,
+					"creditLimit": 4000.00
+				},
+				"loyaltyCard": {
+					"points": 0
+				},
+				"deleted": false,
+				"lastVisit": "2026-04-28"
+			}
+		]
+	},
+	"page": {
+		"size": 1,
+		"totalElements": 1,
+		"totalPages": 1,
+		"number": 0
+	}
+}

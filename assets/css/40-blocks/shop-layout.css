@@ -1,0 +1,156 @@
+/* ============================================================
+   Dr. Peri — Shop Layout
+   Layout fuer [wa_shop_layout] (Backcompat: [drperi_shop_layout]):
+     Intro (H1 + Lead) -> Featured Sets Hero (Gradient-Block)
+     -> Hauptkatalog (H3 + Filter + Grid) -> Kategorien (H3 + Grid).
+
+   Markup ist bewusst flach gehalten — keine Wrapper-Sections fuer
+   .shop-intro / .all-products / .shop-categories. Vertikales Spacing
+   zwischen Bloecken steuern wir ueber margin-top auf den jeweiligen
+   Block-Headings/Bloecken (so ist die Reihenfolge robust gegenueber
+   conditional ausgeblendeten Bloecken).
+
+   Konsumiert globale Tokens aus 00-base/tokens.css.
+   Spaltenzahl der Produkt-/Kategorie-Grids erbt aus
+   20-components/product-card.css bzw. category-card.css.
+============================================================ */
+
+/* ============================================================
+   Shop Intro (H1 + Lead-Text) -- ohne Wrapper
+============================================================ */
+.shop-intro-title {
+    font-family: var(--font-base);
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    text-align: center;
+    margin: 0 0 clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+}
+
+.shop-intro-text {
+    font-family: var(--font-base);
+    font-size: var(--fs-lead);
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    text-align: center;
+    margin: 0;
+}
+
+/* ============================================================
+   Featured Sets Hero (Gradient-Block) -- bleibt als <section>,
+   weil der Background-Gradient + Border + Padding einen echten
+   visuellen Container braucht.
+============================================================ */
+.featured-sets-hero {
+    width: 100%;
+    background: linear-gradient(135deg, var(--color-bg-soft) 0%, var(--color-bg) 100%);
+    padding: clamp(2.5rem, 1.5rem + 4vw, 4.5rem) clamp(1.25rem, 0.5rem + 3vw, 2rem);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+    text-align: center;
+    margin-top: clamp(2rem, 1.25rem + 2vw, 3rem);
+}
+
+.featured-title {
+    font-family: var(--font-base);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+}
+
+.featured-sub {
+    font-family: var(--font-base);
+    font-size: var(--fs-lead);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0 0 clamp(2rem, 1rem + 3vw, 3rem);
+}
+
+/* Featured-Produkte: bewusst groesser wirken lassen.
+   Grid-Spaltenzahl + Card-Width steuert product-card.css global. */
+.featured-sets-hero ul.products li.product {
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.featured-sets-hero ul.products li.product:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.featured-sets-hero ul.products {
+    margin: 0 !important;
+}
+
+/* ============================================================
+   Block-Titel (Hauptkatalog + Kategorien) -- ohne Wrapper.
+   margin-top traegt das Spacing zum vorherigen Block,
+   margin-bottom das Spacing zum nachfolgenden Grid/Filter.
+============================================================ */
+.all-products-title,
+.shop-categories-title {
+    font-family: var(--font-base);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    text-align: center;
+    margin: clamp(2.5rem, 1.5rem + 3vw, 4rem) 0 clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+}
+
+/* ============================================================
+   [wa_category_products] -- linksbuendiger H1 (matched
+   die Style-Spec aus 20-components/page-title.css), Lead-Text
+   linksbuendig, Browse-Section mit clamp()-Top-Spacing.
+============================================================ */
+.wa-category-products__title {
+    font-family: var(--font-base);
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--color-heading);
+    letter-spacing: -0.02em;
+    text-align: left;
+    margin: 0 0 28px;
+    padding: 0;
+}
+
+.wa-category-products__description {
+    font-family: var(--font-base);
+    font-size: var(--fs-lead);
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    text-align: left;
+    margin: 0 0 clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+}
+
+.wa-category-products__browse {
+    margin-top: clamp(4rem, 8vw, 6rem);
+}
+
+/* In der Browse-Section traegt der Section-Wrapper bereits das
+   Top-Spacing -- den eigenen margin-top der H3 deshalb hier
+   neutralisieren, sonst summieren sich die Abstaende. */
+.wa-category-products__browse .shop-categories-title {
+    margin-top: 0;
+}
+
+/* ============================================================
+   Reduced Motion
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .featured-sets-hero ul.products li.product,
+    .featured-sets-hero ul.products li.product:hover {
+        transition: none !important;
+        transform: none !important;
+    }
+}

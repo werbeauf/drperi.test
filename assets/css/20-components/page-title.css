@@ -1,0 +1,20 @@
+/* ============================================================
+   Dr. Peri — Page Title (Warenkorb / Kasse / Mein Konto / Shop)
+   Greift auf body.wa-woocommerce h1.entry-title /
+   .woocommerce-products-header__title / h1.page-title.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+body.wa-woocommerce .entry-title,
+body.wa-woocommerce .woocommerce-products-header__title,
+body.wa-woocommerce h1.page-title {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-h1) !important;
+    font-weight: 700 !important;
+    line-height: 1.15;
+    color: var(--color-heading) !important;
+    letter-spacing: -0.02em;
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+}

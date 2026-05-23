@@ -1,0 +1,273 @@
+/* ============================================================
+   Dr. Peri — Detail Block (Sticky-Tab-Card)
+
+   Loest die Default-WC-Produkt-Tabs ab. Card mit zwei Tabs:
+     1. Produktdetails           (= description)
+     2. Zusaetzliche Informationen (= additional_information)
+
+   Sticky-Header pinnt sich beim Scrollen unter den Site-Header
+   (top = var(--wa-header-h, 76px)) und loest sich automatisch
+   am Card-Ende, weil position:sticky an die Parent-Bounds
+   gebunden ist. Reviews + FAQ bleiben separate Sections.
+
+   Konsumiert Tokens aus 00-base/tokens.css und die
+   .wa-section__heading-Klasse aus 20-components/section-heading.css.
+============================================================ */
+
+.wa-detail-block {
+    margin: clamp(4rem, 8vw, 6rem) 0 0;
+    background: var(--wa-surface);
+    border: 1px solid var(--wa-border);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    /* Wichtig: kein overflow:hidden -- sonst broken position:sticky.
+       Der Header sticky-pinnt nur, wenn der scrollende Anchestor
+       genug Hoehe hat und keine Overflow-Containment-Wand sieht. */
+    overflow: visible;
+}
+
+/* ----------------------------------------------------------
+   Card-Top: H2 in normalem Flow.
+
+   Das H2 sitzt bewusst AUSSERHALB des sticky <header>. Damit
+   bleibt es ein "scrolling" Section-Heading am Card-Anfang und
+   verschwindet beim Weiterscrollen mit dem Content -- nur die
+   Pill-Bar pinnt unter dem Site-Header. Vorher war das H2 Teil
+   der pinned Bar und konnte je nach Site-Header-Hoehe / Breakpoint
+   teilweise hinter dem fixierten Header verschwinden.
+---------------------------------------------------------- */
+.wa-detail-block__title {
+    /* Margin (Bottom-Spacer) kommt aus .wa-section__heading
+       (gemeinsamer Single-Product-H2-Stil). Hier nur Card-Padding
+       fuer Top + Horizontal-Alignment mit dem Rest des Cards. */
+    padding: clamp(24px, 1.25rem + 1.5vw, 36px)
+             clamp(20px, 1rem + 1.2vw, 32px)
+             0;
+}
+
+/* ----------------------------------------------------------
+   Sticky Header: enthaelt jetzt nur noch die Pill-Nav.
+---------------------------------------------------------- */
+.wa-detail-block__header {
+    position: sticky;
+    top: var(--wa-header-h, 76px);
+    z-index: 5;
+    background: var(--wa-surface);
+    border-bottom: 1px solid var(--wa-border);
+    padding: clamp(12px, 0.5rem + 0.6vw, 18px) clamp(20px, 1rem + 1.2vw, 32px);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ----------------------------------------------------------
+   Pill-Nav (rechts).
+---------------------------------------------------------- */
+.wa-detail-block__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 0 1 auto;
+    align-items: center;
+}
+
+.wa-detail-block__pill {
+    appearance: none;
+    border: 1px solid var(--wa-border);
+    background: transparent;
+    color: var(--color-accent);
+    font-family: var(--font-base);
+    font-size: var(--fs-small);
+    font-weight: 600 !important;
+    padding: 9px 18px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+    white-space: nowrap;
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-transform: none;
+}
+.wa-detail-block__pill:hover {
+    background: var(--color-bg-soft);
+}
+.wa-detail-block__pill.is-active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+}
+.wa-detail-block__pill.is-active:hover {
+    background: var(--color-accent-700, var(--wa-accent-d));
+    border-color: var(--color-accent-700, var(--wa-accent-d));
+}
+.wa-detail-block__pill:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* ----------------------------------------------------------
+   Panels.
+---------------------------------------------------------- */
+.wa-detail-block__panels {
+    padding: clamp(20px, 1rem + 1.2vw, 32px);
+}
+.wa-detail-block__panel[hidden] {
+    display: none;
+}
+.wa-detail-block__panel {
+    font-size: var(--fs-body);
+    line-height: 1.7;
+    color: #475e76;
+    overflow-wrap: anywhere;
+}
+
+/* Keine Kursivschrift im Panel -- WC/Inhaltspflege rendert teils
+   <em>/<i>/<cite>/<address> oder kursiv-gestylte WYSIWYG-Klassen.
+   In dieser Card soll der Text durchgehend aufrecht bleiben. */
+.wa-detail-block__panel,
+.wa-detail-block__panel * {
+    font-style: normal !important;
+}
+.wa-detail-block__panel,
+.wa-detail-block__panel h2,
+.wa-detail-block__panel h3,
+.wa-detail-block__panel h4,
+.wa-detail-block__panel h5,
+.wa-detail-block__panel h6,
+.wa-detail-block__panel p,
+.wa-detail-block__panel li,
+.wa-detail-block__panel a,
+.wa-detail-block__panel span,
+.wa-detail-block__panel strong,
+.wa-detail-block__panel em,
+.wa-detail-block__panel .shop_attributes th,
+.wa-detail-block__panel .shop_attributes td,
+.wa-detail-block__panel .woocommerce-product-attributes th,
+.wa-detail-block__panel .woocommerce-product-attributes td {
+    color: #475e76;
+}
+.wa-detail-block__panel:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* WC rendert die Tab-Inhalte mit eigenem H2 als erste Zeile
+   (z.B. "Beschreibung" / "Zusaetzliche Informationen"). Wir
+   haben den Tab-Title schon in der Pill und im Card-Header --
+   das WC-H2 ist redundant. */
+.wa-detail-block__panel > h2:first-child {
+    display: none;
+}
+
+/* Typografie innerhalb der Panels -- volle Card-Breite. */
+.wa-detail-block__panel h2,
+.wa-detail-block__panel h3 {
+    font-family: var(--font-base);
+    font-size: var(--fs-h5);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-heading);
+    margin: 18px 0 10px;
+}
+.wa-detail-block__panel p:last-child {
+    margin-bottom: 0;
+}
+.wa-detail-block__panel a {
+    color: var(--wa-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 200ms ease;
+}
+.wa-detail-block__panel a:hover {
+    border-bottom-color: var(--wa-accent);
+}
+.wa-detail-block__panel ul,
+.wa-detail-block__panel ol {
+    padding-left: 1.2em;
+    margin: 0 0 14px;
+}
+.wa-detail-block__panel li {
+    margin-bottom: 6px;
+}
+
+/* Tabelle fuer "Zusaetzliche Informationen" -- WC rendert das
+   als <table class="woocommerce-product-attributes shop_attributes">.
+   Card-Style passend zum Brand. */
+.wa-detail-block__panel .shop_attributes,
+.wa-detail-block__panel .woocommerce-product-attributes {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    background: transparent;
+}
+.wa-detail-block__panel .shop_attributes th,
+.wa-detail-block__panel .woocommerce-product-attributes th {
+    text-align: left;
+    padding: 12px 0;
+    font-weight: 600;
+    font-size: var(--fs-small);
+    color: var(--color-heading);
+    border-bottom: 1px solid var(--wa-border-2);
+    width: 35%;
+    background: transparent;
+}
+.wa-detail-block__panel .shop_attributes td,
+.wa-detail-block__panel .woocommerce-product-attributes td {
+    padding: 12px 0;
+    font-size: var(--fs-body);
+    color: var(--wa-text);
+    border-bottom: 1px solid var(--wa-border-2);
+    background: transparent;
+}
+.wa-detail-block__panel .shop_attributes tr:last-child th,
+.wa-detail-block__panel .shop_attributes tr:last-child td,
+.wa-detail-block__panel .woocommerce-product-attributes tr:last-child th,
+.wa-detail-block__panel .woocommerce-product-attributes tr:last-child td {
+    border-bottom: 0;
+}
+.wa-detail-block__panel .shop_attributes p {
+    margin: 0;
+}
+
+/* ----------------------------------------------------------
+   Mobile: Pills horizontal scrollbar; Sticky-Top-Fallback fuer
+   den Fall, dass --wa-header-h vom Header-JS noch nicht gesetzt
+   wurde (initialer Render).
+---------------------------------------------------------- */
+@media (max-width: 720px) {
+    .wa-detail-block__header {
+        top: var(--wa-header-h, 60px);
+    }
+    .wa-detail-block__nav {
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px; /* Schatten von Pills nicht abschneiden */
+    }
+    .wa-detail-block__nav::-webkit-scrollbar {
+        display: none;
+    }
+    .wa-detail-block__pill {
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .wa-detail-block__panel {
+        font-size: var(--fs-small);
+        line-height: 1.65;
+    }
+}
+
+/* ----------------------------------------------------------
+   Reduced Motion
+---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .wa-detail-block__pill,
+    .wa-detail-block__panel a {
+        transition: none !important;
+    }
+}

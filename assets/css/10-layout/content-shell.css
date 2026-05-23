@@ -1,0 +1,118 @@
+/* ============================================================
+   Dr. Peri — Content Shell
+   Greift auf body.wa-content-shell: rechtliche/informationelle
+   Seiten ausserhalb WC (AGB, Datenschutz, Impressum, Widerruf,
+   Rueckerstattung, Versand, Zahlung, ...).
+
+   Hinweis: Section/Row/Column werden hier NICHT mehr ueberschrieben.
+   Die Aussen-Begrenzung (Section + Row + Column) steuert Divi
+   selbst — bzw. der User im Theme-Builder/Divi Code-Module. Dieses
+   File styled nur noch WP/WC-eigene Content-Wrapper.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+body.wa-content-shell #content-area,
+body.wa-content-shell #left-area {
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+body.wa-content-shell #sidebar { display: none !important; }
+body.wa-content-shell #main-content .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* === Klassische WP-Page (article-Wrapper) — Section+Row-Hybrid === */
+body.wa-content-shell article.post,
+body.wa-content-shell article.page {
+    width: 80% !important;
+    max-width: 1400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: clamp(3rem, 10vw, 7rem) 0 !important;
+    box-sizing: border-box !important;
+    float: none !important;
+}
+@media (max-width: 980px) {
+    body.wa-content-shell article.post,
+    body.wa-content-shell article.page {
+        width: 100% !important;
+        padding: clamp(3rem, 10vw, 7rem) 2.5rem !important;
+    }
+}
+@media (max-width: 767px) {
+    body.wa-content-shell article.post,
+    body.wa-content-shell article.page {
+        padding: clamp(3rem, 10vw, 7rem) 1.5rem !important;
+    }
+}
+
+/* .entry-content innerhalb article: kein Doppel-Padding */
+body.wa-content-shell article .entry-content,
+body.wa-content-shell article .entry {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Standalone .entry-content (Block-Theme ohne article) — Section+Row-Hybrid */
+body.wa-content-shell > .entry-content,
+body.wa-content-shell main > .entry-content,
+body.wa-content-shell #main-content > .entry-content {
+    width: 80% !important;
+    max-width: 1400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: clamp(3rem, 10vw, 7rem) 0 !important;
+    box-sizing: border-box !important;
+}
+@media (max-width: 980px) {
+    body.wa-content-shell > .entry-content,
+    body.wa-content-shell main > .entry-content,
+    body.wa-content-shell #main-content > .entry-content {
+        width: 100% !important;
+        padding: clamp(3rem, 10vw, 7rem) 2.5rem !important;
+    }
+}
+@media (max-width: 767px) {
+    body.wa-content-shell > .entry-content,
+    body.wa-content-shell main > .entry-content,
+    body.wa-content-shell #main-content > .entry-content {
+        padding: clamp(3rem, 10vw, 7rem) 1.5rem !important;
+    }
+}
+
+/* Page-Title auf klassischer Content-Page — 80%/100% width, kein L/R-Padding */
+body.wa-content-shell h1.entry-title {
+    width: 80% !important;
+    max-width: 1400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+}
+@media (max-width: 980px) {
+    body.wa-content-shell h1.entry-title {
+        width: 100% !important;
+    }
+}
+
+/* Wenn Titel INNERHALB article: kein Doppel-Constraint */
+body.wa-content-shell article h1.entry-title {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}

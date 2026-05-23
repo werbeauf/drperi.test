@@ -1,0 +1,60 @@
+/* ============================================================
+   Dr. Peri — WooCommerce Notices (klassisch + Block)
+   Greift auf:
+     - .woocommerce-info / .woocommerce-message / .woocommerce-error
+       (klassische WC-Pages, Login-Toggles, Coupon-Toggles)
+     - .wc-block-components-notice-banner / .wc-block-components-validation-error
+       (WC-Blocks Cart/Checkout)
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+/* Klassisch — Login / Coupon Toggles, Form-Notices */
+body.wa-woocommerce .woocommerce-info,
+body.wa-woocommerce .woocommerce-message,
+body.wa-woocommerce .woocommerce-error,
+body.wa-woocommerce .woocommerce-notice {
+    background: var(--wa-surface) !important;
+    color: var(--wa-text) !important;
+    border: 0 !important;
+    border-left: 3px solid var(--wa-accent) !important;
+    border-radius: var(--wa-radius-sm);
+    box-shadow: var(--wa-shadow);
+    padding: 16px 20px !important;
+    margin: 0 0 18px !important;
+    list-style: none !important;
+    font-size: var(--fs-small);
+}
+body.wa-woocommerce .woocommerce-error { border-left-color: #c66 !important; }
+body.wa-woocommerce .woocommerce-message { border-left-color: #6b9; }
+body.wa-woocommerce .woocommerce-info::before,
+body.wa-woocommerce .woocommerce-message::before,
+body.wa-woocommerce .woocommerce-error::before { display: none; }
+body.wa-woocommerce .woocommerce-info a,
+body.wa-woocommerce .woocommerce-message a {
+    color: var(--wa-accent);
+    font-weight: 500;
+}
+body.wa-woocommerce .woocommerce-info a.button,
+body.wa-woocommerce .woocommerce-message a.button {
+    height: 36px !important;
+    padding: 0 18px !important;
+    font-size: var(--fs-tag) !important;
+    margin-left: 12px !important;
+}
+
+/* Block — Cart/Checkout Notice Banner + Validation Error */
+body.wa-woocommerce .wc-block-components-notice-banner,
+body.wa-woocommerce .wc-block-components-validation-error {
+    background: var(--wa-surface) !important;
+    border-radius: var(--wa-radius-sm) !important;
+    box-shadow: var(--wa-shadow) !important;
+    padding: 14px 18px !important;
+    color: var(--wa-text) !important;
+    margin-bottom: 16px !important;
+    border: 0 !important;
+    border-left: 3px solid var(--wa-accent) !important;
+}
+body.wa-woocommerce .wc-block-components-notice-banner.is-error { border-left-color: #c66 !important; }
+body.wa-woocommerce .wc-block-components-notice-banner.is-success { border-left-color: #6b9 !important; }
+body.wa-woocommerce .wc-block-components-validation-error { color: #c66 !important; }

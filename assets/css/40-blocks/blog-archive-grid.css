@@ -1,0 +1,200 @@
+/* ============================================================
+   BLOG ARCHIVE GRID · [blog-archive-grid]
+   Wrapper, Filter-/Sort-Controls, 3-Spalten-Grid und Pagination.
+   Konsumiert Tokens aus 00-base/tokens.css.
+   Lazy enqueued ueber den Shortcode-Handler — wird nur auf Seiten
+   mit dem Shortcode geladen.
+============================================================ */
+
+.wa-blog-archive {
+    width: 100%;
+    margin: clamp(1.5rem, 1rem + 2vw, 3rem) 0;
+    font-family: var(--font-base);
+    color: var(--color-text);
+}
+
+/* ============================================================
+   Controls (Filter + Sort)
+============================================================ */
+
+.wa-blog-archive__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: flex-end;
+    gap: clamp(1rem, 0.5rem + 1.5vw, 1.5rem);
+    margin: 0 0 clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+
+.wa-blog-archive__control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 200px;
+}
+
+.wa-blog-archive__control-label {
+    font-size: var(--fs-meta);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.wa-blog-archive__select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-base);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.2;
+    padding: 0.7rem 2.4rem 0.7rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+
+    /* Custom-Chevron via inline SVG (kein extra Asset). */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='none' stroke='%23475e76' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5l5 5 5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    background-size: 12px 8px;
+}
+
+.wa-blog-archive__select:hover {
+    border-color: var(--color-accent-2);
+}
+
+.wa-blog-archive__select:focus-visible {
+    outline: 0;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(118, 156, 193, 0.25);
+}
+
+.wa-blog-archive__apply {
+    appearance: none;
+    border: 0;
+    background: var(--color-accent);
+    color: #fff;
+    font-family: var(--font-base);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.7rem 1.4rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color 200ms ease;
+}
+
+.wa-blog-archive__apply:hover {
+    background: var(--color-accent-2);
+}
+
+/* ============================================================
+   Grid (3 / 2 / 1 Spalten)
+============================================================ */
+
+.wa-blog-archive__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 0.75rem + 1.5vw, 2rem);
+    align-items: stretch;
+}
+
+@media (max-width: 980px) {
+    .wa-blog-archive__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .wa-blog-archive__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================================
+   Empty State
+============================================================ */
+
+.wa-blog-archive__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: clamp(2.5rem, 2rem + 3vw, 4rem) 1rem;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--fs-lead);
+    background: var(--color-bg-soft);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+/* ============================================================
+   Pagination
+   paginate_links( type=>'list' ) liefert <ul class="page-numbers">.
+============================================================ */
+
+.wa-blog-archive__pagination {
+    margin-top: clamp(1.75rem, 1rem + 2vw, 2.5rem);
+    display: flex;
+    justify-content: center;
+}
+
+.wa-blog-archive__pagination ul.page-numbers {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none !important;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.wa-blog-archive__pagination ul.page-numbers li {
+    list-style: none !important;
+    margin: 0;
+    border: 0;
+}
+
+.wa-blog-archive__pagination ul.page-numbers li a,
+.wa-blog-archive__pagination ul.page-numbers li span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-base);
+    font-size: var(--fs-meta);
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+.wa-blog-archive__pagination ul.page-numbers li a:hover {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+}
+
+.wa-blog-archive__pagination ul.page-numbers li span.current {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+}
+
+.wa-blog-archive__pagination ul.page-numbers li span.dots {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--color-text-muted);
+}

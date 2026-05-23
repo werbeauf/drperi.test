@@ -1,0 +1,503 @@
+/* ============================================================
+   AT A GLANCE  ·  [wa_at_a_glance]
+   Layered Tabelle: pro product_cat eine Zeilen-Gruppe mit
+   schmalem 10px Color-Bar links (Term-Meta wa_bg_color/
+   wa_fg_color). Daten-Bereich = 5 Spalten:
+     Bild | Produkt | Preis | Facts | Keypoints
+   Header-Row einmal oben. Alle Cells vertikal zentriert.
+   Auf <= 980px stackt jede Row vertikal -- Bild oben, Name +
+   Preis als Label/Value-Zeilen, Facts/Keypoints als eigene
+   Section.
+
+   Designprinzipien:
+     - Container: weisser Hintergrund, soft-shadow, radius-lg
+     - Cat-Strip:  schmaler 10px Color-Bar (kein rotierter Text).
+                   Identitaet trag der Cat-Chip in der Name-Cell.
+     - Bild:       quadratisch, Soft-Tint-BG + inset-Hairline
+     - Hierarchie: Name (--fs-product-title) > Preis (--fs-price)
+                   > Volumen (--fs-meta muted) > Facts/Keypoints
+     - Facts:      Soft-Pill-Chips mit Icon (wrap-Layout)
+     - Keypoints:  Label/Value-Stack, Label = Overline accent-2,
+                   Value = Body accent
+     - Hover:      Row-BG faded zu --color-bg-soft
+============================================================ */
+.wa-at-a-glance {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 1.5em 0;
+    color: var(--color-accent);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-sm);
+    --wa-cat-bg: var(--color-bg-mid);
+    --wa-cat-fg: var(--color-accent);
+    --wa-aag-cat-bar: 10px;
+    /* 5 Spalten: Bild | Produkt | Preis | Facts | Keypoints */
+    --wa-aag-data-grid: minmax(120px, 150px) minmax(180px, 1.6fr) minmax(110px, 0.7fr) minmax(170px, 1.2fr) minmax(220px, 1.6fr);
+    --wa-aag-data-gap: clamp(0.85rem, 1.6vw, 1.4rem);
+    --wa-aag-data-pad: 1.4rem 1.6rem;
+    --wa-aag-row-hover-bg: rgba(247, 248, 250, 0.6);
+}
+
+/* ----- Header-Strip (einmalig oberhalb aller Gruppen) ----- */
+.wa-at-a-glance__header {
+    display: grid;
+    grid-template-columns: var(--wa-aag-cat-bar) 1fr;
+    background: var(--color-bg-soft);
+}
+
+.wa-at-a-glance__header-spacer {
+    background: var(--color-bg-mid);
+}
+
+.wa-at-a-glance__header-cells {
+    display: grid;
+    grid-template-columns: var(--wa-aag-data-grid);
+    gap: var(--wa-aag-data-gap);
+    padding: 0.85rem 1.6rem;
+    align-items: center;
+}
+
+.wa-at-a-glance__header-cell {
+    font-size: var(--fs-overline);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+/* ----- Group: 10px Color-Bar + Rows ----- */
+.wa-at-a-glance__group {
+    display: grid;
+    grid-template-columns: var(--wa-aag-cat-bar) 1fr;
+    border-top: 1px solid var(--color-border);
+}
+
+.wa-at-a-glance__group:first-of-type {
+    border-top: 0;
+}
+
+.wa-at-a-glance__cat {
+    background: var(--wa-cat-bg);
+    /* Kein Text auf Desktop -- nur die Farbflaeche signalisiert
+       die Kategorie. Identitaet trag der Chip neben dem Produktnamen. */
+}
+
+.wa-at-a-glance__cat-label {
+    /* Visually-hidden: Label bleibt fuer Screen-Reader, ist aber auf
+       Desktop unsichtbar (auf Mobile wird es im Banner re-aktiviert). */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+/* Produkt-Zeilen-Container */
+.wa-at-a-glance__rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.wa-at-a-glance__row {
+    display: grid;
+    grid-template-columns: var(--wa-aag-data-grid);
+    gap: var(--wa-aag-data-gap);
+    padding: var(--wa-aag-data-pad);
+    border-top: 1px solid var(--color-border);
+    align-items: center;
+    transition: background-color 200ms ease;
+}
+
+.wa-at-a-glance__row:first-child {
+    border-top: 0;
+}
+
+.wa-at-a-glance__row:hover {
+    background-color: var(--wa-aag-row-hover-bg);
+}
+
+.wa-at-a-glance__cell {
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    min-width: 0;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ----- Bild-Cell ----- */
+.wa-at-a-glance__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-bg-soft);
+    box-shadow: inset 0 0 0 1px rgba(71, 94, 118, 0.08);
+    transition: opacity 220ms ease, box-shadow 220ms ease;
+}
+
+.wa-at-a-glance__image:hover {
+    opacity: 0.94;
+    box-shadow: inset 0 0 0 1px rgba(71, 94, 118, 0.14);
+}
+
+.wa-at-a-glance__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* 8% Padding-Illusion -- aspect-ratio bleibt 1:1. */
+    padding: 8%;
+    box-sizing: border-box;
+}
+
+/* ----- Name-Cell ----- */
+.wa-at-a-glance__name-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+}
+
+.wa-at-a-glance__name {
+    font-size: var(--fs-product-title);
+    font-weight: 600;
+    color: var(--color-heading);
+    text-decoration: none;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    transition: color 200ms ease;
+}
+
+.wa-at-a-glance__name:hover {
+    color: var(--color-accent-2);
+}
+
+.wa-at-a-glance__cat-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.7rem;
+    background: var(--wa-cat-bg);
+    color: var(--wa-cat-fg);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-tag);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* ----- Preis-Cell ----- */
+.wa-at-a-glance__price-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+}
+
+.wa-at-a-glance__price {
+    font-size: var(--fs-price);
+    font-weight: 700;
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+.wa-at-a-glance__price .woocommerce-Price-amount,
+.wa-at-a-glance__price bdi,
+.wa-at-a-glance__price ins {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    text-decoration: none;
+}
+
+.wa-at-a-glance__price del {
+    font-size: var(--fs-price-old);
+    font-weight: 500;
+    opacity: 0.45;
+    text-decoration: line-through;
+    margin-right: 0.45em;
+}
+
+.wa-at-a-glance__price-volume {
+    font-size: var(--fs-meta);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+}
+
+/* Row-/Section-Labels: nur fuer Mobile (<= 980). */
+.wa-at-a-glance__row-label,
+.wa-at-a-glance__section-label {
+    display: none;
+}
+
+/* ============================================================
+   FACTS — Soft-Pill-Chips (wrap-Layout)
+============================================================ */
+.wa-at-a-glance__cell--facts .wa-at-a-glance__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.wa-at-a-glance__cell--facts .wa-at-a-glance__list-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.32rem 0.65rem 0.32rem 0.55rem;
+    background: var(--color-bg-soft);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-meta);
+    font-weight: 500;
+    color: var(--color-accent);
+    line-height: 1.3;
+    transition: background-color 180ms ease;
+}
+
+.wa-at-a-glance__row:hover .wa-at-a-glance__cell--facts .wa-at-a-glance__list-item {
+    background: var(--color-bg);
+    box-shadow: inset 0 0 0 1px var(--color-bg-mid);
+}
+
+.wa-at-a-glance__cell--facts .wa-at-a-glance__icon {
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    line-height: 0;
+    color: var(--color-accent-2);
+    margin: 0;
+}
+
+.wa-at-a-glance__cell--facts .wa-at-a-glance__icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ============================================================
+   KEYPOINTS — Label/Value-Stacks
+============================================================ */
+.wa-at-a-glance__cell--keypoints .wa-at-a-glance__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.wa-at-a-glance__cell--keypoints .wa-at-a-glance__list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+}
+
+.wa-at-a-glance__cell--keypoints .wa-at-a-glance__icon {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    line-height: 0;
+    color: var(--color-accent-2);
+    margin-top: 0.1rem;
+}
+
+.wa-at-a-glance__cell--keypoints .wa-at-a-glance__icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.wa-at-a-glance__kp-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.wa-at-a-glance__kp-label {
+    font-weight: 700;
+    font-size: var(--fs-overline);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent-2);
+    line-height: 1.25;
+}
+
+.wa-at-a-glance__kp-value {
+    font-weight: 400;
+    font-size: var(--fs-small);
+    color: var(--color-accent);
+    line-height: 1.45;
+}
+
+/* ============================================================
+   Breakpoint 1: <= 1100px  (kompakter Desktop)
+============================================================ */
+@media (max-width: 1100px) {
+    .wa-at-a-glance {
+        --wa-aag-data-grid: minmax(96px, 120px) minmax(160px, 1.5fr) minmax(95px, 0.6fr) minmax(150px, 1.1fr) minmax(190px, 1.5fr);
+        --wa-aag-data-gap: clamp(0.65rem, 1.2vw, 1rem);
+        --wa-aag-data-pad: 1.05rem 1.2rem;
+    }
+
+    .wa-at-a-glance__header-cells {
+        padding: 0.7rem 1.2rem;
+    }
+
+    .wa-at-a-glance__name {
+        font-size: var(--fs-small);
+    }
+
+    .wa-at-a-glance__price {
+        font-size: var(--fs-h6);
+    }
+}
+
+/* ============================================================
+   Breakpoint 2: <= 980px  (Mobile-Stack)
+============================================================ */
+@media (max-width: 980px) {
+    .wa-at-a-glance {
+        --wa-aag-row-hover-bg: transparent;
+    }
+
+    .wa-at-a-glance__header {
+        display: none;
+    }
+
+    .wa-at-a-glance__group {
+        grid-template-columns: 1fr;
+    }
+
+    .wa-at-a-glance__cat {
+        padding: 0.7rem 1.2rem;
+        background: var(--wa-cat-bg);
+    }
+
+    .wa-at-a-glance__cat-label {
+        position: static;
+        width: auto;
+        height: auto;
+        clip: auto;
+        display: block;
+        color: var(--wa-cat-fg);
+        font-size: var(--fs-overline);
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    .wa-at-a-glance__row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1.2rem 1.4rem;
+    }
+
+    .wa-at-a-glance__row:hover {
+        background-color: transparent;
+    }
+
+    .wa-at-a-glance__cell {
+        align-self: auto;
+        display: block;
+    }
+
+    .wa-at-a-glance__cell--image {
+        max-width: 240px;
+        margin-inline: auto;
+        width: 100%;
+    }
+
+    .wa-at-a-glance__cell--name,
+    .wa-at-a-glance__cell--price {
+        display: grid;
+        grid-template-columns: minmax(80px, 0.32fr) 1fr;
+        gap: 0.4rem 1rem;
+        align-items: center;
+        padding-top: 0.7rem;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .wa-at-a-glance__cell--name .wa-at-a-glance__name-stack {
+        gap: 0.4rem;
+    }
+
+    .wa-at-a-glance__cell--facts,
+    .wa-at-a-glance__cell--keypoints {
+        padding-top: 0.7rem;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .wa-at-a-glance__row-label,
+    .wa-at-a-glance__section-label {
+        display: block;
+        font-size: var(--fs-overline);
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+    }
+
+    .wa-at-a-glance__section-label {
+        margin-bottom: 0.6rem;
+    }
+}
+
+/* ============================================================
+   Breakpoint 3: <= 767px
+============================================================ */
+@media (max-width: 767px) {
+    .wa-at-a-glance {
+        margin: 1em 0;
+        border-radius: var(--radius-md);
+    }
+
+    .wa-at-a-glance__row {
+        gap: 0.85rem;
+        padding: 1rem 1.1rem;
+    }
+
+    .wa-at-a-glance__cell--image {
+        max-width: 180px;
+    }
+
+    .wa-at-a-glance__cell--name,
+    .wa-at-a-glance__cell--price {
+        grid-template-columns: minmax(70px, 0.28fr) 1fr;
+        gap: 0.3rem 0.85rem;
+        padding-top: 0.6rem;
+    }
+
+    .wa-at-a-glance__cell--facts,
+    .wa-at-a-glance__cell--keypoints {
+        padding-top: 0.6rem;
+    }
+
+    .wa-at-a-glance__cat {
+        padding: 0.6rem 1rem;
+    }
+
+    .wa-at-a-glance__name {
+        font-size: var(--fs-small);
+    }
+
+    .wa-at-a-glance__price {
+        font-size: var(--fs-h6);
+    }
+
+    .wa-at-a-glance__cell--keypoints .wa-at-a-glance__list {
+        gap: 0.7rem;
+    }
+}

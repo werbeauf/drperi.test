@@ -1,0 +1,135 @@
+/* ============================================================
+   Dr. Peri — Product Trust-Badges
+   Block in der Single-Product Summary (rechte Spalte) — visuell
+   identisch zu .wa-product-facts (Card-im-Card mit Soft-Bg, Border,
+   feinem Radius, zentrierten Icon+Text-Items).
+
+   Spiegelt das Facts-Pattern aus 30-pages/single-product.css:
+   - Soft Background --color-bg-soft (DESIGN.md "Section-Soft")
+   - 1px --wa-border, --wa-radius-sm
+   - Container-Query-basierte Responsive: misst .wa-product-action
+     statt des Viewports -- so kollabiert die Trust-Card sauber,
+     egal ob die Summary in der 2-Col-Hero-Phase (~560px breit)
+     oder in der 1-Col-Phase (full-width) sitzt.
+   - 22px Plain-Icons (kein Chip-Wrapper) in --wa-accent
+   - --fs-meta, weight 500, --wa-text fuer Item-Text
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+/* Mobile-First: 1 Spalte, kompaktes Padding. Spalten kommen erst
+   ueber Container-Queries dazu (siehe weiter unten). */
+body.wa-single-product .wa-product-trust {
+    list-style: none !important;
+    margin: 10px 0 0 !important;
+    padding: clamp(14px, 0.75rem + 0.6vw, 18px) clamp(16px, 0.75rem + 1.2vw, 22px) !important;
+    background: var(--color-bg-soft);
+    border: 1px solid var(--wa-border);
+    border-radius: var(--wa-radius-sm);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px 16px;
+    box-sizing: border-box;
+    list-style-type: none !important;
+    list-style-image: none !important;
+    counter-reset: none !important;
+}
+
+/* count-1 bleibt immer 1 Spalte. */
+body.wa-single-product .wa-product-trust--count-1 {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+/* Container-Aware Responsive Stages (gemessen an .wa-product-action,
+   das den Trust-Block enthaelt). Stages identisch zu .wa-product-facts
+   plus count-4 als 2x2-Grid:
+     >=380cqi : count-2/count-4 nebeneinander
+     >=520cqi : count-3 nebeneinander
+*/
+@container wa-action (min-width: 380px) {
+    body.wa-single-product .wa-product-trust {
+        gap: 12px 18px;
+    }
+    body.wa-single-product .wa-product-trust--count-2,
+    body.wa-single-product .wa-product-trust--count-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@container wa-action (min-width: 520px) {
+    body.wa-single-product .wa-product-trust--count-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Fallback: Browser ohne Container-Query-Support sehen die
+   klassische Viewport-Variante. Moderne Browser ueberschreiben
+   das durch die @container-Bloecke oben. */
+@supports not (container-type: inline-size) {
+    body.wa-single-product .wa-product-trust--count-2,
+    body.wa-single-product .wa-product-trust--count-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    body.wa-single-product .wa-product-trust--count-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    @media (max-width: 540px) {
+        body.wa-single-product .wa-product-trust--count-2,
+        body.wa-single-product .wa-product-trust--count-3,
+        body.wa-single-product .wa-product-trust--count-4 {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+/* Items: zentriert, kompakt, identisch zu .wa-product-facts__item */
+body.wa-single-product .wa-product-trust__item {
+    list-style: none !important;
+    list-style-type: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: var(--fs-meta);
+    font-weight: 500;
+    color: var(--wa-text);
+    line-height: 1.4;
+    text-align: center;
+    background: transparent !important;
+    counter-increment: none !important;
+    text-indent: 0 !important;
+}
+body.wa-single-product .wa-product-trust__item::before,
+body.wa-single-product .wa-product-trust__item::after {
+    content: none !important;
+    display: none !important;
+    counter-increment: none !important;
+}
+body.wa-single-product .wa-product-trust__item::marker { content: '' !important; }
+
+/* Plain 22x22 Icon, --wa-accent, kein Chip-Background.
+   Bei sehr schmalen Containern (count-3 in 1-Col-Mode) bleibt
+   Icon+Text mittels overflow-wrap lesbar. */
+body.wa-single-product .wa-product-trust__item .wa-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--wa-accent);
+    background: transparent;
+    border-radius: 0;
+}
+body.wa-single-product .wa-product-trust__item .wa-icon svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+
+body.wa-single-product .wa-product-trust__text {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}

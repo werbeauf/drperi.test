@@ -1,0 +1,631 @@
+/* ============================================================
+   Dr. Peri — WooCommerce Layout Shell
+   Greift auf body.wa-woocommerce: Shop, Kategorie, Cart, Checkout,
+   My Account, Single-Product (Single-Product erbt davon und
+   ueberschreibt in 30-pages/single-product.css).
+
+   Hinweis: Divi-Section/Row/Column werden hier NICHT mehr ange-
+   fasst. Aussen-Begrenzung (Section + Row + Column) steuert Divi
+   selbst — bzw. der User im Theme-Builder/Divi Code-Module. Dieses
+   File styled nur WP/WC-eigene Wrapper, Typo, Buttons, Forms, Tables.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+
+   Inhalt:
+     1. Token-Mapping + Body-Background
+     2. WP/WC-Wrapper (#content-area, article, .entry-content, ...)
+     3. Generic WC: Typography, Buttons, Forms, Tables
+     4. Standalone .wa-section / .wa-row Utilities
+     5. Reduced Motion
+============================================================ */
+
+body.wa-woocommerce {
+    --wa-bg:        var(--color-bg-soft);
+    --wa-surface:   var(--color-bg);
+    --wa-text:      var(--color-text);
+    --wa-text-soft: var(--color-accent);
+    --wa-text-mute: var(--color-text-muted);
+    --wa-accent:    var(--color-accent);
+    --wa-accent-d: var(--color-accent);
+    --wa-border:    var(--color-border);
+    --wa-border-2:  var(--color-bg-soft);
+    --wa-shadow:    var(--shadow-sm);
+    --wa-shadow-lg: var(--shadow-md);
+    --wa-radius:    var(--radius-lg);
+    --wa-radius-sm: var(--radius-md);
+
+    background: var(--wa-bg) !important;
+    font-family: var(--font-base) !important;
+    color: var(--wa-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* WP Background-Container ueberschreiben */
+body.wa-woocommerce #main-content,
+body.wa-woocommerce #et-main-area {
+    background: var(--wa-bg) !important;
+}
+
+body.wa-woocommerce .wa-page,
+body.wa-woocommerce .woocommerce,
+body.wa-woocommerce .woocommerce *,
+body.wa-woocommerce .woocommerce-MyAccount-navigation,
+body.wa-woocommerce .woocommerce-MyAccount-navigation * {
+    font-family: var(--font-base);
+}
+
+/* === WP/WC-WRAPPER ==========================================
+   Section/Row/Column werden NICHT mehr angefasst — die uebernimmt
+   Divi. Hier nur die WP/WC-eigenen Wrapper auf 100%/80% setzen.
+============================================================ */
+body.wa-woocommerce #content-area,
+body.wa-woocommerce #left-area {
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+body.wa-woocommerce #sidebar { display: none !important; }
+body.wa-woocommerce #main-content .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* ARTICLE wird zum Section+Row-Hybrid — fuer WC/WP-Klassik-Templates
+   (Warenkorb, Kasse, Mein Konto = article.page.hentry;
+    Single-Product = article.product). */
+body.wa-woocommerce article.product,
+body.wa-woocommerce article.page,
+body.wa-woocommerce article.post,
+body.wa-woocommerce article.hentry {
+    width: 80% !important;
+    max-width: 1400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: clamp(3rem, 10vw, 7rem) 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    box-sizing: border-box !important;
+    float: none !important;
+}
+@media (max-width: 980px) {
+    body.wa-woocommerce article.product,
+    body.wa-woocommerce article.page,
+    body.wa-woocommerce article.post,
+    body.wa-woocommerce article.hentry {
+        width: 100% !important;
+        padding: clamp(3rem, 10vw, 7rem) 2.5rem !important;
+    }
+}
+@media (max-width: 767px) {
+    body.wa-woocommerce article.product,
+    body.wa-woocommerce article.page,
+    body.wa-woocommerce article.post,
+    body.wa-woocommerce article.hentry {
+        padding: clamp(3rem, 10vw, 7rem) 1.5rem !important;
+    }
+}
+
+/* === PADDING-SOURCE WRAPPERS: outermost Wrapper auf Pages ohne article
+       (selten — die meisten WC-Pages haben article-Wrapper, der zentriert).
+       Hier nur 80%/100% width + max 1400px, kein eigenes L/R-Padding mehr —
+       Body+Section uebernehmen das via clamp-padding. === */
+body.wa-woocommerce .entry-content,
+body.wa-woocommerce .wp-block-woocommerce-checkout,
+body.wa-woocommerce .wp-block-woocommerce-cart,
+body.wa-woocommerce .wp-block-woocommerce-customer-account,
+body.wa-woocommerce .wp-block-woocommerce-mini-cart-contents,
+body.wa-woocommerce .wc-block-checkout,
+body.wa-woocommerce .wc-block-cart {
+    width: 80% !important;
+    max-width: 1400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    float: none !important;
+}
+@media (max-width: 980px) {
+    body.wa-woocommerce .entry-content,
+    body.wa-woocommerce .wp-block-woocommerce-checkout,
+    body.wa-woocommerce .wp-block-woocommerce-cart,
+    body.wa-woocommerce .wp-block-woocommerce-customer-account,
+    body.wa-woocommerce .wp-block-woocommerce-mini-cart-contents,
+    body.wa-woocommerce .wc-block-checkout,
+    body.wa-woocommerce .wc-block-cart {
+        width: 100% !important;
+    }
+}
+
+/* === OVERRIDE: Wenn .entry-content / Block-Wrapper INNEN in einem anderen
+       Padding-Source-Wrapper liegt, Padding auf 0 — kein Double-Padding === */
+body.wa-woocommerce article .entry-content,
+body.wa-woocommerce article .wp-block-woocommerce-checkout,
+body.wa-woocommerce article .wp-block-woocommerce-cart,
+body.wa-woocommerce article .wp-block-woocommerce-customer-account,
+body.wa-woocommerce article .wp-block-woocommerce-mini-cart-contents,
+body.wa-woocommerce article .wc-block-checkout,
+body.wa-woocommerce article .wc-block-cart,
+body.wa-woocommerce article .woocommerce,
+body.wa-woocommerce .entry-content .wp-block-woocommerce-checkout,
+body.wa-woocommerce .entry-content .wp-block-woocommerce-cart,
+body.wa-woocommerce .entry-content .wp-block-woocommerce-customer-account,
+body.wa-woocommerce .entry-content .wp-block-woocommerce-mini-cart-contents,
+body.wa-woocommerce .entry-content .wc-block-checkout,
+body.wa-woocommerce .entry-content .wc-block-cart,
+body.wa-woocommerce .entry-content .woocommerce {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    float: none !important;
+}
+
+/* WC-Blocks internes Layout: keine negativen Margins/Breakouts */
+body.wa-woocommerce .wc-block-components-sidebar-layout,
+body.wa-woocommerce .wp-block-woocommerce-checkout-fields-block,
+body.wa-woocommerce .wp-block-woocommerce-checkout-totals-block,
+body.wa-woocommerce .wc-block-components-main,
+body.wa-woocommerce .wc-block-components-sidebar {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+}
+
+/* === SHOP-ARCHIVE-META (kein article-Wrapper auf Archives)
+       Title/Result-Count/Sort/Pagination volle Breite.
+       ul.products wird NICHT angefasst — die Grid steuert ihre eigene
+       Breite (100%) via product-card.css. === */
+body.wa-woocommerce .woocommerce-products-header,
+body.wa-woocommerce .woocommerce-notices-wrapper,
+body.wa-woocommerce .woocommerce-result-count,
+body.wa-woocommerce .woocommerce-ordering,
+body.wa-woocommerce .woocommerce-pagination {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    float: none !important;
+}
+
+/* === TITEL + META-WRAPPER — full width, kein L/R-Padding === */
+body.wa-woocommerce h1.entry-title,
+body.wa-woocommerce h1.main_title,
+body.wa-woocommerce .entry-title.main_title,
+body.wa-woocommerce .et_post_meta_wrapper,
+body.wa-woocommerce .woocommerce-products-header__title {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* === Wenn Titel/Meta INNERHALB article: kein Padding doppelt — Parent-Padding reicht === */
+body.wa-woocommerce article h1.entry-title,
+body.wa-woocommerce article h1.main_title,
+body.wa-woocommerce article .et_post_meta_wrapper,
+body.wa-woocommerce article .woocommerce-products-header,
+body.wa-woocommerce article .woocommerce-products-header__title,
+body.wa-woocommerce article .woocommerce-notices-wrapper,
+body.wa-woocommerce article .woocommerce-result-count,
+body.wa-woocommerce article .woocommerce-ordering,
+body.wa-woocommerce article ul.products,
+body.wa-woocommerce article .woocommerce-pagination {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: 100% !important;
+}
+
+/* === MY ACCOUNT — Block-Wrapper wenn in article: 100% / kein Padding === */
+body.wa-woocommerce article .wp-block-woocommerce-customer-account {
+    padding: 0 !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* ============================================================
+   PAGE SHELL
+============================================================ */
+body.wa-woocommerce .woocommerce {
+    width: 100%;
+    color: var(--wa-text);
+}
+
+/* ============================================================
+   TYPOGRAPHY — Guide-Skala
+============================================================ */
+body.wa-woocommerce .woocommerce h1 {
+    font-family: var(--font-base);
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--color-heading);
+}
+body.wa-woocommerce .woocommerce h2 {
+    font-family: var(--font-base);
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    color: var(--color-heading);
+}
+body.wa-woocommerce .woocommerce h3 {
+    font-family: var(--font-base);
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    color: var(--color-heading);
+}
+body.wa-woocommerce .woocommerce h4 {
+    font-family: var(--font-base);
+    font-size: var(--fs-h4);
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-accent);
+}
+body.wa-woocommerce .woocommerce p { color: var(--wa-text-soft); line-height: 1.7; }
+body.wa-woocommerce .woocommerce a { color: var(--wa-accent); text-decoration: none; transition: color 200ms ease; }
+body.wa-woocommerce .woocommerce a:hover { color: var(--wa-accent-d); }
+
+/* ============================================================
+   BUTTONS (universal)
+============================================================ */
+body.wa-woocommerce .woocommerce a.button,
+body.wa-woocommerce .woocommerce button.button,
+body.wa-woocommerce .woocommerce input.button,
+body.wa-woocommerce .woocommerce a.button.alt,
+body.wa-woocommerce .woocommerce button.button.alt,
+body.wa-woocommerce .woocommerce input.button.alt,
+body.wa-woocommerce .woocommerce button.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding: 0 24px !important;
+    background: var(--wa-text) !important;
+    color: #fff !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(71, 94, 118, 0.16);
+    transition: background 220ms ease, transform 200ms ease, box-shadow 200ms ease !important;
+    white-space: nowrap;
+}
+body.wa-woocommerce .woocommerce a.button:hover,
+body.wa-woocommerce .woocommerce button.button:hover,
+body.wa-woocommerce .woocommerce input.button:hover,
+body.wa-woocommerce .woocommerce a.button.alt:hover,
+body.wa-woocommerce .woocommerce button.button.alt:hover,
+body.wa-woocommerce .woocommerce input.button.alt:hover {
+    background: var(--wa-accent) !important;
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(118, 156, 193, 0.32);
+}
+body.wa-woocommerce .woocommerce a.button:focus-visible,
+body.wa-woocommerce .woocommerce button.button:focus-visible,
+body.wa-woocommerce .woocommerce input.button:focus-visible {
+    outline: 3px solid var(--wa-accent);
+    outline-offset: 3px;
+}
+body.wa-woocommerce .woocommerce .button:disabled,
+body.wa-woocommerce .woocommerce button.button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Sekundaere Buttons (z. B. "Gutschein anwenden") — Outline-Style */
+body.wa-woocommerce .woocommerce form.checkout_coupon button.button,
+body.wa-woocommerce .coupon button.button,
+body.wa-woocommerce .woocommerce form.lost_reset_password button.button {
+    background: transparent !important;
+    color: var(--wa-text) !important;
+    border: 1px solid var(--wa-border) !important;
+    box-shadow: none !important;
+}
+body.wa-woocommerce .woocommerce form.checkout_coupon button.button:hover,
+body.wa-woocommerce .coupon button.button:hover {
+    background: var(--wa-text) !important;
+    color: #fff !important;
+    border-color: var(--wa-text) !important;
+}
+
+/* ============================================================
+   FORMS (Inputs / Textarea / Select / Checkbox / Radio)
+============================================================ */
+body.wa-woocommerce .woocommerce form .form-row,
+body.wa-woocommerce .woocommerce form .form-row {
+    margin: 0 0 14px;
+    padding: 0;
+}
+body.wa-woocommerce .woocommerce form .form-row label,
+body.wa-woocommerce .woocommerce form .form-row label,
+body.wa-woocommerce .woocommerce label {
+    display: block;
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin: 0 0 8px;
+}
+body.wa-woocommerce .woocommerce input[type="text"],
+body.wa-woocommerce .woocommerce input[type="email"],
+body.wa-woocommerce .woocommerce input[type="password"],
+body.wa-woocommerce .woocommerce input[type="tel"],
+body.wa-woocommerce .woocommerce input[type="url"],
+body.wa-woocommerce .woocommerce input[type="number"],
+body.wa-woocommerce .woocommerce input[type="search"],
+body.wa-woocommerce .woocommerce textarea,
+body.wa-woocommerce .woocommerce select,
+body.wa-woocommerce .woocommerce .select2-selection,
+body.wa-woocommerce .woocommerce input[type="text"],
+body.wa-woocommerce .woocommerce input[type="email"],
+body.wa-woocommerce .woocommerce input[type="password"],
+body.wa-woocommerce .woocommerce input[type="number"],
+body.wa-woocommerce .woocommerce input[type="tel"],
+body.wa-woocommerce .woocommerce select,
+body.wa-woocommerce .woocommerce textarea {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    background: var(--wa-bg);
+    border: 1px solid var(--wa-border) !important;
+    border-radius: var(--radius-md) !important;
+    font-family: var(--font-base);
+    font-size: var(--fs-body);
+    color: var(--color-text);
+    box-sizing: border-box;
+    transition: border-color 200ms ease, background 200ms ease;
+}
+body.wa-woocommerce .woocommerce textarea {
+    height: auto;
+    min-height: 120px;
+    padding: 14px 16px;
+    line-height: 1.6;
+}
+body.wa-woocommerce .woocommerce input:focus,
+body.wa-woocommerce .woocommerce textarea:focus,
+body.wa-woocommerce .woocommerce select:focus,
+body.wa-woocommerce .woocommerce input:focus,
+body.wa-woocommerce .woocommerce select:focus,
+body.wa-woocommerce .woocommerce textarea:focus {
+    outline: none;
+    border-color: var(--wa-accent) !important;
+    background: #fff;
+}
+body.wa-woocommerce .woocommerce .select2-container--default .select2-selection--single {
+    height: 48px;
+    line-height: 48px;
+    padding: 0 16px;
+}
+body.wa-woocommerce .woocommerce .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 46px;
+    padding: 0;
+    color: var(--wa-text);
+}
+body.wa-woocommerce .woocommerce .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 46px;
+}
+body.wa-woocommerce .woocommerce .select2-dropdown {
+    border-radius: 12px;
+    border-color: var(--wa-border);
+}
+
+/* Checkbox / Radio */
+body.wa-woocommerce .woocommerce input[type="checkbox"],
+body.wa-woocommerce .woocommerce input[type="radio"] {
+    accent-color: var(--wa-accent);
+    width: 18px; height: 18px;
+    margin-right: 8px;
+}
+
+/* Required asterisk */
+body.wa-woocommerce .woocommerce form .required,
+body.wa-woocommerce .woocommerce abbr.required { color: var(--wa-accent); border: 0; }
+
+/* Quantity */
+body.wa-woocommerce .woocommerce .quantity .qty {
+    width: 80px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* ============================================================
+   TABLES (shop_table — Cart, Order Review, Order Detail)
+============================================================ */
+body.wa-woocommerce .woocommerce table.shop_table {
+    width: 100%;
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    border: 0 !important;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: var(--wa-shadow);
+    margin: 0 0 28px;
+    overflow: hidden;
+}
+body.wa-woocommerce .woocommerce table.shop_table thead {
+    background: transparent;
+}
+body.wa-woocommerce .woocommerce table.shop_table thead th {
+    background: transparent;
+    color: var(--wa-text-mute);
+    font-size: var(--fs-tag);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 20px 18px;
+    border-bottom: 1px solid var(--wa-border);
+    text-align: left;
+}
+body.wa-woocommerce .woocommerce table.shop_table tbody td,
+body.wa-woocommerce .woocommerce table.shop_table tfoot td,
+body.wa-woocommerce .woocommerce table.shop_table tfoot th {
+    padding: 18px;
+    border-top: 1px solid var(--wa-border-2);
+    color: var(--wa-text);
+    font-size: var(--fs-small);
+    vertical-align: middle;
+}
+body.wa-woocommerce .woocommerce table.shop_table tbody tr:first-child td {
+    border-top: 0;
+}
+body.wa-woocommerce .woocommerce table.shop_table tfoot { background: var(--wa-bg); }
+body.wa-woocommerce .woocommerce table.shop_table tfoot th { font-weight: 600; }
+
+body.wa-woocommerce .woocommerce table.shop_table .product-thumbnail img {
+    width: 64px; height: 64px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+body.wa-woocommerce .woocommerce table.shop_table .product-name a {
+    color: var(--wa-text);
+    font-weight: 500;
+    font-size: var(--fs-body);
+}
+body.wa-woocommerce .woocommerce table.shop_table .product-name a:hover { color: var(--wa-accent); }
+body.wa-woocommerce .woocommerce table.shop_table .product-price,
+body.wa-woocommerce .woocommerce table.shop_table .product-subtotal,
+body.wa-woocommerce .woocommerce table.shop_table .product-total {
+    font-weight: 600;
+    color: var(--wa-text);
+}
+body.wa-woocommerce .woocommerce table.shop_table .product-remove a.remove {
+    width: 32px; height: 32px;
+    line-height: 30px;
+    background: var(--wa-bg) !important;
+    color: var(--wa-text-mute) !important;
+    border-radius: 50%;
+    font-size: 18px;
+    transition: background 200ms ease, color 200ms ease;
+}
+body.wa-woocommerce .woocommerce table.shop_table .product-remove a.remove:hover {
+    background: var(--wa-text) !important;
+    color: #fff !important;
+}
+
+/* Cart-Quantity field */
+body.wa-woocommerce .woocommerce-cart-form table.cart .quantity .qty {
+    height: 44px;
+    width: 80px;
+    border-radius: 10px;
+    border: 1px solid var(--wa-border);
+    background: var(--wa-bg);
+}
+
+/* Coupon row */
+body.wa-woocommerce .woocommerce table.cart td.actions .coupon {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+body.wa-woocommerce .woocommerce table.cart td.actions .coupon input.input-text {
+    flex: 1 1 220px;
+    min-width: 0;
+    height: 48px;
+}
+body.wa-woocommerce .woocommerce table.cart td.actions {
+    background: var(--wa-bg);
+    padding: 18px;
+}
+
+/* Mobile: Cart-Tabelle stacken */
+@media (max-width: 767px) {
+    body.wa-woocommerce .woocommerce table.shop_table_responsive thead { display: none; }
+    body.wa-woocommerce .woocommerce table.shop_table_responsive tr {
+        display: block;
+        background: var(--wa-surface);
+        margin: 0;
+        padding: 14px;
+        border-top: 1px solid var(--wa-border-2);
+    }
+    body.wa-woocommerce .woocommerce table.shop_table_responsive tr:first-child { border-top: 0; }
+    body.wa-woocommerce .woocommerce table.shop_table_responsive tbody td,
+    body.wa-woocommerce .woocommerce table.shop_table_responsive tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border: 0;
+        text-align: right;
+    }
+    body.wa-woocommerce .woocommerce table.shop_table_responsive tbody td::before {
+        content: attr(data-title);
+        font-size: var(--fs-tag);
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--wa-text-mute);
+    }
+    body.wa-woocommerce .woocommerce table.cart td.actions { display: block; }
+}
+
+/* ============================================================
+   STANDALONE LAYOUT-CLASSES (.wa-section / .wa-row)
+   Fuer Code-Module / Page-Builder-Bloecke, wenn der User explizit
+   das Plugin-Layout-Pattern (statt Divi's Section/Row) verwenden
+   moechte. Folgt DESIGN.md Section 5.
+============================================================ */
+.wa-section {
+    padding: clamp(3rem, 10vw, 7rem) 0;
+}
+@media (max-width: 980px) {
+    .wa-section { padding: clamp(3rem, 10vw, 7rem) 2.5rem; }
+}
+@media (max-width: 767px) {
+    .wa-section { padding: clamp(3rem, 10vw, 7rem) 1.5rem; }
+}
+
+.wa-section--soft  { background: var(--color-bg-soft); }
+.wa-section--mid   { background: var(--color-bg-mid); }
+.wa-section--white { background: var(--color-bg); }
+
+.wa-row {
+    width: 80%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+@media (max-width: 980px) {
+    .wa-row { width: 100%; }
+}
+.wa-row + .wa-row {
+    margin-top: clamp(4rem, 8vw, 6rem);
+}
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    body.wa-woocommerce *,
+    body.wa-woocommerce *::before,
+    body.wa-woocommerce *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}

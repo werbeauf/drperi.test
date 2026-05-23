@@ -1,0 +1,24 @@
+# Code-intelligence indices (regenerable, large, not source)
+.gitnexus/
+.codegraph/
+
+# Per-tool / per-machine state
+.claude/
+.gstack/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor swap files
+*.swp
+*~
+.idea/
+.vscode/
+
+# PHP dependency dirs (none today; defensive)
+vendor/
+node_modules/
+
+# Logs
+*.log

@@ -1,0 +1,87 @@
+/* ============================================================
+   DATEI: assets/css/00-base/tokens.css
+   ZWECK: Globale Design-Tokens nach docs/DESIGN.md
+   Wird VOR allen anderen Stylesheets geladen.
+
+   Inhalt:
+     - 5-Farben-Palette (Main + Second accent + 3 Hintergruende)
+     - Semantische Aliases (text, heading, border, text-muted)
+     - Fluid Type Scale (clamp, 360 -> 1280px)
+     - Komponenten-Skala (Cards, Produkte, Tiles, Tags)
+     - Komponenten-Support (Preise, Meta, Tags)
+     - Schatten + Geometrie
+
+   Hinweis: Das Plugin laedt Montserrat NICHT selbst — die Schrift
+   wird vom Divi-Theme bereitgestellt (siehe docs/DESIGN.md).
+============================================================ */
+
+:root {
+    /* === Schriftfamilien ============================== */
+    /* Montserrat wird vom Divi-Theme als Webseiten-Font geladen.
+       Hier nur der Fallback-Stack, falls Divi mal nicht loadt. */
+    --font-base: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+    /* === 5-Farben-System ============================== */
+    --color-accent:     #475e76;
+    --color-accent-2:   #769cc1;
+    --color-bg-soft:    #f7f8fa;
+    --color-bg-mid:     #e5eaee;
+    --color-bg:         #ffffff;
+
+    /* === Semantische Aliase =========================== */
+    --color-text:        var(--color-accent);
+    --color-heading:     var(--color-accent);
+    --color-border:      var(--color-bg-mid);
+    --color-text-muted:  rgba(71, 94, 118, 0.6);
+
+    /* === Status-Farben ================================ */
+    --color-good-bg:     #E1F5EE;
+    --color-good-text:   #04342C;
+    --color-bad-bg:      #FCEBEB;
+    --color-bad-text:    #501313;
+
+    /* === Fluid Type Scale (Modular Scale 1.250) ========
+       Formel: clamp(MIN, PREFERRED, MAX)
+       Viewport-Range: 360px -> 1280px
+    ==================================================== */
+    --fs-display:  clamp(2.5rem,    1.5rem  + 4.35vw, 5rem);       /* 40 -> 80px */
+    --fs-h1:       clamp(2rem,      1.3rem  + 3.04vw, 3rem);       /* 32 -> 48px */
+    --fs-h2:       clamp(1.625rem,  1.13rem + 2.17vw, 2.25rem);    /* 26 -> 36px */
+    --fs-h3:       clamp(1.375rem,  1.05rem + 1.41vw, 1.75rem);    /* 22 -> 28px */
+    --fs-h4:       clamp(1.1875rem, 0.99rem + 0.87vw, 1.375rem);   /* 19 -> 22px */
+    --fs-h5:       clamp(1.125rem,  1rem    + 0.54vw, 1.25rem);    /* 18 -> 20px */
+    --fs-h6:       clamp(1rem,      0.92rem + 0.33vw, 1.125rem);   /* 16 -> 18px */
+    --fs-lead:     clamp(1.0625rem, 0.92rem + 0.65vw, 1.25rem);    /* 17 -> 20px */
+    --fs-body:     clamp(0.9375rem, 0.88rem + 0.27vw, 1rem);       /* 15 -> 16px */
+    --fs-small:    clamp(0.8125rem, 0.79rem + 0.22vw, 0.875rem);   /* 13 -> 14px */
+    --fs-caption:  clamp(0.6875rem, 0.66rem + 0.22vw, 0.75rem);    /* 11 -> 12px */
+    --fs-overline: clamp(0.75rem,   0.68rem + 0.33vw, 0.875rem);   /* 12 -> 14px */
+    --fs-mono-md:  clamp(0.75rem,   0.7rem  + 0.27vw, 0.8125rem);  /* 12 -> 13px */
+
+    /* === Komponenten-Skala ============================ */
+    --fs-card-title:    clamp(1.125rem,  0.97rem + 0.65vw, 1.3125rem);  /* 18 -> 21px */
+    --fs-product-title: clamp(1rem,      0.94rem + 0.27vw, 1.0625rem);  /* 16 -> 17px */
+    --fs-tile-title:    clamp(0.9375rem, 0.91rem + 0.13vw, 0.96875rem); /* 15 -> 15.5px */
+
+    /* === Komponenten-Support ========================== */
+    --fs-price:     clamp(1.25rem,   1.1rem  + 0.65vw, 1.4375rem);   /* 20 -> 23px */
+    --fs-price-old: clamp(0.875rem,  0.85rem + 0.11vw, 0.9375rem);   /* 14 -> 15px */
+    --fs-meta:      clamp(0.75rem,   0.73rem + 0.11vw, 0.8125rem);   /* 12 -> 13px */
+    --fs-tag:       clamp(0.6875rem, 0.66rem + 0.13vw, 0.75rem);     /* 11 -> 12px */
+
+    /* === Schatten — rgba auf neue Hauptfarbe (71, 94, 118) === */
+    --shadow-sm: 0 1px 2px rgba(71, 94, 118, 0.05),
+                 0 4px 16px rgba(71, 94, 118, 0.06);
+    --shadow-md: 0 8px 24px rgba(71, 94, 118, 0.08),
+                 0 20px 60px -12px rgba(71, 94, 118, 0.16);
+    --shadow-cta:       0 8px 22px rgba(71, 94, 118, 0.18);
+    --shadow-cta-hover: 0 12px 28px rgba(71, 94, 118, 0.28);
+
+    /* === Geometrie ==================================== */
+    --radius-sm:   6px;
+    --radius-md:   10px;
+    --radius-lg:   12px;
+    --radius-xl:   16px;
+    --radius-pill: 999px;
+}

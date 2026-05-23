@@ -1,0 +1,45 @@
+/* ============================================================
+   Dr. Peri — Cart Page (klassisch)
+   Greift auf body.wa-woocommerce -> .cart_totals,
+   .wc-proceed-to-checkout. Cart-Block-Items sitzen in 30-pages/wc-blocks.css.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+body.wa-woocommerce .cart-collaterals {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+body.wa-woocommerce .cart_totals {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 28px;
+    width: 100% !important;
+    float: none !important;
+    box-sizing: border-box;
+}
+body.wa-woocommerce .cart_totals h2 {
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+}
+body.wa-woocommerce .cart_totals table {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+}
+body.wa-woocommerce .cart_totals .order-total .amount {
+    font-size: var(--fs-price);
+    font-weight: 700;
+    color: var(--color-accent);
+}
+body.wa-woocommerce .wc-proceed-to-checkout { padding: 20px 0 0; }
+body.wa-woocommerce .wc-proceed-to-checkout a.checkout-button {
+    width: 100%;
+    height: 56px;
+    font-size: var(--fs-small) !important;
+}

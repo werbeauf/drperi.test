@@ -1,0 +1,117 @@
+/* ============================================================
+   Dr. Peri — Shop / Product Archive Page
+   Greift auf body.wa-woocommerce auf Shop-Archive, Produkt-Kategorie,
+   Produkt-Tag, Produkt-Suche.
+
+   Inhalt:
+     1. Result count + Sortierung
+     2. Pagination
+     3. Full-Width-Override fuer is_shop() (body.woocommerce-shop):
+        WC- und WP-Elemente (article.product, ul.products, ...) auf
+        100% setzen, damit das in [wa_shop_layout] eingebettete Layout
+        die volle Breite seines Containers nutzen kann. Divi-eigene
+        Container (Section/Row/Column) werden bewusst NICHT angefasst —
+        deren Breite steuert Divi selbst.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+/* Result count + sort */
+body.wa-woocommerce .woocommerce-result-count {
+    color: var(--wa-text-mute);
+    font-size: var(--fs-meta);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 18px;
+}
+body.wa-woocommerce .woocommerce-ordering {
+    margin: 0 0 24px;
+    float: right;
+}
+body.wa-woocommerce .woocommerce-ordering select {
+    width: auto;
+    min-width: 220px;
+    height: 44px;
+    padding: 0 36px 0 16px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23495f76' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Pagination */
+body.wa-woocommerce .woocommerce-pagination {
+    margin: 32px 0 0;
+    text-align: center;
+}
+body.wa-woocommerce .woocommerce-pagination ul.page-numbers {
+    border: 0 !important;
+    display: inline-flex;
+    gap: 6px;
+    list-style: none !important;
+    padding: 0;
+}
+body.wa-woocommerce .woocommerce-pagination ul.page-numbers li {
+    border: 0 !important;
+    list-style: none !important;
+}
+body.wa-woocommerce .woocommerce-pagination ul.page-numbers li a,
+body.wa-woocommerce .woocommerce-pagination ul.page-numbers li span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    background: var(--wa-surface);
+    color: var(--wa-text);
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: var(--fs-meta);
+    font-weight: 500;
+    box-shadow: var(--wa-shadow);
+    transition: background 200ms ease, color 200ms ease;
+}
+body.wa-woocommerce .woocommerce-pagination ul.page-numbers li a:hover {
+    background: var(--wa-text);
+    color: #fff;
+}
+body.wa-woocommerce .woocommerce-pagination ul.page-numbers li span.current {
+    background: var(--wa-accent);
+    color: #fff;
+}
+
+/* ============================================================
+   FULL-WIDTH SHOP-ARCHIVE
+   Auf der Shop-Seite (is_shop() = body.woocommerce-shop) wird das
+   Layout aus [wa_shop_layout] in einem Divi Code Module ausgespielt.
+   Die Aussen-Begrenzung uebernimmt der Divi-Container (Section/Row),
+   den die User selbst setzt — daher hier nur WC- und WP-eigene
+   Elemente auf 100% / 0-Padding setzen. Divi-Container werden NICHT
+   angefasst.
+   Andere WC-Seiten (Cart, Checkout, Account, Single-Product) und
+   die Content-Shell-Seiten (AGB, Datenschutz, ...) bleiben
+   unveraendert constrained.
+============================================================ */
+body.woocommerce-shop article.product,
+body.woocommerce-shop article.page,
+body.woocommerce-shop article.post,
+body.woocommerce-shop article.hentry,
+body.woocommerce-shop .entry-content,
+body.woocommerce-shop .woocommerce-products-header,
+body.woocommerce-shop .woocommerce-products-header__title,
+body.woocommerce-shop .woocommerce-notices-wrapper,
+body.woocommerce-shop .woocommerce-result-count,
+body.woocommerce-shop .woocommerce-ordering,
+body.woocommerce-shop ul.products,
+body.woocommerce-shop .woocommerce-pagination,
+body.woocommerce-shop h1.entry-title,
+body.woocommerce-shop .woocommerce-breadcrumb {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}

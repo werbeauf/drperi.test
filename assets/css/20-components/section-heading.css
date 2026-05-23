@@ -1,0 +1,46 @@
+/* ============================================================
+   Dr. Peri — Section Heading (.wa-section__heading)
+
+   Geteiltes Heading-Pattern fuer Sektionen auf der Single-Product
+   Seite. Eine Heading-Sprache fuer:
+     - Produktdetails-Accordion ("Produktdetails")
+     - FAQ-Card             ("Haeufige Fragen")
+     - Related/Upsells      ("Aehnliche Produkte")
+
+   Stil: kompaktes Section-Heading (gemeinsam fuer alle 3 H2s)
+     - --fs-h3 (kompakter als --fs-h2, harmoniert mit Pill-Bar)
+     - weight 700
+     - letter-spacing -0.015em (tight, heading-like)
+     - kein UPPERCASE (Sentence-Case ist lesbarer in dieser Groesse)
+     - color --color-accent (#475e76, full opacity)
+     - kein Underline-::after (Heading wirkt fuer sich)
+
+   Kein Underline-::after, keine Card-Wrapper-Annahmen --
+   die Heading ist ein semantischer Anker, kein Container.
+   Wrapper-Strategie pro Section bleibt rollenbasiert
+   (Accordion + Related = borderless, FAQ = Card).
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+.wa-section__heading,
+#wa-product-faq-title,
+#wa-related-title {
+    font-family: var(--font-base);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: #475e76;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    padding: 0;
+    text-transform: none;
+}
+
+/* Innerhalb des FAQ-Card-Headers handhabt .wa-product-faq__head
+   (siehe 30-pages/single-product.css) den Bottom-Spacer ueber
+   sein eigenes margin-bottom + die Description darunter den
+   Top-Spacer. Heading muss hier kein margin-bottom mehr setzen. */
+.wa-product-faq__head .wa-section__heading {
+    margin-bottom: 0;
+}

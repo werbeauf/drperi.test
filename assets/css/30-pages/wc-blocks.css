@@ -1,0 +1,972 @@
+/* ============================================================
+   Dr. Peri — WooCommerce Block Cart / Checkout
+   Greift wenn .wp-block-woocommerce-* / .wc-block-* gerendert werden
+   (modernes Block-Cart, Block-Checkout). Wird auf Cart + Checkout
+   geladen.
+
+   Notices fuer Block-Cart/Checkout sitzen in 20-components/notices.css.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+/* Sidebar-Layout (Main + Order-Summary nebeneinander) */
+body.wa-woocommerce .wc-block-components-sidebar-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 32px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+@media (max-width: 860px) {
+    body.wa-woocommerce .wc-block-components-sidebar-layout {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+}
+body.wa-woocommerce .wc-block-components-main,
+body.wa-woocommerce .wc-block-components-sidebar {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent;
+}
+
+/* Order-Summary klebrig machen, aber unter dem Sticky-Header.
+   --wa-header-h wird vom Header-JS gesetzt (Fallback 76px). */
+@media (min-width: 861px) {
+    body.wa-woocommerce .wc-block-components-sidebar {
+        position: sticky !important;
+        top: calc(var(--wa-header-h, 76px) + 16px);
+        align-self: start;
+        max-height: calc(100vh - var(--wa-header-h, 76px) - 32px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+    body.wa-woocommerce .wc-block-components-sidebar::-webkit-scrollbar { width: 6px; }
+    body.wa-woocommerce .wc-block-components-sidebar::-webkit-scrollbar-thumb {
+        background: var(--wa-border);
+        border-radius: 999px;
+    }
+}
+
+/* Defensiver scroll-margin-top fuer alle Block-Headings,
+   damit Anchor-Jumps nicht unter dem Header landen. */
+body.wa-woocommerce .wc-block-components-checkout-step__title,
+body.wa-woocommerce .wc-block-components-title,
+body.wa-woocommerce .wp-block-woocommerce-checkout h2,
+body.wa-woocommerce .wp-block-woocommerce-cart h2 {
+    scroll-margin-top: calc(var(--wa-header-h, 76px) + 16px);
+}
+
+/* Step-Card (Kontakt / Zustellung / Rechnungsadresse / Zahlung etc.) */
+body.wa-woocommerce .wc-block-checkout__contact-fields,
+body.wa-woocommerce .wc-block-checkout__shipping-method,
+body.wa-woocommerce .wc-block-checkout__shipping-fields,
+body.wa-woocommerce .wc-block-checkout__billing-fields,
+body.wa-woocommerce .wc-block-checkout__pickup-options,
+body.wa-woocommerce .wc-block-checkout__payment-method,
+body.wa-woocommerce .wc-block-checkout__order-notes,
+body.wa-woocommerce .wp-block-woocommerce-checkout-contact-information-block,
+body.wa-woocommerce .wp-block-woocommerce-checkout-shipping-method-block,
+body.wa-woocommerce .wp-block-woocommerce-checkout-shipping-address-block,
+body.wa-woocommerce .wp-block-woocommerce-checkout-billing-address-block,
+body.wa-woocommerce .wp-block-woocommerce-checkout-pickup-options-block,
+body.wa-woocommerce .wp-block-woocommerce-checkout-payment-block {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 28px;
+    margin: 0 0 18px;
+    border: 0;
+}
+@media (max-width: 767px) {
+    body.wa-woocommerce .wc-block-checkout__contact-fields,
+    body.wa-woocommerce .wc-block-checkout__shipping-method,
+    body.wa-woocommerce .wc-block-checkout__shipping-fields,
+    body.wa-woocommerce .wc-block-checkout__billing-fields,
+    body.wa-woocommerce .wc-block-checkout__pickup-options,
+    body.wa-woocommerce .wc-block-checkout__payment-method,
+    body.wa-woocommerce .wp-block-woocommerce-checkout-contact-information-block,
+    body.wa-woocommerce .wp-block-woocommerce-checkout-shipping-method-block,
+    body.wa-woocommerce .wp-block-woocommerce-checkout-shipping-address-block,
+    body.wa-woocommerce .wp-block-woocommerce-checkout-billing-address-block,
+    body.wa-woocommerce .wp-block-woocommerce-checkout-pickup-options-block,
+    body.wa-woocommerce .wp-block-woocommerce-checkout-payment-block {
+        padding: 22px 18px;
+    }
+}
+
+/* Step Heading */
+body.wa-woocommerce .wc-block-components-checkout-step__heading {
+    margin: 0 0 18px !important;
+    padding: 0 !important;
+}
+body.wa-woocommerce .wc-block-components-checkout-step__title,
+body.wa-woocommerce .wc-block-components-title {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-h5) !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    color: var(--color-heading) !important;
+    letter-spacing: -0.01em;
+}
+body.wa-woocommerce .wc-block-components-checkout-step__description {
+    color: var(--wa-text-soft) !important;
+    font-size: var(--fs-meta) !important;
+    margin: 4px 0 14px !important;
+}
+
+/* Text Inputs (mit Floating-Label) */
+body.wa-woocommerce .wc-block-components-text-input,
+body.wa-woocommerce .wc-block-components-textarea {
+    background: var(--wa-bg);
+    border: 1px solid var(--wa-border) !important;
+    border-radius: 12px !important;
+    margin: 0 0 14px;
+    transition: border-color 200ms ease, background 200ms ease;
+}
+body.wa-woocommerce .wc-block-components-text-input:focus-within,
+body.wa-woocommerce .wc-block-components-textarea:focus-within {
+    border-color: var(--wa-accent) !important;
+    background: #fff;
+}
+body.wa-woocommerce .wc-block-components-text-input input,
+body.wa-woocommerce .wc-block-components-textarea textarea {
+    background: transparent !important;
+    border: 0 !important;
+    color: var(--wa-text) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-small) !important;
+    height: 52px !important;
+    padding: 22px 16px 8px !important;
+    box-shadow: none !important;
+}
+body.wa-woocommerce .wc-block-components-textarea textarea {
+    height: auto !important;
+    min-height: 100px !important;
+    line-height: 1.6 !important;
+}
+body.wa-woocommerce .wc-block-components-text-input label {
+    color: var(--wa-text-mute) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 500 !important;
+    left: 16px !important;
+    top: 16px !important;
+}
+body.wa-woocommerce .wc-block-components-text-input.is-active label,
+body.wa-woocommerce .wc-block-components-text-input input:focus + label,
+body.wa-woocommerce .wc-block-components-text-input input:not(:placeholder-shown) + label {
+    transform: translateY(-8px) scale(0.85) !important;
+    color: var(--wa-accent) !important;
+}
+
+/* Select / Country Dropdown */
+body.wa-woocommerce .wc-block-components-select,
+body.wa-woocommerce .wc-block-components-combobox {
+    background: var(--wa-bg);
+    border: 1px solid var(--wa-border) !important;
+    border-radius: 12px !important;
+    margin: 0 0 14px;
+}
+
+/* Adressformular: Land/Region als eigene Sektion absetzen
+   -> deutlich mehr Abstand zu den nachfolgenden Adress-Feldern. */
+body.wa-woocommerce .wc-block-components-address-form__country,
+body.wa-woocommerce .wc-block-components-address-form .wc-block-components-country-input,
+body.wa-woocommerce .wc-block-components-address-form > .wc-block-components-combobox:first-child {
+    margin-bottom: clamp(20px, 1rem + 1vw, 32px) !important;
+}
+body.wa-woocommerce .wc-block-components-select:focus-within,
+body.wa-woocommerce .wc-block-components-combobox:focus-within {
+    border-color: var(--wa-accent) !important;
+    background: #fff;
+}
+body.wa-woocommerce .wc-block-components-select select,
+body.wa-woocommerce .wc-block-components-combobox input {
+    background: transparent !important;
+    border: 0 !important;
+    color: var(--wa-text) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-small) !important;
+    height: 52px !important;
+    padding: 22px 16px 8px !important;
+}
+body.wa-woocommerce .wc-block-components-select label,
+body.wa-woocommerce .wc-block-components-combobox label {
+    color: var(--wa-text-mute) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+}
+
+/* Radio-Cards (Versenden/Abholung, Zahlungsmethoden)
+   Wichtig: WC-Block positioniert __input absolut links.
+   -> linker Padding 48px reserviert Platz fuer den Radio. */
+body.wa-woocommerce .wc-block-components-radio-control__option {
+    position: relative;
+    background: var(--wa-surface) !important;
+    border: 1px solid var(--wa-border) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 16px 18px 16px 48px !important;
+    margin: 0 0 8px !important;
+    transition: border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
+    cursor: pointer;
+}
+body.wa-woocommerce .wc-block-components-radio-control__option:hover {
+    border-color: var(--wa-accent) !important;
+}
+body.wa-woocommerce .wc-block-components-radio-control__option--checked,
+body.wa-woocommerce .wc-block-components-radio-control__option:has(input:checked) {
+    border-color: var(--wa-accent) !important;
+    background: rgba(118, 156, 193, 0.06) !important;
+    box-shadow: 0 0 0 1px var(--wa-accent) inset;
+}
+body.wa-woocommerce .wc-block-components-radio-control__input {
+    position: absolute !important;
+    left: 18px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+    accent-color: var(--wa-accent);
+    width: 18px !important;
+    height: 18px !important;
+}
+body.wa-woocommerce .wc-block-components-radio-control__label {
+    color: var(--color-heading) !important;
+    font-family: var(--font-base) !important;
+    font-weight: 600 !important;
+    font-size: var(--fs-body) !important;
+}
+body.wa-woocommerce .wc-block-components-radio-control__description {
+    color: var(--color-text-muted) !important;
+    font-size: var(--fs-small) !important;
+    margin-top: 4px;
+}
+body.wa-woocommerce .wc-block-components-radio-control__secondary-label {
+    color: var(--color-accent) !important;
+    font-weight: 700 !important;
+    font-size: var(--fs-tag) !important;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* Checkbox */
+body.wa-woocommerce .wc-block-components-checkbox input[type="checkbox"] {
+    accent-color: var(--wa-accent);
+    width: 18px !important;
+    height: 18px !important;
+    border: 1px solid var(--wa-border) !important;
+    border-radius: 4px !important;
+}
+body.wa-woocommerce .wc-block-components-checkbox__label {
+    color: var(--wa-text) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-small) !important;
+}
+
+/* Buttons (Block) */
+body.wa-woocommerce .wc-block-components-button,
+body.wa-woocommerce button.wc-block-components-button,
+body.wa-woocommerce .wc-block-cart__submit-button,
+body.wa-woocommerce .wc-block-components-checkout-place-order-button {
+    height: 56px !important;
+    padding: 0 28px !important;
+    background: var(--wa-text) !important;
+    color: #fff !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 8px 24px rgba(71, 94, 118, 0.18) !important;
+    transition: background 220ms ease, transform 200ms ease, box-shadow 200ms ease !important;
+    cursor: pointer;
+}
+body.wa-woocommerce .wc-block-components-button:hover,
+body.wa-woocommerce button.wc-block-components-button:hover,
+body.wa-woocommerce .wc-block-components-checkout-place-order-button:hover {
+    background: var(--wa-accent) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px rgba(118, 156, 193, 0.32) !important;
+}
+
+/* Order Summary (Sidebar) */
+body.wa-woocommerce .wp-block-woocommerce-checkout-order-summary-block,
+body.wa-woocommerce .wp-block-woocommerce-cart-order-summary-block,
+body.wa-woocommerce .wc-block-components-totals-wrapper {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 24px 28px;
+    margin: 0 0 18px;
+    border: 0;
+}
+body.wa-woocommerce .wc-block-components-totals-wrapper { margin: 0; box-shadow: none; padding: 0; background: transparent; }
+body.wa-woocommerce .wc-block-components-totals-item {
+    padding: 10px 0 !important;
+    color: var(--wa-text) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-small) !important;
+}
+body.wa-woocommerce .wc-block-components-totals-footer-item {
+    border-top: 1px solid var(--wa-border) !important;
+    padding-top: 16px !important;
+    margin-top: 8px !important;
+}
+body.wa-woocommerce .wc-block-components-totals-footer-item .wc-block-components-totals-item__label,
+body.wa-woocommerce .wc-block-components-totals-footer-item .wc-block-components-totals-item__value {
+    font-size: var(--fs-price) !important;
+    font-weight: 700 !important;
+    color: var(--color-accent) !important;
+}
+/* Tax-Disclaimer "Einschliesslich X UST" -> klein + muted, nicht price-sized */
+body.wa-woocommerce .wc-block-components-totals-footer-item .wc-block-components-totals-item__description,
+body.wa-woocommerce .wc-block-components-totals-footer-item-tax {
+    font-size: var(--fs-tag) !important;
+    color: var(--wa-text-mute) !important;
+    font-weight: 400 !important;
+    margin: 4px 0 0 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
+
+/* Cart Items (Block) */
+body.wa-woocommerce .wc-block-cart-items {
+    background: var(--wa-surface) !important;
+    border-radius: var(--wa-radius) !important;
+    box-shadow: var(--wa-shadow) !important;
+    padding: 8px 16px !important;
+    margin-bottom: 24px;
+}
+body.wa-woocommerce .wc-block-cart-items__row {
+    border-top: 1px solid var(--wa-border-2) !important;
+    padding: 16px 0 !important;
+}
+body.wa-woocommerce .wc-block-cart-items__row:first-child { border-top: 0 !important; }
+body.wa-woocommerce .wc-block-cart-item__image img {
+    border-radius: 10px !important;
+}
+body.wa-woocommerce .wc-block-cart-item__product-name,
+body.wa-woocommerce .wc-block-cart-item__product-name a {
+    color: var(--wa-text) !important;
+    font-family: var(--font-base) !important;
+    font-weight: 500 !important;
+    font-size: var(--fs-body) !important;
+    text-decoration: none !important;
+}
+
+/* Coupon Code (Block) */
+body.wa-woocommerce .wc-block-components-totals-coupon {
+    border-top: 1px solid var(--wa-border-2);
+    padding-top: 16px;
+    margin-top: 8px;
+}
+body.wa-woocommerce .wc-block-components-totals-coupon-link {
+    color: var(--wa-accent) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 500 !important;
+}
+
+/* Express Payment Section */
+body.wa-woocommerce .wp-block-woocommerce-checkout-express-payment-block {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 22px;
+    margin: 0 0 18px;
+}
+
+/* ============================================================
+   CART BLOCK — /warenkorb/
+   Mirror der Designsprache aus 30-pages/cart.css (klassisches
+   Markup) auf den Cart-Block-DOM (wp-block-woocommerce-cart).
+============================================================ */
+
+/* 1. Order-Summary-Heading "Warenkorb-Summe" -> spiegelt .cart_totals h2 */
+body.wa-woocommerce .wc-block-cart__totals-title {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-h3) !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.01em !important;
+    color: var(--color-heading) !important;
+    margin: 0 0 18px !important;
+    padding: 0 !important;
+}
+
+/* 2. Cart-Items Table-Header (Produkt / Details / Gesamtsumme)
+   Strategie: WCs eigene Spaltenbreiten (80px Bild + fluid Info + 100px Total)
+   bleiben unangetastet. Wir
+   - heben WCs visibility:hidden auf .wc-block-cart-items__header-product auf
+   - matchen die Header-Paddings exakt an WCs Body-td-Paddings
+     (padding: 20px 0 20px 16px), damit DETAILS und Produkt-Info auf der
+     gleichen X-Position stehen.
+   - spielen Tag-Typografie auf alle drei Header-Spans. */
+body.wa-woocommerce .wc-block-cart-items__header th {
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    border-bottom: 1px solid var(--wa-border-2) !important;
+    vertical-align: middle !important;
+}
+body.wa-woocommerce .wc-block-cart-items__header-image {
+    text-align: left !important;
+    padding-left: 16px !important;
+    padding-right: 0 !important;
+}
+body.wa-woocommerce .wc-block-cart-items__header-product {
+    visibility: visible !important;
+    text-align: left !important;
+    padding-left: 16px !important;
+    padding-right: 0 !important;
+}
+body.wa-woocommerce .wc-block-cart-items__header-total {
+    text-align: right !important;
+    padding-left: 0 !important;
+    padding-right: 16px !important;
+}
+body.wa-woocommerce .wc-block-cart-items__header th span {
+    display: inline-block !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-tag) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: var(--color-text-muted) !important;
+    line-height: 1 !important;
+}
+
+/* 3. Line-Item Per-Unit Preis (klein, soft) */
+body.wa-woocommerce .wc-block-cart-item__prices .wc-block-components-product-price__value {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    color: var(--wa-text-soft) !important;
+    font-weight: 500 !important;
+}
+
+/* 4. Line-Item Total-Preis (Akzent + Price-Token) */
+body.wa-woocommerce .wc-block-cart-item__total .wc-block-components-product-price__value {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-price) !important;
+    font-weight: 700 !important;
+    color: var(--color-accent) !important;
+}
+
+/* 5. Produkt-Description unter dem Namen */
+body.wa-woocommerce .wc-block-components-product-metadata__description p {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    color: var(--wa-text-mute) !important;
+    line-height: 1.5 !important;
+    margin: 4px 0 0 !important;
+}
+
+/* 6. Quantity-Selector (Pill-Stepper) */
+body.wa-woocommerce .wc-block-components-quantity-selector {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: var(--wa-bg) !important;
+    border: 1px solid var(--wa-border) !important;
+    border-radius: var(--radius-pill) !important;
+    height: 40px !important;
+    padding: 0 4px !important;
+    margin-top: 8px !important;
+}
+body.wa-woocommerce .wc-block-components-quantity-selector__input {
+    width: 36px !important;
+    height: 32px !important;
+    border: 0 !important;
+    background: transparent !important;
+    text-align: center !important;
+    font-family: var(--font-base) !important;
+    font-weight: 600 !important;
+    color: var(--wa-text) !important;
+    -moz-appearance: textfield;
+}
+body.wa-woocommerce .wc-block-components-quantity-selector__input::-webkit-outer-spin-button,
+body.wa-woocommerce .wc-block-components-quantity-selector__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+body.wa-woocommerce .wc-block-components-quantity-selector__button {
+    width: 32px !important;
+    height: 32px !important;
+    border: 0 !important;
+    border-radius: var(--radius-pill) !important;
+    background: transparent !important;
+    color: var(--wa-text) !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+    transition: background 200ms ease, color 200ms ease;
+}
+body.wa-woocommerce .wc-block-components-quantity-selector__button:hover:not([disabled]) {
+    background: var(--wa-surface) !important;
+    color: var(--color-accent) !important;
+}
+body.wa-woocommerce .wc-block-components-quantity-selector__button[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* 7. Remove-Trash Icon-Button */
+body.wa-woocommerce .wc-block-cart-item__remove-link {
+    background: transparent !important;
+    border: 0 !important;
+    color: var(--wa-text-mute) !important;
+    padding: 4px !important;
+    margin-left: 8px !important;
+    cursor: pointer !important;
+    transition: color 200ms ease;
+}
+body.wa-woocommerce .wc-block-cart-item__remove-link:hover {
+    color: var(--color-accent) !important;
+}
+body.wa-woocommerce .wc-block-cart-item__remove-link svg {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+/* 8. Shipping-Row "Kostenlos" hervorheben */
+body.wa-woocommerce .wc-block-components-totals-shipping .wc-block-components-totals-item__value strong {
+    color: var(--color-accent) !important;
+    font-weight: 700 !important;
+}
+
+/* 9. Express-Payment "Oder" Divider mit Hairlines */
+body.wa-woocommerce .wc-block-components-express-payment-continue-rule {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    color: var(--wa-text-mute) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
+    margin: 18px 0 !important;
+    border: 0 !important;
+}
+body.wa-woocommerce .wc-block-components-express-payment-continue-rule::before,
+body.wa-woocommerce .wc-block-components-express-payment-continue-rule::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--wa-border);
+}
+
+/* ============================================================
+   CHECKOUT BLOCK — /kasse/
+   Mirror der Designsprache aus 30-pages/checkout.css auf den
+   Checkout-Block-DOM (wp-block-woocommerce-checkout).
+============================================================ */
+
+/* 10. Express-Payment Header */
+body.wa-woocommerce .wc-block-components-express-payment__title {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-h5) !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    color: var(--color-heading) !important;
+    margin: 0 0 14px !important;
+}
+
+/* 11. Address-Card (kollabierter Modus mit "Bearbeiten") */
+body.wa-woocommerce .wc-block-components-address-card {
+    background: var(--wa-bg) !important;
+    border: 1px solid var(--wa-border) !important;
+    border-radius: var(--wa-radius-sm) !important;
+    padding: 14px 16px !important;
+    margin-bottom: 14px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+body.wa-woocommerce .wc-block-components-address-card address {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-small) !important;
+    color: var(--wa-text) !important;
+    font-style: normal !important;
+    line-height: 1.5 !important;
+}
+body.wa-woocommerce .wc-block-components-address-card__edit {
+    color: var(--color-accent) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 600 !important;
+    background: transparent !important;
+    border: 0 !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+}
+body.wa-woocommerce .wc-block-components-address-card__edit:hover {
+    text-decoration: underline !important;
+}
+
+/* 12. "+ Wohnung, Suite usw. hinzufuegen" Toggle */
+body.wa-woocommerce .wc-block-components-address-form__address_2-toggle {
+    display: inline-block !important;
+    margin: 4px 0 14px !important;
+    color: var(--color-accent) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 500 !important;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+}
+body.wa-woocommerce .wc-block-components-address-form__address_2-toggle:hover {
+    text-decoration: underline !important;
+}
+
+/* 13. Pickup-Option Adress-Icon (klein + muted) */
+body.wa-woocommerce .wc-block-components-radio-control__description svg {
+    width: 14px !important;
+    height: 14px !important;
+    color: var(--wa-text-mute) !important;
+    margin-right: 6px !important;
+    vertical-align: -2px !important;
+}
+
+/* 14. Payment-Method Label-Reihe (Logos + Test-Badge + "Karte") */
+body.wa-woocommerce .wc-block-components-payment-method-label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+}
+
+/* 15. Test-Mode Badge */
+body.wa-woocommerce .wc-block-components-payment-method-label .test-mode.badge,
+body.wa-woocommerce .wc-block-components-radio-control__option .test-mode.badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    height: 22px !important;
+    padding: 0 8px !important;
+    border-radius: var(--radius-pill) !important;
+    background: var(--color-accent) !important;
+    color: #fff !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-tag) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    line-height: 1 !important;
+}
+
+/* 16. Payment-Method Card-Logos */
+body.wa-woocommerce .payment-methods--logos {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+body.wa-woocommerce .payment-methods--logos img {
+    height: 20px !important;
+    width: auto !important;
+    border-radius: 3px !important;
+    display: block !important;
+}
+body.wa-woocommerce .payment-methods--logos-count {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-tag) !important;
+    color: var(--wa-text-mute) !important;
+    margin-left: 2px !important;
+}
+
+/* 17. Accordion-Content der ausgewaehlten Zahlungsmethode */
+body.wa-woocommerce .wc-block-components-radio-control-accordion-content {
+    padding: 14px 18px 0 !important;
+    color: var(--wa-text-soft) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    line-height: 1.6 !important;
+}
+body.wa-woocommerce .wc-block-components-radio-control-accordion-content p {
+    margin: 0 0 10px !important;
+}
+body.wa-woocommerce .wc-block-components-radio-control-accordion-content a {
+    color: var(--color-accent) !important;
+    text-decoration: underline !important;
+}
+body.wa-woocommerce .js-woopayments-copy-test-number {
+    background: var(--wa-bg) !important;
+    border: 1px dashed var(--wa-border) !important;
+    border-radius: 8px !important;
+    padding: 4px 10px !important;
+    font-family: var(--font-mono) !important;
+    font-size: var(--fs-meta) !important;
+    color: var(--wa-text) !important;
+    cursor: pointer !important;
+    margin: 0 4px !important;
+    transition: background 200ms ease, border-color 200ms ease;
+}
+body.wa-woocommerce .js-woopayments-copy-test-number:hover {
+    background: var(--wa-surface) !important;
+    border-color: var(--color-accent) !important;
+}
+
+/* 17b. "Zahlungsinformationen in meinem Konto speichern" Checkbox unten im
+   Payment-Box. Bekommt Abstand nach oben + Trennlinie + lesbare Label-Wraps. */
+body.wa-woocommerce .wc-block-components-payment-methods__save-card-info {
+    margin-top: 20px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid var(--wa-border-2) !important;
+}
+body.wa-woocommerce .wc-block-components-payment-methods__save-card-info label {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+}
+body.wa-woocommerce .wc-block-components-payment-methods__save-card-info input[type="checkbox"] {
+    flex-shrink: 0 !important;
+    margin-top: 2px !important;
+}
+body.wa-woocommerce .wc-block-components-payment-methods__save-card-info .wc-block-components-checkbox__mark {
+    flex-shrink: 0 !important;
+    margin-top: 2px !important;
+}
+body.wa-woocommerce .wc-block-components-payment-methods__save-card-info .wc-block-components-checkbox__label {
+    color: var(--wa-text) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    line-height: 1.5 !important;
+    font-weight: 400 !important;
+}
+
+/* 18. Terms-Block */
+body.wa-woocommerce .wc-block-checkout__terms {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    color: var(--wa-text-mute) !important;
+    line-height: 1.6 !important;
+    margin: 18px 0 !important;
+}
+body.wa-woocommerce .wc-block-checkout__terms--with-separator {
+    padding-top: 18px !important;
+    border-top: 1px solid var(--wa-border-2) !important;
+}
+body.wa-woocommerce .wc-block-checkout__terms a {
+    color: var(--color-accent) !important;
+}
+
+/* 19. Order-Notes Add-Note Toggle (kein eigener Card) */
+body.wa-woocommerce .wc-block-checkout__order-notes {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 8px 0 18px !important;
+}
+body.wa-woocommerce .wc-block-checkout__add-note .wc-block-components-checkbox__label {
+    color: var(--wa-text) !important;
+    font-weight: 500 !important;
+}
+
+/* 20. Actions-Row (Zurueck-Link + Place-Order Button) */
+body.wa-woocommerce .wc-block-checkout__actions_row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 16px !important;
+    margin-top: 18px !important;
+    flex-wrap: wrap !important;
+}
+@media (max-width: 600px) {
+    body.wa-woocommerce .wc-block-checkout__actions_row {
+        flex-direction: column-reverse !important;
+        align-items: stretch !important;
+    }
+    body.wa-woocommerce .wc-block-checkout__actions_row .wc-block-components-checkout-place-order-button {
+        width: 100% !important;
+    }
+}
+
+/* 21. Return-To-Cart Link */
+body.wa-woocommerce .wc-block-components-checkout-return-to-cart-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    color: var(--wa-text-mute) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    transition: color 200ms ease;
+}
+body.wa-woocommerce .wc-block-components-checkout-return-to-cart-button:hover {
+    color: var(--color-accent) !important;
+}
+body.wa-woocommerce .wc-block-components-checkout-return-to-cart-button svg {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+/* 22. Sidebar Order-Summary Header (Bestelluebersicht) */
+body.wa-woocommerce .wc-block-components-checkout-order-summary__title {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin: 0 0 18px !important;
+}
+body.wa-woocommerce .wc-block-components-checkout-order-summary__title-text {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-h3) !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.01em !important;
+    color: var(--color-heading) !important;
+    margin: 0 !important;
+}
+body.wa-woocommerce .wc-block-components-checkout-order-summary__title-price {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-price) !important;
+    font-weight: 700 !important;
+    color: var(--color-accent) !important;
+}
+body.wa-woocommerce .wc-block-components-checkout-order-summary__title-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+    color: var(--wa-text-mute) !important;
+}
+
+/* 23. Sidebar Order-Summary Line-Items */
+body.wa-woocommerce .wc-block-components-order-summary {
+    margin: 0 !important;
+}
+body.wa-woocommerce .wc-block-components-order-summary-item {
+    display: grid !important;
+    grid-template-columns: 56px 1fr auto !important;
+    gap: 14px !important;
+    align-items: start !important;
+    padding: 12px 0 !important;
+    border-top: 1px solid var(--wa-border-2) !important;
+}
+body.wa-woocommerce .wc-block-components-order-summary .wc-block-components-order-summary-item:first-child,
+body.wa-woocommerce .wc-block-components-order-summary__content > .wc-block-components-order-summary-item:first-child {
+    border-top: 0 !important;
+}
+body.wa-woocommerce .wc-block-components-order-summary-item__image {
+    position: relative !important;
+    width: 56px !important;
+    height: 56px !important;
+}
+body.wa-woocommerce .wc-block-components-order-summary-item__image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+    display: block !important;
+}
+body.wa-woocommerce .wc-block-components-order-summary-item__quantity {
+    position: absolute !important;
+    top: -6px !important;
+    right: -6px !important;
+    min-width: 20px !important;
+    height: 20px !important;
+    padding: 0 6px !important;
+    background: var(--wa-text) !important;
+    color: #fff !important;
+    border-radius: var(--radius-pill) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-tag) !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+}
+body.wa-woocommerce .wc-block-components-order-summary-item__description h3.wc-block-components-product-name {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 600 !important;
+    color: var(--color-heading) !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+}
+body.wa-woocommerce .wc-block-components-order-summary-item__individual-prices,
+body.wa-woocommerce .wc-block-components-order-summary-item__individual-price {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-tag) !important;
+    color: var(--wa-text-mute) !important;
+}
+body.wa-woocommerce .wc-block-components-order-summary-item__total-price .wc-block-components-product-price__value {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 700 !important;
+    color: var(--color-accent) !important;
+}
+body.wa-woocommerce .wc-block-components-order-summary-item .wc-block-components-product-metadata__description p {
+    font-size: var(--fs-tag) !important;
+    color: var(--wa-text-mute) !important;
+    margin: 2px 0 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* ============================================================
+   FINALE DEFENSIVE RULES
+   - Empty-Cart-State, Submit-Container, kleine Layout-Korrekturen
+============================================================ */
+
+/* 24. Cart-Submit-Container -> Button strecken auf volle Card-Breite */
+body.wa-woocommerce .wc-block-cart__submit-container {
+    width: 100% !important;
+    margin-top: 16px !important;
+}
+body.wa-woocommerce .wc-block-cart__submit-container .wc-block-cart__submit-button {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+}
+
+/* 25. Empty-Cart-Block (wenn 0 Produkte im Warenkorb) */
+body.wa-woocommerce .wp-block-woocommerce-empty-cart-block {
+    background: var(--wa-surface) !important;
+    border-radius: var(--wa-radius) !important;
+    box-shadow: var(--wa-shadow) !important;
+    padding: clamp(28px, 4vw, 48px) !important;
+    text-align: center !important;
+    margin: 0 0 24px !important;
+}
+body.wa-woocommerce .wp-block-woocommerce-empty-cart-block h2 {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-h3) !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.01em !important;
+    color: var(--color-heading) !important;
+    margin: 0 0 12px !important;
+}
+body.wa-woocommerce .wp-block-woocommerce-empty-cart-block p {
+    color: var(--wa-text-soft) !important;
+    font-size: var(--fs-small) !important;
+    line-height: 1.6 !important;
+    margin: 0 auto 18px !important;
+    max-width: 480px !important;
+}
+
+/* 26. Notices-Wrapper innerhalb der Block-Sections nicht doppelt umrahmen */
+body.wa-woocommerce .wc-block-components-sidebar-layout .wc-block-components-notices,
+body.wa-woocommerce .wc-block-components-sidebar-layout .wc-block-components-notices__snackbar {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* 27. Disabled-Overlay des Block-Layouts (während AJAX-Request) abschwaechen,
+   damit der Card-Hintergrund nicht durchblitzt. */
+body.wa-woocommerce .wc-block-components-sidebar-layout > [aria-hidden="true"][style*="position: absolute"] {
+    background: transparent !important;
+}
+
+/* 28. Block-Cart Mobile-Layout (<700px) -> WCs eigene Container-Query haendelt
+   den Switch auf Grid (80px + 132px). Wir lassen das in Ruhe; nur die
+   Header-Visibility-Override soll auf Mobile inaktiv sein, weil WC dort
+   den ganzen Header per display:none ausblendet (wir wuerden sonst nichts
+   forcieren - aber explizit lassen wir es gewollt unangetastet). */

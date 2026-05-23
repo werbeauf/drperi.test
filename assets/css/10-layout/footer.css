@@ -1,0 +1,624 @@
+/* ============================================================
+   FOOTER · Dr. Peri Skincare
+   Folgt Design-System (Main accent #475e76, Second accent #769cc1).
+   Konsumiert Tokens direkt aus design-tokens.css; lokale --waf-*
+   Aliase nur fuer die Weisston-Skala auf accent-900 Surface.
+============================================================ */
+
+#wa-footer {
+    /* Dark-Surface-Aliasse (kein Equivalent in design-tokens.css) */
+    --waf-text:        #ffffff;
+    --waf-text-soft:   rgba(255, 255, 255, 0.72);
+    --waf-text-mute:   rgba(255, 255, 255, 0.55);
+    --waf-border:      rgba(255, 255, 255, 0.18);
+    --waf-border-soft: rgba(255, 255, 255, 0.10);
+    --waf-hover-bg:    rgba(255, 255, 255, 0.08);
+}
+
+/* Im Divi Visual Builder ausblenden */
+.et_fb #wa-footer,
+.et-fb #wa-footer {
+    display: none !important;
+}
+
+/* ============================================================
+   1. SHELL · --color-accent als Brand-Anker (DESIGN.md §1)
+   Vertikales Padding bewusst chrome-tight (DESIGN.md §5 ist auf
+   Content-Sections gemuenzt, Footer ist Chrome). Symmetrisch
+   top/bottom fuer ruhigen Rhythmus.
+============================================================ */
+#wa-footer {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-accent);
+    color: var(--waf-text);
+    font-family: var(--font-base);
+    padding: clamp(3rem, 6vw, 5rem) 0;
+    z-index: 1;
+}
+
+#wa-footer .wa-footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+/* ============================================================
+   2a. ROWS · 2 Footer-Zeilen
+     Row 1 -> 1/3 Brand · 2/3 Newsletter
+     Row 2 -> 3 x 1/3 (Aktuelle Beitraege · Menu 1 · Menu 2)
+   Visuelle Trennung zwischen den Rows ueber gap des Containers.
+============================================================ */
+#wa-footer .wa-footer-row {
+    width: 100%;
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    text-align: left;
+}
+
+#wa-footer .wa-footer-row--1 {
+    grid-template-columns: 1fr 1fr 2fr;
+    align-items: start;
+    padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+    border-bottom: 1px solid var(--waf-border-soft);
+}
+
+#wa-footer .wa-footer-row--2 {
+    grid-template-columns: repeat(4, 1fr);
+    align-items: start;
+}
+
+#wa-footer .wa-footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+}
+
+/* Brand-Spalte braucht etwas mehr Luft zwischen Logo, Contact-Block
+   und Socials, damit die Gruppen klar voneinander abgesetzt sind. */
+#wa-footer .wa-footer-col--brand {
+    gap: 1.5rem;
+}
+
+/* Overline-Typo (DESIGN.md §9 .overline). Color bleibt waf-text-soft:
+   accent-2 #769cc1 auf accent #475e76 hat nur ~2:1 Kontrast (faellt
+   durch WCAG, DESIGN.md §1 verbietet accent-2 fuer Body-Text). */
+#wa-footer .wa-footer-coltitle {
+    margin: 0 0 0.75rem;
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--waf-text-soft);
+}
+
+/* ============================================================
+   2b. NEWSLETTER-INTRO · eigene 1/4 Spalte (Lead-Typo)
+============================================================ */
+#wa-footer .wa-footer-col--nl-intro {
+    gap: 0.5rem;
+}
+
+#wa-footer .wa-footer-newsletter__heading {
+    margin: 0;
+    font-size: var(--fs-h4);
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--waf-text);
+}
+
+#wa-footer .wa-footer-newsletter__intro {
+    margin: 0;
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    font-weight: 400;
+    color: var(--waf-text-soft);
+    max-width: 28ch;
+}
+
+/* ============================================================
+   2b'. NEWSLETTER-FORM · 2/4 Spalte
+============================================================ */
+#wa-footer .wa-footer-col--newsletter {
+    gap: 0.75rem;
+}
+
+#wa-footer .wa-footer-col--newsletter .wa-newsletter--footer {
+    width: 100%;
+}
+
+/* ============================================================
+   2c. LATEST POSTS · vertikale Liste (post_type=blog)
+============================================================ */
+#wa-footer .wa-footer-posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+#wa-footer .wa-footer-posts__item {
+    margin: 0;
+    padding: 0;
+}
+
+#wa-footer .wa-footer-posts__link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    color: var(--waf-text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 0.6rem;
+    border-bottom-color: var(--waf-border-soft);
+    transition: opacity 220ms ease, border-color 220ms ease;
+}
+
+#wa-footer .wa-footer-posts__item:last-child .wa-footer-posts__link {
+    border-bottom-color: transparent;
+    padding-bottom: 0;
+}
+
+#wa-footer .wa-footer-posts__link:hover,
+#wa-footer .wa-footer-posts__link:focus-visible {
+    opacity: 0.85;
+    border-bottom-color: var(--waf-text);
+    outline: none;
+}
+
+/* Tile-Title (DESIGN.md §4 --fs-tile-title): Listenstil fuer Items
+   uebereinander, exakt das Footer-Posts-Pattern. */
+#wa-footer .wa-footer-posts__title {
+    font-size: var(--fs-tile-title);
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--waf-text);
+}
+
+/* Meta (DESIGN.md §4 --fs-meta): Datum/Autor. Kein uppercase
+   (uppercase ist fuer Overlines/Eyebrows reserviert). */
+#wa-footer .wa-footer-posts__date {
+    font-size: var(--fs-meta);
+    font-weight: 400;
+    color: var(--waf-text-mute);
+}
+
+/* ============================================================
+   3. LOGO · --fs-h4 · weight 700 · heading letter-spacing
+============================================================ */
+#wa-footer .wa-footer-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    color: var(--waf-text);
+    line-height: 1;
+    transition: opacity 220ms ease;
+    align-self: flex-start;
+}
+
+#wa-footer .wa-footer-logo:hover {
+    opacity: 0.85;
+}
+
+#wa-footer .wa-footer-logo img {
+    display: block;
+    height: 44px;
+    width: auto;
+    max-width: 220px;
+    object-fit: contain;
+    border-radius: var(--radius-md); /* 10px aus design-tokens */
+}
+
+#wa-footer .wa-footer-logo__text {
+    font-size: var(--fs-h4);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--waf-text);
+}
+
+/* ============================================================
+   3a. CONTACT · Adresse · Email · Phone (Hours sind eigene Spalte)
+   --fs-small bewusst (Chrome-Density-Exception: --fs-body wuerde
+   die Brand-Spalte wie Main-Content lesen lassen).
+   Globales `p { padding-bottom: 1em }` wird hier auf 0 gesetzt,
+   sonst entstehen sichtbare Luecken zwischen den Kontakt-Zeilen.
+============================================================ */
+#wa-footer .wa-footer-contact {
+    font-style: normal; /* <address> default ist italic */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    color: var(--waf-text-soft);
+    font-size: var(--fs-small);
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+}
+
+#wa-footer .wa-footer-contact p,
+#wa-footer .wa-footer-contact .wa-footer-contact__row {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+#wa-footer .wa-footer-contact__row {
+    margin: 0;
+    max-width: 360px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6em;
+}
+
+#wa-footer .wa-footer-contact__icon {
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    margin-top: 0.25em; /* visuelle Baseline-Angleichung an erste Textzeile */
+    color: var(--waf-text-soft);
+}
+
+/* Class-less Links innerhalb von Contact-Rows (z.B. ACF-Adresse mit Maps-Link) */
+#wa-footer .wa-footer-contact a {
+    color: var(--waf-text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 220ms ease, opacity 220ms ease;
+}
+#wa-footer .wa-footer-contact a:hover,
+#wa-footer .wa-footer-contact a:focus-visible {
+    color: var(--waf-text);
+    border-bottom-color: var(--waf-text);
+    opacity: 0.95;
+    outline: none;
+}
+
+#wa-footer .wa-footer-contact__row--email,
+#wa-footer .wa-footer-contact__row--phone {
+    color: var(--waf-text);
+}
+
+/* ============================================================
+   3c. OPENING HOURS · Definition List · 2-spaltige Zeilen
+============================================================ */
+#wa-footer .wa-footer-hours {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    color: var(--waf-text-soft);
+    font-size: var(--fs-small);
+    line-height: 1.6;
+}
+
+#wa-footer .wa-footer-hours__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: baseline;
+}
+
+#wa-footer .wa-footer-hours__day {
+    margin: 0;
+    font-weight: 500;
+    color: var(--waf-text);
+}
+
+#wa-footer .wa-footer-hours__time {
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+    color: var(--waf-text-soft);
+    white-space: nowrap;
+}
+
+#wa-footer .wa-footer-contact__link {
+    color: var(--waf-text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 220ms ease, opacity 220ms ease;
+}
+
+#wa-footer .wa-footer-contact__link:hover {
+    border-bottom-color: var(--waf-text);
+    opacity: 0.95;
+}
+
+#wa-footer .wa-footer-contact__link:focus-visible {
+    outline: none;
+    border-bottom-color: var(--waf-text);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+    border-radius: 2px;
+}
+
+#wa-footer .wa-footer-contact__sep {
+    color: var(--waf-text-mute);
+    user-select: none;
+}
+
+/* ============================================================
+   4. SOCIAL ICONS · pill 36px · border 1px white-18%
+   Liegen jetzt innerhalb der Brand-Spalte (Row 1), daher links-
+   buendig statt zentriert.
+============================================================ */
+#wa-footer .wa-footer-social {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+#wa-footer .wa-footer-social__item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#wa-footer .wa-footer-social__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--waf-border);
+    color: var(--waf-text);
+    text-decoration: none;
+    transition: background-color 220ms ease, border-color 220ms ease, transform 220ms ease, color 220ms ease;
+}
+
+#wa-footer .wa-footer-social__link:hover,
+#wa-footer .wa-footer-social__link:focus-visible {
+    background-color: var(--waf-hover-bg);
+    border-color: var(--waf-text);
+    color: var(--waf-text);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+#wa-footer .wa-footer-social__link:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+#wa-footer .wa-footer-social__link svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================================================
+   5. DIVIDER · 1px white-10% · max-width 480px
+============================================================ */
+#wa-footer .wa-footer-divider {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    height: 1px;
+    background-color: var(--waf-border-soft);
+    margin: clamp(0.5rem, 1.5vw, 1rem) auto;
+}
+
+/* ============================================================
+   6. FOOTER MENUES · vertikale Listen je eigene Spalte
+   Jedes Menue lebt in einer .wa-footer-col--menu Spalte (Row 2).
+   Zusaetzlich: legacy .legal-menu Selektor (wird ggf. von
+   Divi-Theme-Builder-Footern via [wa_footer_menu] Shortcode
+   verwendet) erbt dieselbe Typografie.
+
+   !important-Block notwendig: Divi-Parent-Theme injiziert globale
+   Nav-Styles mit hoher Specificity (`#main-footer .nav li a`).
+   Ohne !important schlaegt Divi durch und ueberschreibt Schrift,
+   Farbe und Listen-Reset. Beim Cleanup nicht entfernen.
+============================================================ */
+#wa-footer .wa-footer-menu .wa-footer-ul,
+.legal-menu ul {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+#wa-footer .wa-footer-menu a,
+.legal-menu a {
+    font-family: var(--font-base) !important;
+    font-weight: 500 !important;
+    font-size: var(--fs-small) !important;
+    letter-spacing: 0;
+    text-transform: none;
+    text-decoration: none;
+    color: #fff !important;
+    opacity: 0.85;
+    transition: opacity 220ms ease;
+    display: inline-block;
+}
+
+#wa-footer .wa-footer-menu a:hover,
+.legal-menu a:hover {
+    opacity: 1;
+    color: #fff;
+}
+
+#wa-footer .wa-footer-menu .current-menu-item a,
+#wa-footer .wa-footer-menu .current_page_item a,
+.legal-menu .current-menu-item a,
+.legal-menu .current_page_item a {
+    color: #fff !important;
+    opacity: 1 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+}
+
+/* Legacy: legal-menu (Divi-TB Shortcode) bleibt horizontal mit Trennern. */
+.legal-menu ul {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 !important;
+}
+.legal-menu li + li::before {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.35);
+    margin: 0 14px;
+    vertical-align: middle;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 300px) {
+    .legal-menu ul {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    .legal-menu li + li::before { display: none !important; }
+}
+
+/* ============================================================
+   7. COPYRIGHT · --fs-meta (DESIGN.md §4: Meta-Tier)
+============================================================ */
+#wa-footer .wa-footer-copyright {
+    margin: 0;
+    font-size: var(--fs-meta);
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--waf-text-mute);
+}
+
+#wa-footer .wa-footer-copyright__sep {
+    display: inline-block;
+    margin: 0 0.4rem;
+    color: var(--waf-text-mute);
+}
+
+/* ============================================================
+   8. RESPONSIVE
+============================================================ */
+@media (max-width: 1100px) {
+    /* Row 1: Brand + Intro + Form bleiben 3-spaltig, aber Form bekommt
+       weniger Anteil damit Intro lesbar bleibt. */
+    #wa-footer .wa-footer-row--1 {
+        grid-template-columns: 1fr 1fr 1.5fr;
+    }
+
+    /* Row 2: 4 -> 2x2, Hours+Posts oben, Menues unten. */
+    #wa-footer .wa-footer-row--2 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Hours nicht mehr full-width: Tag/Zeit-Paare sollen organisch
+       zusammensitzen statt ueber die ganze Spaltenbreite gestreckt. */
+    #wa-footer .wa-footer-hours {
+        align-self: flex-start;
+        width: max-content;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 980px) {
+    #wa-footer .wa-footer-container {
+        padding: 0 2.5rem;
+        /* Mehr Luft zwischen Row 1, Row 2 und Bottom-Stack. */
+        gap: clamp(2.25rem, 3.5vw, 3rem);
+    }
+
+    /* Mehr Luft zwischen den Spalten innerhalb einer Row und zwischen
+       den Sub-Bloecken, wenn Row 2 zu 2x2 wechselt. */
+    #wa-footer .wa-footer-row {
+        gap: clamp(2.25rem, 4vw, 3rem);
+    }
+
+    /* Row 1: Brand-Spalte oben full-width, Intro+Form daneben. */
+    #wa-footer .wa-footer-row--1 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #wa-footer .wa-footer-col--brand {
+        grid-column: 1 / -1;
+    }
+
+    /* Brand-Col bekommt jetzt die volle Row-Breite -> Kinder-Width-
+       Limits aufheben, damit Contact die Flaeche nutzt. */
+    #wa-footer .wa-footer-col--brand .wa-footer-contact__row {
+        max-width: none;
+    }
+}
+
+@media (max-width: 767px) {
+    #wa-footer .wa-footer-container {
+        padding: 0 1.5rem;
+    }
+
+    #wa-footer .wa-footer-row--1,
+    #wa-footer .wa-footer-row--2 {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    #wa-footer .wa-footer-col--brand {
+        grid-column: auto;
+    }
+
+    /* Default-Stretch zurueckholen, damit jeder Spalten-Inhalt
+       (Liste, Kontakt, Posts ...) die volle Mobile-Breite belegt.
+       Logo hat align-self: flex-start und bleibt content-breit. */
+    #wa-footer .wa-footer-col {
+        align-items: stretch;
+        text-align: left;
+    }
+
+    /* Inhalts-Width-Limits aufheben, damit nichts an internen
+       max-widths haengen bleibt. */
+    #wa-footer .wa-footer-contact__row,
+    #wa-footer .wa-footer-newsletter__intro {
+        max-width: none;
+    }
+
+    #wa-footer .wa-footer-logo img {
+        height: 38px;
+    }
+
+    #wa-footer .wa-footer-social__link {
+        width: 38px;
+        height: 38px;
+    }
+
+    #wa-footer .wa-footer-social__link svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* ============================================================
+   9. ACCESSIBILITY
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    #wa-footer .wa-footer-logo,
+    #wa-footer .wa-footer-social__link,
+    #wa-footer .wa-footer-contact__link {
+        transition: none !important;
+    }
+    #wa-footer .wa-footer-social__link:hover,
+    #wa-footer .wa-footer-social__link:focus-visible {
+        transform: none !important;
+    }
+}

@@ -1,0 +1,261 @@
+/* ============================================================
+   Dr. Peri — My Account Page (klassisch + Block)
+   Greift auf body.wa-woocommerce und
+   .wp-block-woocommerce-customer-account.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+/* ============================================================
+   MY ACCOUNT PAGE (klassisch)
+============================================================ */
+
+/* Page-Title (H1) -> spiegelt body.wa-woocommerce h1.page-title aus 20-components/page-title.css */
+body.wa-woocommerce .wa-account-title {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-h1) !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--color-heading) !important;
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    clear: both !important;
+    display: block !important;
+}
+
+/* Divi's statischer Entry-Title H1 ist auf Account-Seiten ueberfluessig --
+   unser endpoint-aware <h1 class="wa-account-title"> rendert dynamisch
+   "Mein Konto" / "Adressen" / "Bestellungen" / "Kontodetails" / etc.
+   Daher Divi-H1 hier verstecken. */
+body.wa-woocommerce.woocommerce-account article > h1.entry-title.main_title,
+body.wa-woocommerce.woocommerce-account .et_post_meta_wrapper > h1.entry-title.main_title,
+body.woocommerce-account article > h1.entry-title.main_title {
+    display: none !important;
+}
+
+body.wa-woocommerce .woocommerce {
+    display: block;
+}
+body.wa-woocommerce .woocommerce-MyAccount-navigation,
+body.wa-woocommerce .woocommerce-MyAccount-content {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    box-sizing: border-box;
+}
+body.wa-woocommerce .woocommerce-MyAccount-navigation {
+    width: 240px !important;
+    float: left !important;
+    margin-right: 28px;
+    padding: 14px;
+}
+body.wa-woocommerce .woocommerce-MyAccount-content {
+    width: calc(100% - 268px) !important;
+    float: right !important;
+    padding: 32px;
+}
+@media (max-width: 860px) {
+    body.wa-woocommerce .woocommerce-MyAccount-navigation,
+    body.wa-woocommerce .woocommerce-MyAccount-content {
+        width: 100% !important;
+        float: none !important;
+        margin: 0 0 18px;
+    }
+    body.wa-woocommerce .woocommerce-MyAccount-content { padding: 24px; }
+}
+
+body.wa-woocommerce .woocommerce-MyAccount-navigation ul {
+    list-style: none !important;
+    margin: 0;
+    padding: 0;
+}
+body.wa-woocommerce .woocommerce-MyAccount-navigation ul li {
+    list-style: none !important;
+    margin: 0;
+    padding: 0;
+}
+body.wa-woocommerce .woocommerce-MyAccount-navigation ul li::before,
+body.wa-woocommerce .woocommerce-MyAccount-navigation ul li::after { content: none !important; display: none !important; }
+
+body.wa-woocommerce .woocommerce-MyAccount-navigation ul li a {
+    display: block;
+    padding: 12px 14px;
+    font-size: var(--fs-meta);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--wa-text);
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background 200ms ease, color 200ms ease;
+}
+body.wa-woocommerce .woocommerce-MyAccount-navigation ul li a:hover {
+    background: var(--wa-bg);
+    color: var(--wa-accent);
+}
+body.wa-woocommerce .woocommerce-MyAccount-navigation ul li.is-active a {
+    background: var(--wa-text);
+    color: #fff;
+}
+
+/* Login / Register / Lost-Password Forms */
+body.wa-woocommerce:not(.logged-in) .woocommerce > .u-columns,
+body.wa-woocommerce:not(.logged-in) .woocommerce > .u-columns > .u-column1,
+body.wa-woocommerce:not(.logged-in) .woocommerce > .u-columns > .u-column2 {
+    width: 100% !important;
+    float: none !important;
+    margin: 0 0 24px;
+}
+body.wa-woocommerce:not(.logged-in) .woocommerce > .u-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+/* WC's legacy ::before/::after clearfix pseudo-elements count as grid items
+   and push the real columns into a diagonal layout. Neutralize them. */
+body.wa-woocommerce:not(.logged-in) .woocommerce > .u-columns::before,
+body.wa-woocommerce:not(.logged-in) .woocommerce > .u-columns::after {
+    content: none !important;
+    display: none !important;
+}
+@media (max-width: 760px) {
+    body.wa-woocommerce:not(.logged-in) .woocommerce > .u-columns { grid-template-columns: 1fr; }
+}
+body.wa-woocommerce .woocommerce form.login,
+body.wa-woocommerce .woocommerce form.register,
+body.wa-woocommerce .woocommerce form.lost_reset_password {
+    background: var(--wa-surface);
+    border: 0 !important;
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 32px;
+}
+body.wa-woocommerce .woocommerce form.login p,
+body.wa-woocommerce .woocommerce form.register p { color: var(--wa-text-soft); }
+
+/* Account Dashboard Body Text */
+body.wa-woocommerce .woocommerce-MyAccount-content > p {
+    line-height: 1.7;
+    color: var(--wa-text-soft);
+    margin: 0 0 18px;
+}
+body.wa-woocommerce .woocommerce-MyAccount-content address {
+    font-style: normal !important;
+    line-height: 1.7 !important;
+    color: var(--wa-text-soft) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+/* ============================================================
+   Address-Endpoint (/mein-konto/edit-address/)
+   Two-column grid statt WC-Float, Title als sauberer Flex-Header,
+   leerer Address-State als ruhiger Hint.
+============================================================ */
+
+/* Two-column Layout fuer Rechnungsadresse + Lieferadresse */
+body.wa-woocommerce .woocommerce-MyAccount-content .u-columns.col2-set,
+body.wa-woocommerce .woocommerce-MyAccount-content .col2-set.addresses {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+body.wa-woocommerce .woocommerce-MyAccount-content .u-columns > .u-column1,
+body.wa-woocommerce .woocommerce-MyAccount-content .u-columns > .u-column2,
+body.wa-woocommerce .woocommerce-MyAccount-content .u-columns > .col-1,
+body.wa-woocommerce .woocommerce-MyAccount-content .u-columns > .col-2 {
+    width: 100% !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 22px !important;
+    background: var(--wa-bg) !important;
+    border-radius: var(--wa-radius-sm) !important;
+    box-sizing: border-box !important;
+}
+@media (max-width: 760px) {
+    body.wa-woocommerce .woocommerce-MyAccount-content .u-columns.col2-set,
+    body.wa-woocommerce .woocommerce-MyAccount-content .col2-set.addresses {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Address-Title: H2 links, Edit-Link rechts -> auch wenn die Spalte schmal ist */
+body.wa-woocommerce .woocommerce-MyAccount-content .woocommerce-Address-title,
+body.wa-woocommerce .woocommerce-MyAccount-content header.woocommerce-Address-title,
+body.wa-woocommerce .woocommerce-MyAccount-content header.title.woocommerce-Address-title {
+    margin: 0 0 14px !important;
+    padding: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: baseline !important;
+    gap: 16px !important;
+    flex-wrap: wrap !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+body.wa-woocommerce .woocommerce-MyAccount-content .woocommerce-Address-title h2,
+body.wa-woocommerce .woocommerce-MyAccount-content header.woocommerce-Address-title h2 {
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-h5) !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    color: var(--color-heading) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+body.wa-woocommerce .woocommerce-MyAccount-content .woocommerce-Address-title .edit,
+body.wa-woocommerce .woocommerce-MyAccount-content header.woocommerce-Address-title .edit {
+    color: var(--color-accent) !important;
+    font-family: var(--font-base) !important;
+    font-size: var(--fs-meta) !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+}
+body.wa-woocommerce .woocommerce-MyAccount-content .woocommerce-Address-title .edit:hover {
+    text-decoration: underline !important;
+}
+
+/* "Du hast bisher keine Adresse dieser Art erstellt." Empty-State */
+body.wa-woocommerce .woocommerce-MyAccount-content .woocommerce-Address address:empty::before,
+body.wa-woocommerce .woocommerce-MyAccount-content .woocommerce-Address > p {
+    color: var(--wa-text-mute) !important;
+    font-size: var(--fs-meta) !important;
+    font-style: normal !important;
+    margin: 0 !important;
+}
+
+/* ============================================================
+   MY ACCOUNT — Block-basiert
+============================================================ */
+body.wa-woocommerce .wp-block-woocommerce-customer-account {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 28px;
+}
+body.wa-woocommerce .wc-block-customer-account__user-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+}
+body.wa-woocommerce .wc-block-customer-account__user-area a {
+    color: var(--wa-accent);
+    font-weight: 500;
+}
+
+/* Klassisches My-Account: Clearfix, damit Floats den Container halten */
+body.wa-woocommerce .woocommerce::after {
+    content: '';
+    display: block;
+    clear: both;
+}

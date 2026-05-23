@@ -1,0 +1,215 @@
+/* ============================================================
+   Blog (CPT: blog) — page styles
+   Enthaelt nur die zwei Shortcode-Bloecke aus werbeauf-customs:
+     [global-blog1-header]   -> .blog-header-hero
+     [global-blog3-authorbox] -> .blog-author-box
+   Restliche Blog-Inhalts-Styles (Tabellen, Listen, FAQ, Boxen,
+   Zitate, etc.) liefert das werbeauf-ai-blog-system Plugin.
+
+   Hinweis: Das AI-Blog-Plugin setzt --blog-gap als universellen
+   Block-Abstand. .blog-faq-list ist im Design-System nicht
+   gemappt, daher fehlt der Abstand zwischen vorangehendem
+   Element (z. B. Intro-Paragraph) und der ersten Accordion-
+   Zeile. Wir konsumieren denselben Token, damit die Distanz
+   zur Description gleich bleibt wie zwischen H2/Paragraph oben.
+============================================================ */
+
+.blog-article-body .blog-faq-list {
+    margin-top: var(--blog-gap, 60px);
+    margin-bottom: var(--blog-gap, 60px);
+}
+
+
+/* ============================================================
+   1. BLOG HEADER HERO  [global-blog1-header]
+============================================================ */
+
+.blog-header-hero {
+    position: relative;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 30px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.blog-header-hero .blog-header-overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0) 100%);
+    display: flex;
+    align-items: center;
+}
+
+.blog-header-hero .blog-header-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 10rem 0;
+}
+
+.blog-header-hero .blog-header-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    color: #ffffff;
+    gap: 2rem;
+}
+
+.blog-header-hero h1.blog-header-title {
+    font-size: clamp(1.7rem, 1.3rem + 2vw, 2.7rem);
+    hyphens: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.2;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+    padding-bottom: 0;
+}
+
+.blog-header-hero .blog-header-desc {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.06rem, 1rem + 0.3vw, 1.2rem);
+    line-height: 1.5;
+    font-weight: 400;
+    max-width: 850px;
+}
+
+@media (max-width: 980px) {
+    .blog-header-hero {
+        border-radius: 25px;
+    }
+
+    .blog-header-hero .blog-header-overlay {
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .blog-header-hero .blog-header-container {
+        width: 100%;
+        padding: 7rem 2.5rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .blog-header-hero {
+        border-radius: 20px;
+    }
+
+    .blog-header-hero .blog-header-container {
+        text-align: center;
+        padding: 5rem 1.5rem !important;
+    }
+
+    .blog-header-hero .blog-header-content {
+        margin: 0 auto;
+        justify-items: center;
+    }
+
+    .blog-header-hero .blog-header-desc {
+        max-width: 100%;
+    }
+}
+
+
+/* ============================================================
+   2. AUTHOR BOX  [global-blog3-authorbox]
+============================================================ */
+
+.blog-author-box {
+    width: 100%;
+    margin: 2.5rem 0;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 30px;
+    padding: 3rem;
+}
+
+.blog-author-container {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.blog-author-avatar img {
+    border-radius: 30px;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.blog-author-content {
+    flex: 1;
+}
+
+.blog-author-label {
+    display: block;
+    font-size: clamp(0.75rem, 0.7rem + 0.15vw, 0.8rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #769cc1;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.blog-author-name {
+    font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.4rem);
+    color: #495E77 !important;
+    margin: 0 0 1rem 0 !important;
+    font-weight: 700;
+}
+
+.blog-author-bio {
+    color: #495E77;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.blog-author-bio p {
+    margin: 0;
+}
+
+.blog-author-link {
+    font-size: clamp(0.85rem, 0.8rem + 0.15vw, 0.9rem);
+    font-weight: 700;
+    color: #769cc1;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 980px) {
+    .blog-author-box {
+        border-radius: 25px;
+    }
+
+    .blog-author-avatar img {
+        border-radius: 25px;
+    }
+}
+
+@media (max-width: 767px) {
+    .blog-author-box {
+        border-radius: 20px;
+        padding: 2rem;
+    }
+
+    .blog-author-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .blog-author-avatar img {
+        border-radius: 20px;
+        width: 100px;
+        height: 100px;
+    }
+}

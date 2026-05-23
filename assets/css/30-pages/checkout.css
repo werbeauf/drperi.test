@@ -1,0 +1,144 @@
+/* ============================================================
+   Dr. Peri — Checkout Page (klassisch)
+   Greift auf body.wa-woocommerce -> #customer_details,
+   #order_review, #payment, #place_order. Block-Checkout-Steps sitzen
+   in 30-pages/wc-blocks.css.
+
+   Konsumiert Tokens aus 00-base/tokens.css.
+============================================================ */
+
+body.wa-woocommerce #customer_details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+@media (max-width: 860px) {
+    body.wa-woocommerce #customer_details { grid-template-columns: 1fr; gap: 18px; }
+}
+body.wa-woocommerce #customer_details .col-1,
+body.wa-woocommerce #customer_details .col-2 {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 28px;
+    width: 100% !important;
+    float: none !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+}
+body.wa-woocommerce #customer_details h3 {
+    font-size: var(--fs-h5);
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0 0 18px;
+}
+body.wa-woocommerce #customer_details .form-row-first { width: 48%; float: left; clear: both; }
+body.wa-woocommerce #customer_details .form-row-last { width: 48%; float: right; }
+body.wa-woocommerce #customer_details .form-row-wide { clear: both; }
+@media (max-width: 540px) {
+    body.wa-woocommerce #customer_details .form-row-first,
+    body.wa-woocommerce #customer_details .form-row-last { width: 100%; float: none; }
+}
+
+/* Order Review */
+body.wa-woocommerce #order_review_heading {
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin: 28px 0 16px;
+}
+body.wa-woocommerce #order_review {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 28px;
+}
+body.wa-woocommerce #order_review table { box-shadow: none !important; margin: 0 !important; }
+
+/* Payment Methods */
+body.wa-woocommerce #payment {
+    background: var(--wa-bg);
+    border-radius: var(--wa-radius-sm);
+    padding: 6px;
+    margin-top: 18px;
+}
+body.wa-woocommerce #payment ul.payment_methods {
+    background: transparent;
+    border: 0;
+    padding: 6px;
+    list-style: none !important;
+}
+body.wa-woocommerce #payment ul.payment_methods li {
+    list-style: none !important;
+    padding: 12px 16px;
+    border-radius: 10px;
+    transition: background 200ms ease;
+}
+body.wa-woocommerce #payment ul.payment_methods li:hover { background: rgba(255,255,255,0.6); }
+body.wa-woocommerce #payment ul.payment_methods li input[type="radio"] { margin-right: 10px; }
+body.wa-woocommerce #payment ul.payment_methods li label { display: inline; margin: 0; text-transform: none; letter-spacing: 0; font-weight: 500; font-size: var(--fs-small); }
+body.wa-woocommerce #payment div.payment_box {
+    background: var(--wa-surface);
+    border-radius: 10px;
+    margin-top: 8px;
+    padding: 14px 16px;
+    color: var(--wa-text-soft);
+    font-size: var(--fs-meta);
+    line-height: 1.6;
+}
+body.wa-woocommerce #payment div.payment_box::before { display: none; }
+
+/* Place Order Button */
+body.wa-woocommerce #place_order {
+    width: 100%;
+    height: 56px;
+    margin-top: 18px;
+    font-size: var(--fs-small) !important;
+}
+
+/* Order Received / Thank You */
+body.wa-woocommerce .woocommerce-thankyou-order-received,
+body.wa-woocommerce .woocommerce-order {
+    background: var(--wa-surface);
+    border-radius: var(--wa-radius);
+    box-shadow: var(--wa-shadow);
+    padding: 32px;
+    margin: 0 0 24px;
+}
+body.wa-woocommerce .woocommerce-thankyou-order-received {
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--color-heading);
+    text-align: center;
+}
+body.wa-woocommerce .woocommerce-order-overview {
+    list-style: none !important;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    padding: 0;
+    margin: 0 0 24px;
+}
+body.wa-woocommerce .woocommerce-order-overview li {
+    list-style: none !important;
+    padding: 14px 18px;
+    background: var(--wa-bg);
+    border-radius: var(--wa-radius-sm);
+    font-size: var(--fs-caption);
+    color: var(--wa-text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+body.wa-woocommerce .woocommerce-order-overview li strong {
+    display: block;
+    margin-top: 4px;
+    color: var(--wa-text);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+}

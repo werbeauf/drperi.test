@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Montserrat Typografie-Guide · #495f76</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-base: 'Montserrat', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --accent: #495f76;
+    --accent-50: #f0f3f7;
+    --accent-100: #d8dfe6;
+    --accent-300: #a3b1c2;
+    --accent-700: #2f4053;
+    --accent-900: #1a2533;
+    --text: #2f4053;
+    --text-muted: #5a6f85;
+    --heading: #1a2533;
+    --bg: #ffffff;
+    --border: #e5e9ee;
+    --good-bg: #E1F5EE;
+    --good-text: #04342C;
+    --bad-bg: #FCEBEB;
+    --bad-text: #501313;
+
+    /* ── Fluid Type Scale (clamp) ────────────────────
+       Formel: clamp(MIN, PREFERRED, MAX)
+       Viewport-Range: 360px → 1280px
+    ──────────────────────────────────────────────── */
+    --fs-display:  clamp(2.5rem,    1.5rem  + 4.35vw, 5rem);       /* 40 → 80px */
+    --fs-h1:       clamp(2rem,      1.3rem  + 3.04vw, 3rem);       /* 32 → 48px */
+    --fs-h2:       clamp(1.625rem,  1.13rem + 2.17vw, 2.25rem);    /* 26 → 36px */
+    --fs-h3:       clamp(1.375rem,  1.05rem + 1.41vw, 1.75rem);    /* 22 → 28px */
+    --fs-h4:       clamp(1.1875rem, 0.99rem + 0.87vw, 1.375rem);   /* 19 → 22px */
+    --fs-h5:       clamp(1.125rem,  1rem    + 0.54vw, 1.25rem);    /* 18 → 20px */
+    --fs-h6:       clamp(1rem,      0.92rem + 0.33vw, 1.125rem);   /* 16 → 18px */
+    --fs-lead:     clamp(1.0625rem, 0.92rem + 0.65vw, 1.25rem);    /* 17 → 20px */
+    --fs-body:     clamp(0.9375rem, 0.88rem + 0.27vw, 1rem);       /* 15 → 16px */
+    --fs-small:    clamp(0.8125rem, 0.79rem + 0.22vw, 0.875rem);   /* 13 → 14px */
+    --fs-caption:  clamp(0.6875rem, 0.66rem + 0.22vw, 0.75rem);    /* 11 → 12px */
+    --fs-overline: clamp(0.75rem,   0.68rem + 0.33vw, 0.875rem);   /* 12 → 14px */
+    --fs-mono-md:  clamp(0.75rem,   0.7rem  + 0.27vw, 0.8125rem);  /* 12 → 13px */
+
+    /* ── Komponenten-Skala ────────────────────────── */
+    --fs-card-title:    clamp(1.125rem,  0.97rem + 0.65vw, 1.3125rem);  /* 18 → 21px · Blog-Card, Service-Box */
+    --fs-product-title: clamp(1rem,      0.94rem + 0.27vw, 1.0625rem);  /* 16 → 17px · Produktname im Grid */
+    --fs-tile-title:    clamp(0.9375rem, 0.91rem + 0.13vw, 0.96875rem); /* 15 → 15.5px · kompakte Tiles, Sidebar */
+
+    /* ── Komponenten-Support ──────────────────────── */
+    --fs-price:     clamp(1.25rem,   1.1rem  + 0.65vw, 1.4375rem);   /* 20 → 23px · Preise prominent */
+    --fs-price-old: clamp(0.875rem,  0.85rem + 0.11vw, 0.9375rem);   /* 14 → 15px · Streichpreis */
+    --fs-meta:      clamp(0.75rem,   0.73rem + 0.11vw, 0.8125rem);   /* 12 → 13px · Datum, Autor, Kategorie */
+    --fs-tag:       clamp(0.6875rem, 0.66rem + 0.13vw, 0.75rem);     /* 11 → 12px · Pills, Badges, Tags */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 100%; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-base);
+    font-size: var(--fs-body);
+    line-height: 1.75;
+    color: var(--text);
+    font-weight: 400;
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: clamp(2rem, 1rem + 4vw, 4rem) clamp(1.25rem, 0.5rem + 3vw, 2rem);
+  }
+
+  .hero { padding: 2rem 0 4rem; border-bottom: 1px solid var(--border); margin-bottom: 4rem; }
+  .hero h1 {
+    font-size: var(--fs-display);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--heading);
+    margin: 0.5rem 0 1rem;
+  }
+  .hero p {
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    color: var(--text);
+    max-width: 60ch;
+    font-weight: 400;
+  }
+  .hero p code { font-size: 0.95em; color: var(--accent); font-weight: 500; }
+
+  section { padding: clamp(2rem, 1rem + 3vw, 3rem) 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--heading);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-intro {
+    font-size: var(--fs-lead);
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    max-width: 65ch;
+  }
+
+  .color-hero {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .color-block {
+    width: clamp(72px, 60px + 3vw, 96px);
+    height: clamp(72px, 60px + 3vw, 96px);
+    background: var(--accent);
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .color-info .name {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .color-info .meta {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-md);
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
+  .color-info .wcag {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 4px 10px;
+    background: var(--good-bg);
+    color: var(--good-text);
+    border-radius: 4px;
+    font-size: var(--fs-caption);
+    font-weight: 600;
+  }
+
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 8px;
+  }
+  .swatch {
+    padding: 14px;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    font-weight: 500;
+  }
+
+  .type-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-row .meta {
+    font-family: var(--font-mono);
+    font-size: var(--fs-overline);
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding-top: 0.5rem;
+  }
+  .type-row .css-meta {
+    font-family: var(--font-mono);
+    font-size: var(--fs-overline);
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+
+  .h1-demo       { font-size: var(--fs-h1);       font-weight: 700; line-height: 1.15; letter-spacing: -0.02em;  color: var(--heading); }
+  .h2-demo       { font-size: var(--fs-h2);       font-weight: 700; line-height: 1.2;  letter-spacing: -0.015em; color: var(--heading); }
+  .h3-demo       { font-size: var(--fs-h3);       font-weight: 600; line-height: 1.3;  letter-spacing: -0.01em;  color: var(--heading); }
+  .h4-demo       { font-size: var(--fs-h4);       font-weight: 600; line-height: 1.35; color: var(--accent-700); }
+  .h5-demo       { font-size: var(--fs-h5);       font-weight: 600; line-height: 1.4;  color: var(--accent-700); }
+  .h6-demo       { font-size: var(--fs-h6);       font-weight: 600; line-height: 1.45; color: var(--accent-700); }
+  .lead-demo     { font-size: var(--fs-lead);     font-weight: 400; line-height: 1.6;  color: var(--accent-700); }
+  .body-demo     { font-size: var(--fs-body);     font-weight: 400; line-height: 1.75; color: var(--accent-700); }
+  .small-demo    { font-size: var(--fs-small);    font-weight: 400; line-height: 1.6;  color: var(--text-muted); }
+  .caption-demo  { font-size: var(--fs-caption);  font-weight: 500; line-height: 1.5;  color: var(--text-muted); }
+  .overline-demo { font-size: var(--fs-overline); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+
+  .weight-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .weight-row:last-child { border-bottom: none; }
+  .weight-row .label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .weight-row .demo       { font-size: var(--fs-lead); color: var(--accent-700); margin-bottom: 4px; }
+  .weight-row .demo-large { font-size: var(--fs-h3);   color: var(--accent-700); margin-bottom: 4px; }
+  .weight-row .note       { font-size: var(--fs-small); color: var(--text-muted); }
+
+  .demo-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: clamp(1.25rem, 1rem + 1vw, 2rem);
+    margin-bottom: 1rem;
+  }
+  .demo-card .eyebrow {
+    font-size: var(--fs-overline);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .demo-card h3 {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .demo-card p {
+    font-size: var(--fs-body);
+    line-height: 1.7;
+    color: var(--accent-700);
+    margin-bottom: 1rem;
+  }
+  .demo-card a {
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: var(--fs-small);
+    font-weight: 600;
+    font-family: var(--font-base);
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-700); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    padding: 10.5px 22.5px;
+    margin-left: 0.5rem;
+  }
+  .btn-secondary:hover { background: var(--accent-50); }
+
+  .quote-card {
+    background: var(--accent-50);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1rem;
+  }
+  .quote-card .quote {
+    font-size: var(--fs-lead);
+    line-height: 1.7;
+    color: var(--accent-900);
+    font-style: italic;
+  }
+  .quote-card .attribution {
+    font-size: var(--fs-small);
+    color: var(--accent);
+    margin-top: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* ── Komponenten ─────────────────────────────────── */
+  .component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 2rem;
+  }
+
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .blog-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(73, 95, 118, 0.08); }
+  .blog-card .card-image {
+    aspect-ratio: 16 / 10;
+    background: linear-gradient(135deg, var(--accent-50) 0%, var(--accent-100) 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-300); font-size: var(--fs-caption);
+  }
+  .blog-card .card-content { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+  .blog-card .tag {
+    align-self: flex-start;
+    font-size: var(--fs-tag);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-50);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .blog-card .title {
+    font-size: var(--fs-card-title);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+    color: var(--heading);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .blog-card .excerpt {
+    font-size: var(--fs-small);
+    line-height: 1.6;
+    color: var(--text);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .blog-card .meta {
+    font-size: var(--fs-meta);
+    color: var(--text-muted);
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+
+  .product-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+  .product-card:hover { transform: translateY(-2px); }
+  .product-card .product-image {
+    aspect-ratio: 1 / 1;
+    background: var(--accent-50);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-300); font-size: var(--fs-caption);
+  }
+  .product-card .product-content { padding: 1rem; }
+  .product-card .category {
+    font-size: var(--fs-meta);
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+  }
+  .product-card .name {
+    font-size: var(--fs-product-title);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--heading);
+    margin: 0 0 0.75rem;
+  }
+  .product-card .price-row { display: flex; align-items: baseline; gap: 0.5rem; }
+  .product-card .price {
+    font-size: var(--fs-price);
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .product-card .price-old {
+    font-size: var(--fs-price-old);
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+
+  .tile-list {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .tile-list .tile-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tile-list .tile-item:last-child { border-bottom: none; }
+  .tile-list .tile-thumb {
+    width: 40px; height: 40px;
+    background: var(--accent-50);
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .tile-list .tile-content { flex: 1; min-width: 0; }
+  .tile-list .tile-title {
+    font-size: var(--fs-tile-title);
+    font-weight: 500;
+    color: var(--heading);
+    line-height: 1.4;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tile-list .tile-meta {
+    font-size: var(--fs-meta);
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Komponenten-Tabelle */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    font-size: var(--fs-small);
+  }
+  .comp-table th, .comp-table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .comp-table th {
+    font-size: var(--fs-meta);
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--accent-50);
+  }
+  .comp-table td:first-child { font-weight: 600; color: var(--heading); }
+  .comp-table code {
+    background: var(--accent-50);
+    color: var(--accent);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.92em;
+  }
+
+  .do-dont {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 1rem;
+  }
+  .do, .dont {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    font-size: var(--fs-body);
+    line-height: 1.6;
+  }
+  .do { background: var(--good-bg); color: var(--good-text); }
+  .dont { background: var(--bad-bg); color: var(--bad-text); }
+  .do .label, .dont .label {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: var(--fs-small);
+  }
+
+  pre {
+    background: var(--accent-900);
+    color: #d8dfe6;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-md);
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  code { font-family: var(--font-mono); }
+  p code { font-size: 0.95em; color: var(--accent); font-weight: 500; }
+
+  footer {
+    margin-top: 4rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+    font-size: var(--fs-small);
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .type-row, .weight-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .type-row .meta, .weight-row .label { padding-top: 0; }
+  }
+
+  @media print {
+    body { font-size: 11pt; }
+    section { page-break-inside: avoid; }
+    pre { font-size: 8pt; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div style="background: #FCEBEB; color: #501313; border-left: 3px solid #c66; border-radius: 8px; padding: 1rem 1.25rem; margin-top: 2rem; font-size: 0.9rem; line-height: 1.6;">
+    <strong>Hinweis: Diese Datei ist nicht mehr aktuell.</strong> Sie zeigt die historische 6-Stufen-Palette <code>#495f76</code>. Die aktuelle Spezifikation ist <a href="DESIGN.md" style="color: #501313; font-weight: 600;"><code>docs/DESIGN.md</code></a> mit dem reduzierten 5-Farben-System (Main accent <code>#475e76</code>, Second accent <code>#769cc1</code>, drei Hintergruende). Diese Live-Preview wird nicht mehr gepflegt.
+  </div>
+
+  <header class="hero">
+    <div class="overline-demo">Typografie-Guide · Werbeauf</div>
+    <h1>Montserrat<br>Use Guide</h1>
+    <p>Komplette Typografie-Referenz für die Marke Werbeauf — Skala, Gewichte, Zeilenhöhen und Akzentfarbe <code>#495f76</code> für die Anwendung auf der gesamten Webseite. Alle Größen sind <code>clamp()</code>-basiert und skalieren fluide zwischen 360px und 1280px Viewport.</p>
+  </header>
+
+  <section>
+    <div class="section-label">01 · Akzentfarbe</div>
+    <h2 class="section-title">Slate Blue als Markenanker</h2>
+    <p class="section-intro">Eine ruhige, professionelle Farbe mit ausreichendem Kontrast für Body- und UI-Anwendungen. Sparsam einsetzen — sie wirkt durch Zurückhaltung.</p>
+
+    <div class="color-hero">
+      <div class="color-block"></div>
+      <div class="color-info">
+        <div class="name">#495f76</div>
+        <div class="meta">rgb(73, 95, 118) · hsl(211, 24%, 37%)</div>
+        <span class="wcag">WCAG AAA · 7.4:1 auf Weiß</span>
+      </div>
+    </div>
+
+    <div class="swatch-grid">
+      <div class="swatch" style="background: #f0f3f7; color: #495f76;">50 · #f0f3f7</div>
+      <div class="swatch" style="background: #d8dfe6; color: #495f76;">100 · #d8dfe6</div>
+      <div class="swatch" style="background: #a3b1c2; color: #ffffff;">300 · #a3b1c2</div>
+      <div class="swatch" style="background: #495f76; color: #ffffff;">500 · #495f76</div>
+      <div class="swatch" style="background: #2f4053; color: #ffffff;">700 · #2f4053</div>
+      <div class="swatch" style="background: #1a2533; color: #ffffff;">900 · #1a2533</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">02 · Fluide Typografische Skala</div>
+    <h2 class="section-title">Modular Scale 1.250 · clamp()-basiert</h2>
+    <p class="section-intro">Alle Stufen skalieren fluide zwischen Mobile (360px) und Desktop (1280px). Keine Sprünge bei Breakpoints — sondern stetige, lineare Anpassung an den Viewport. Ändere die Browser-Breite und beobachte den Effekt.</p>
+
+    <div class="type-row">
+      <div class="meta">H1 · Display<br>32 → 48px<br>700</div>
+      <div>
+        <div class="h1-demo">Werbeauf macht Werbung messbar.</div>
+        <div class="css-meta">clamp(2rem, 1.3rem + 3.04vw, 3rem) · line-height: 1.15</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">H2 · Section<br>26 → 36px<br>700</div>
+      <div>
+        <div class="h2-demo">Klare Botschaften, präzise platziert</div>
+        <div class="css-meta">clamp(1.625rem, 1.13rem + 2.17vw, 2.25rem) · line-height: 1.2</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">H3 · Heading<br>22 → 28px<br>600</div>
+      <div>
+        <div class="h3-demo">Wie funktioniert unser Service?</div>
+        <div class="css-meta">clamp(1.375rem, 1.05rem + 1.41vw, 1.75rem) · line-height: 1.3</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">H4 · Subhead<br>19 → 22px<br>600</div>
+      <div>
+        <div class="h4-demo">Drei Schritte zum Erfolg</div>
+        <div class="css-meta">clamp(1.1875rem, 0.99rem + 0.87vw, 1.375rem) · line-height: 1.35</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">H5 · Card<br>18 → 20px<br>600</div>
+      <div>
+        <div class="h5-demo">Persönliche Beratung inklusive</div>
+        <div class="css-meta">clamp(1.125rem, 1rem + 0.54vw, 1.25rem) · line-height: 1.4</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">H6 · Micro<br>16 → 18px<br>600</div>
+      <div>
+        <div class="h6-demo">Sidebar-Titel oder Form-Section</div>
+        <div class="css-meta">clamp(1rem, 0.92rem + 0.33vw, 1.125rem) · line-height: 1.45</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">Lead · Intro<br>17 → 20px<br>400</div>
+      <div>
+        <div class="lead-demo">Mit über 15 Jahren Erfahrung helfen wir Ihrem Unternehmen, online sichtbar zu werden — messbar und nachhaltig.</div>
+        <div class="css-meta">clamp(1.0625rem, 0.92rem + 0.65vw, 1.25rem) · line-height: 1.6</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">Body · Standard<br>15 → 16px<br>400</div>
+      <div>
+        <div class="body-demo">Dies ist der Standard-Fließtext einer Webseite. Optimal lesbar bei einer Zeilenlänge von 60–75 Zeichen. Wir empfehlen, Absätze auf 3–5 Sätze zu beschränken und mit ausreichend Weißraum zu trennen — das erhöht die Lesefreude und reduziert die kognitive Last.</div>
+        <div class="css-meta">clamp(0.9375rem, 0.88rem + 0.27vw, 1rem) · line-height: 1.75</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">Small · Meta<br>13 → 14px<br>400</div>
+      <div>
+        <div class="small-demo">Veröffentlicht am 27. April 2026 · Lesezeit ca. 4 Minuten · Kategorie: Strategie</div>
+        <div class="css-meta">clamp(0.8125rem, 0.79rem + 0.22vw, 0.875rem) · line-height: 1.6</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">Caption<br>11 → 12px<br>500</div>
+      <div>
+        <div class="caption-demo">Quelle: Statistik Austria, 2025</div>
+        <div class="css-meta">clamp(0.6875rem, 0.66rem + 0.22vw, 0.75rem) · line-height: 1.5</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="meta">Overline<br>12 → 14px<br>600</div>
+      <div>
+        <div class="overline-demo">Neu im Magazin</div>
+        <div class="css-meta">clamp(0.75rem, 0.68rem + 0.33vw, 0.875rem) · letter-spacing: 0.12em</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">03 · Schnittgewichte</div>
+    <h2 class="section-title">Wann welcher Weight?</h2>
+    <p class="section-intro">Empfehlung: Lade nur 400, 500, 600, 700 — das deckt 95% der Anwendungsfälle ab und spart ~60% Ladezeit gegenüber dem vollen Set.</p>
+
+    <div class="weight-row">
+      <div class="label">300<br>Light</div>
+      <div>
+        <div class="demo-large" style="font-weight: 300;">Großes Display, niemals Body</div>
+        <div class="note">Nur ab 32px+. Unter 24px wirkt Light auf Bildschirmen ausgewaschen.</div>
+      </div>
+    </div>
+
+    <div class="weight-row">
+      <div class="label">400<br>Regular</div>
+      <div>
+        <div class="demo" style="font-weight: 400;">Standardfließtext, Absätze, Lead-Texte</div>
+        <div class="note">Das Arbeitstier. 90% des Body-Texts läuft hier.</div>
+      </div>
+    </div>
+
+    <div class="weight-row">
+      <div class="label">500<br>Medium</div>
+      <div>
+        <div class="demo" style="font-weight: 500;">Hervorhebungen, Buttons, Labels, Navigation</div>
+        <div class="note">Ideal für UI-Elemente und mittlere Akzente. Subtile Betonung im Fließtext.</div>
+      </div>
+    </div>
+
+    <div class="weight-row">
+      <div class="label">600<br>SemiBold</div>
+      <div>
+        <div class="demo" style="font-weight: 600;">Subheadings, kleinere Headlines, Card-Titel</div>
+        <div class="note">Standard für H3–H5. Klare Hierarchie ohne Wucht.</div>
+      </div>
+    </div>
+
+    <div class="weight-row">
+      <div class="label">700<br>Bold</div>
+      <div>
+        <div class="demo" style="font-weight: 700;">Hauptüberschriften H1, H2, starke CTAs</div>
+        <div class="note">Reserviert für die wichtigsten visuellen Anker.</div>
+      </div>
+    </div>
+
+    <div class="weight-row">
+      <div class="label">800–900<br>Extra/Black</div>
+      <div>
+        <div class="demo-large" style="font-weight: 900;">Nur für Hero-Display & Logo</div>
+        <div class="note">Sparsam einsetzen — sonst Werbeplakat-Effekt. Nie unter 36px verwenden.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">04 · Praxis</div>
+    <h2 class="section-title">Akzentfarbe in Aktion</h2>
+    <p class="section-intro">Wo #495f76 strategisch zum Einsatz kommt: Eyebrows, Links, Buttons, Quote-Akzente.</p>
+
+    <div class="demo-card">
+      <div class="eyebrow">Strategie</div>
+      <h3>Vom ersten Klick zur langfristigen Kundenbeziehung</h3>
+      <p>Eine durchdachte Customer Journey beginnt nicht beim Kauf — sie beginnt beim ersten Suchimpuls. Erfahren Sie, wie Sie <a href="#">Touchpoints strategisch verbinden</a> und so Conversions nachhaltig steigern.</p>
+      <button class="btn btn-primary">Mehr erfahren</button>
+      <button class="btn btn-secondary">Termin buchen</button>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote">„Werbeauf hat unser Online-Marketing in 6 Monaten auf ein neues Level gebracht — messbar, transparent, mit klarer ROI-Logik."</div>
+      <div class="attribution">— M. Lechner, Geschäftsführerin</div>
+    </div>
+  </section>
+
+  <!-- ── Komponenten-Skala ────────────────────────── -->
+  <section>
+    <div class="section-label">05 · Komponenten-Skala</div>
+    <h2 class="section-title">Cards, Produkte, Tiles, Tags</h2>
+    <p class="section-intro">Komponenten in Grids brauchen eigene Größen — sie müssen sich der Grid-Optik unterordnen, nicht wie eine H3 wirken. Diese Skala definiert sieben Komponenten-Stufen für E-Commerce, Blog und Listings.</p>
+
+    <h3 style="font-size: var(--fs-h3); font-weight: 600; color: var(--heading); margin: 2rem 0 1rem; letter-spacing: -0.01em;">Blog-Cards · 3-Spalten-Grid</h3>
+    <div class="component-grid">
+      <article class="blog-card">
+        <div class="card-image">[16:10 Bild]</div>
+        <div class="card-content">
+          <span class="tag">Strategie</span>
+          <h4 class="title">Vom ersten Klick zur langfristigen Kundenbeziehung</h4>
+          <p class="excerpt">Eine durchdachte Customer Journey beginnt nicht beim Kauf — sie beginnt beim ersten Suchimpuls.</p>
+          <div class="meta">27. April 2026 · 4 Min. Lesezeit</div>
+        </div>
+      </article>
+      <article class="blog-card">
+        <div class="card-image">[16:10 Bild]</div>
+        <div class="card-content">
+          <span class="tag">SEO</span>
+          <h4 class="title">Local SEO für österreichische KMU</h4>
+          <p class="excerpt">Wie kleine und mittlere Unternehmen lokal in Suchergebnissen sichtbar werden — ohne großes Budget.</p>
+          <div class="meta">22. April 2026 · 6 Min. Lesezeit</div>
+        </div>
+      </article>
+      <article class="blog-card">
+        <div class="card-image">[16:10 Bild]</div>
+        <div class="card-content">
+          <span class="tag">Analytics</span>
+          <h4 class="title">GA4 verstehen und richtig einsetzen</h4>
+          <p class="excerpt">Der Umstieg von Universal Analytics ist abgeschlossen — jetzt geht es ans Eingemachte.</p>
+          <div class="meta">15. April 2026 · 8 Min. Lesezeit</div>
+        </div>
+      </article>
+    </div>
+
+    <h3 style="font-size: var(--fs-h3); font-weight: 600; color: var(--heading); margin: 3rem 0 1rem; letter-spacing: -0.01em;">Produkt-Cards · Shop-Grid</h3>
+    <div class="component-grid">
+      <div class="product-card">
+        <div class="product-image">[1:1 Bild]</div>
+        <div class="product-content">
+          <div class="category">Pigment-Pflege</div>
+          <h4 class="name">Pigment Repair Serum 30ml</h4>
+          <div class="price-row">
+            <span class="price">€ 89</span>
+            <span class="price-old">€ 109</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-image">[1:1 Bild]</div>
+        <div class="product-content">
+          <div class="category">Anti-Aging</div>
+          <h4 class="name">Vitamin C Booster Konzentrat</h4>
+          <div class="price-row">
+            <span class="price">€ 64</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-image">[1:1 Bild]</div>
+        <div class="product-content">
+          <div class="category">Reinigung</div>
+          <h4 class="name">Sanftes Enzym-Peeling 50ml</h4>
+          <div class="price-row">
+            <span class="price">€ 42</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size: var(--fs-h3); font-weight: 600; color: var(--heading); margin: 3rem 0 1rem; letter-spacing: -0.01em;">Tile-Listing · Sidebar &amp; kompakte Listen</h3>
+    <div class="tile-list" style="max-width: 480px;">
+      <div class="tile-item">
+        <div class="tile-thumb"></div>
+        <div class="tile-content">
+          <h4 class="tile-title">Termin in der Praxis vereinbaren</h4>
+          <div class="tile-meta">Hauptbereich · 2 Min.</div>
+        </div>
+      </div>
+      <div class="tile-item">
+        <div class="tile-thumb"></div>
+        <div class="tile-content">
+          <h4 class="tile-title">Behandlungsspektrum entdecken</h4>
+          <div class="tile-meta">Services · 5 Min.</div>
+        </div>
+      </div>
+      <div class="tile-item">
+        <div class="tile-thumb"></div>
+        <div class="tile-content">
+          <h4 class="tile-title">Häufige Fragen zur Therapie</h4>
+          <div class="tile-meta">FAQ · 3 Min.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size: var(--fs-h3); font-weight: 600; color: var(--heading); margin: 3rem 0 1rem; letter-spacing: -0.01em;">Daumenregel — wann was?</h3>
+    <div style="overflow-x: auto;">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Komponente</th>
+          <th>Variable</th>
+          <th>Größe</th>
+          <th>Weight</th>
+          <th>Begründung</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Blog-Card Titel</td>
+          <td><code>--fs-card-title</code></td>
+          <td>18 → 21px</td>
+          <td>600</td>
+          <td>Groß genug zum Scannen, klein genug für Grid-Rhythmus</td>
+        </tr>
+        <tr>
+          <td>Service-/Feature-Box</td>
+          <td><code>--fs-card-title</code></td>
+          <td>18 → 21px</td>
+          <td>600</td>
+          <td>Gleiches Gewicht wie Blog — visuelle Konsistenz</td>
+        </tr>
+        <tr>
+          <td>Produktname im Shop</td>
+          <td><code>--fs-product-title</code></td>
+          <td>16 → 17px</td>
+          <td>500</td>
+          <td>Bewusst zurückgenommen — Bild ist der Held</td>
+        </tr>
+        <tr>
+          <td>Sidebar-Listing, Tiles</td>
+          <td><code>--fs-tile-title</code></td>
+          <td>15 → 15.5px</td>
+          <td>500</td>
+          <td>Listenstil, viele Items übereinander</td>
+        </tr>
+        <tr>
+          <td>Preis (primary)</td>
+          <td><code>--fs-price</code></td>
+          <td>20 → 23px</td>
+          <td>700</td>
+          <td>Conversion-Aktion — muss auffallen</td>
+        </tr>
+        <tr>
+          <td>Streichpreis</td>
+          <td><code>--fs-price-old</code></td>
+          <td>14 → 15px</td>
+          <td>400</td>
+          <td>Sekundär, line-through, text-muted</td>
+        </tr>
+        <tr>
+          <td>Meta (Datum, Autor)</td>
+          <td><code>--fs-meta</code></td>
+          <td>12 → 13px</td>
+          <td>400</td>
+          <td>Bewusst klein, in <code>--text-muted</code></td>
+        </tr>
+        <tr>
+          <td>Tags / Badges</td>
+          <td><code>--fs-tag</code></td>
+          <td>11 → 12px</td>
+          <td>600</td>
+          <td>letter-spacing 0.04em, Padding 4px 10px</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">06 · Best Practices</div>
+    <h2 class="section-title">Do & Don't</h2>
+    <p class="section-intro">Die wichtigsten Regeln für saubere Montserrat-Typografie.</p>
+
+    <div class="do-dont">
+      <div class="do">
+        <div class="label">✓ Do</div>
+        Body in 400, max-width: 65ch, line-height ≥ 1.6, Akzent #495f76 nur für Links, CTAs und Eyebrows
+      </div>
+      <div class="dont">
+        <div class="label">✗ Don't</div>
+        Body in 300 unter 18px, ALL CAPS in langen Sätzen, mehr als 3 Schnitte parallel, Akzent für Fließtext
+      </div>
+    </div>
+
+    <div class="do-dont">
+      <div class="do">
+        <div class="label">✓ Do</div>
+        clamp() für fluide Skalierung — keine harten Breakpoint-Sprünge, smoothe Anpassung an jeden Viewport
+      </div>
+      <div class="dont">
+        <div class="label">✗ Don't</div>
+        Feste px-Werte mit @media-Queries stapeln — erzeugt sichtbare Sprünge bei Größenwechseln
+      </div>
+    </div>
+
+    <div class="do-dont">
+      <div class="do">
+        <div class="label">✓ Do</div>
+        Body-Text in #2f4053 (Akzent-Familie 700) — harmoniert besser als reines Schwarz
+      </div>
+      <div class="dont">
+        <div class="label">✗ Don't</div>
+        Reines #000000 für Fließtext — wirkt zu hart, ermüdet die Augen bei langem Lesen
+      </div>
+    </div>
+
+    <div class="do-dont">
+      <div class="do">
+        <div class="label">✓ Do</div>
+        font-display: swap setzen, preconnect zu Google Fonts, woff2 verwenden
+      </div>
+      <div class="dont">
+        <div class="label">✗ Don't</div>
+        Alle 9 Schnitte laden — verbraucht 600KB+ und verzögert First Paint
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">07 · Setup</div>
+    <h2 class="section-title">CSS — Copy &amp; Paste</h2>
+    <p class="section-intro">Komplettes Setup mit fluider clamp()-Skala. DSGVO-konform via Self-Hosting empfohlen (siehe Hinweis unten).</p>
+
+<pre><code>/* 1. Google Fonts (HTML &lt;head&gt;) */
+&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"&gt;
+
+/* 2. CSS Custom Properties — Fluid Type Scale */
+:root {
+  --font-base: 'Montserrat', system-ui, -apple-system, sans-serif;
+
+  /* Akzentfarben */
+  --color-accent:        #495f76;
+  --color-accent-50:     #f0f3f7;
+  --color-accent-100:    #d8dfe6;
+  --color-accent-300:    #a3b1c2;
+  --color-accent-700:    #2f4053;
+  --color-accent-900:    #1a2533;
+  --color-text:          #2f4053;
+  --color-text-muted:    #5a6f85;
+  --color-heading:       #1a2533;
+
+  /* Fluid Type Scale (360px → 1280px Viewport) */
+  --fs-display:  clamp(2.5rem,    1.5rem  + 4.35vw, 5rem);       /* 40 → 80px */
+  --fs-h1:       clamp(2rem,      1.3rem  + 3.04vw, 3rem);       /* 32 → 48px */
+  --fs-h2:       clamp(1.625rem,  1.13rem + 2.17vw, 2.25rem);    /* 26 → 36px */
+  --fs-h3:       clamp(1.375rem,  1.05rem + 1.41vw, 1.75rem);    /* 22 → 28px */
+  --fs-h4:       clamp(1.1875rem, 0.99rem + 0.87vw, 1.375rem);   /* 19 → 22px */
+  --fs-h5:       clamp(1.125rem,  1rem    + 0.54vw, 1.25rem);    /* 18 → 20px */
+  --fs-h6:       clamp(1rem,      0.92rem + 0.33vw, 1.125rem);   /* 16 → 18px */
+  --fs-lead:     clamp(1.0625rem, 0.92rem + 0.65vw, 1.25rem);    /* 17 → 20px */
+  --fs-body:     clamp(0.9375rem, 0.88rem + 0.27vw, 1rem);       /* 15 → 16px */
+  --fs-small:    clamp(0.8125rem, 0.79rem + 0.22vw, 0.875rem);   /* 13 → 14px */
+  --fs-caption:  clamp(0.6875rem, 0.66rem + 0.22vw, 0.75rem);    /* 11 → 12px */
+  --fs-overline: clamp(0.75rem,   0.68rem + 0.33vw, 0.875rem);   /* 12 → 14px */
+
+  /* Komponenten-Skala */
+  --fs-card-title:    clamp(1.125rem,  0.97rem + 0.65vw, 1.3125rem);  /* 18 → 21px */
+  --fs-product-title: clamp(1rem,      0.94rem + 0.27vw, 1.0625rem);  /* 16 → 17px */
+  --fs-tile-title:    clamp(0.9375rem, 0.91rem + 0.13vw, 0.96875rem); /* 15 → 15.5px */
+  --fs-price:         clamp(1.25rem,   1.1rem  + 0.65vw, 1.4375rem);  /* 20 → 23px */
+  --fs-price-old:     clamp(0.875rem,  0.85rem + 0.11vw, 0.9375rem);  /* 14 → 15px */
+  --fs-meta:          clamp(0.75rem,   0.73rem + 0.11vw, 0.8125rem);  /* 12 → 13px */
+  --fs-tag:           clamp(0.6875rem, 0.66rem + 0.13vw, 0.75rem);    /* 11 → 12px */
+}
+
+/* 3. Base Styles */
+html { font-size: 100%; }
+body {
+  font-family: var(--font-base);
+  font-size: var(--fs-body);
+  line-height: 1.75;
+  color: var(--color-text);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 4. Headings — alle fluide */
+h1 { font-size: var(--fs-h1); line-height: 1.15; font-weight: 700; letter-spacing: -0.02em;  color: var(--color-heading); }
+h2 { font-size: var(--fs-h2); line-height: 1.2;  font-weight: 700; letter-spacing: -0.015em; color: var(--color-heading); }
+h3 { font-size: var(--fs-h3); line-height: 1.3;  font-weight: 600; letter-spacing: -0.01em;  color: var(--color-heading); }
+h4 { font-size: var(--fs-h4); line-height: 1.35; font-weight: 600; color: var(--color-accent-700); }
+h5 { font-size: var(--fs-h5); line-height: 1.4;  font-weight: 600; color: var(--color-accent-700); }
+h6 { font-size: var(--fs-h6); line-height: 1.45; font-weight: 600; color: var(--color-accent-700); }
+
+/* 5. Text Elements */
+p     { font-size: var(--fs-body); max-width: 65ch; margin-bottom: 1.25rem; }
+a     { color: var(--color-accent); font-weight: 500; text-underline-offset: 3px; }
+small { font-size: var(--fs-small); color: var(--color-text-muted); }
+strong { font-weight: 600; }
+
+/* 6. Utility Classes */
+.display  { font-size: var(--fs-display); font-weight: 800; line-height: 1.1; letter-spacing: -0.025em; }
+.lead     { font-size: var(--fs-lead); line-height: 1.6; font-weight: 400; }
+.eyebrow  {
+  font-size: var(--fs-overline); font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--color-accent);
+}
+.caption  { font-size: var(--fs-caption); font-weight: 500; color: var(--color-text-muted); }
+
+/* 7. Buttons */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  font-family: var(--font-base);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-primary   { background: var(--color-accent); color: white; border: none; }
+.btn-primary:hover { background: var(--color-accent-700); }
+.btn-secondary {
+  background: transparent;
+  color: var(--color-accent);
+  border: 1.5px solid var(--color-accent);
+}
+.btn-secondary:hover { background: var(--color-accent-50); }</code></pre>
+
+    <p style="margin-top: 1.5rem; font-size: var(--fs-small); color: var(--text-muted);">
+      <strong style="color: var(--accent);">clamp() erklärt:</strong> Die Formel <code>clamp(MIN, PREFERRED, MAX)</code> nimmt den mittleren, viewport-basierten Wert — gedeckelt durch Min und Max. Beispiel <code>--fs-h1</code>: bei 360px Viewport = 32px, bei 1280px = 48px, dazwischen lineare Interpolation. Keine Media-Queries nötig.
+    </p>
+
+    <p style="margin-top: 1rem; font-size: var(--fs-small); color: var(--text-muted);">
+      <strong style="color: var(--accent);">DSGVO-Hinweis (Österreich):</strong> Google Fonts via CDN überträgt IP-Adressen an Google in den USA. Für volle DSGVO-Konformität die Schriften lokal hosten — z.B. via <a href="https://fontsource.org/fonts/montserrat" style="color: var(--accent); font-weight: 500;">Fontsource</a> oder als woff2-Files direkt vom Server ausliefern.
+    </p>
+  </section>
+
+  <footer>
+    <p>Montserrat Typografie-Guide · Akzentfarbe #495f76 · Fluid clamp() Edition · 27. April 2026</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
