@@ -3,7 +3,15 @@
 .codegraph/
 
 # Per-tool / per-machine state
-.claude/
+# We track the auto-sync hook script + setup instructions + example settings,
+# but ignore the user-specific state files (sync log, debounce marker, local
+# permissions).
+.claude/*
+!.claude/hooks/
+!.claude/hooks/**
+!.claude/settings.example.json
+.claude/sync.log
+.claude/.last-sync
 .gstack/
 
 # OS junk

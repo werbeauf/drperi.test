@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "_description": "Place this at ~/WEB/Clients/drperi/.claude/settings.json (project root, NOT plugin level). Claude Code reads project-level settings when opening at the drperi root. The hook script-path below resolves to a script inside this plugin.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/macos/WEB/Clients/drperi/wp-content/plugins/werbeauf-customs/.claude/hooks/codegraph-sync-on-edit.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

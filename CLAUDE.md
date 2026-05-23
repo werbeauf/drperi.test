@@ -210,6 +210,62 @@ Two indices are maintained for this plugin. Both are local, both update on file 
 
 Use-policy + tool-by-tool decision table lives in the project CLAUDE.md (`~/WEB/Clients/drperi/CLAUDE.md` § Code intelligence). Cross-tool verdict per question type: `docs/ARCHITECTURE.md` § B18.
 
+## 🚨 Graph-First Rules — read before any code change
+
+This plugin has two pre-built knowledge graphs (GitNexus + CodeGraph). They are sub-millisecond reads and structurally accurate. **Use them first, grep second.**
+
+### Iron rules
+
+1. **Symbol lookup → `codegraph_search` BEFORE Grep/Glob.** Returns kind + location + signature in one call. Faster, more accurate.
+2. **"How does X work" / architecture / trace → `codegraph_context` FIRST.** Composes search + node + callers + callees. One call ≈ five Read calls.
+3. **Multi-symbol exploration → ONE `codegraph_explore` instead of many Reads.** Each Read re-loads context.
+4. **Refactor planning → `gitnexus_impact` BEFORE editing.** Report blast radius (direct callers, processes, risk level) to the user.
+5. **Cross-repo / catalog queries → `gitnexus_cypher` or `gitnexus_query`.** CodeGraph caps at 100; GitNexus uses raw Cypher.
+
+### Plan-mode escalation triggers
+
+Enter Plan Mode automatically when **any** of these fire:
+
+- `gitnexus_impact` returns risk = **HIGH** or **CRITICAL**
+- Dependency chain depth ≥ **3**
+- Target is a load-bearing symbol — top of the impact map. Currently:
+  - `Werbeauf_Single_Product_Renderer::icon_paths` / `::icon_svg` (5+ callers)
+  - `wa_wpml_current_lang` (7 callers, WPML base helper)
+  - `wa_phorest_api` (6 callers, Phorest transport)
+  - `wa_get_options_field` (3 callers, ACF options reader)
+
+### WordPress-specific blind spot — always cross-check
+
+Both GitNexus and CodeGraph are **blind to `add_action` / `add_filter` callbacks, cron callbacks, AJAX handlers, REST routes, and ACF field consumers**. AST parsers don't see hook registration as call-graph edges.
+
+This means impact analysis **under-counts** hook-driven code. Documented in `docs/ARCHITECTURE.md` § B18.
+
+**Rule:** if the symbol you're touching is registered with `add_action` / `add_filter`, OR if it DEFINES a custom filter via `apply_filters( 'wa_*' )` / `do_action( 'wa_*' )`, **also grep the registration site** before considering the impact analysis complete.
+
+### Trust the graph for these (no need to verify)
+
+- Pure-PHP / pure-JS function call edges (one function calls another by name)
+- Class inheritance + interface implementation
+- File-level `require_once` / `include` / `use` imports
+- WC-method calls (`$order->update_status()`, `wc_get_order()`, etc.)
+
+### Verify with grep + Read for these
+
+- `add_action` / `add_filter` registrations (find by hook name, not by callback name)
+- `add_shortcode` registrations
+- `register_rest_route`
+- `wp_schedule_event` + cron callbacks (e.g. `WA_PHOREST_CRON_HOOK`, `WA_WORKFLOW_CRON_HOOK`)
+- `wp_ajax_*` action names
+- ACF `get_field('foo', $post_id)` — graph doesn't see WHICH posts have that field
+
+### Auto-sync hook (project-level, requires manual finalisation)
+
+A PostToolUse hook is intended at `~/WEB/Clients/drperi/.claude/settings.json` to trigger `codegraph sync` after every Edit/Write on a `.php` file under this plugin. **Debounced to 30s** — multiple edits in the same minute trigger only one sync. Logs to `.claude/sync.log`.
+
+The hook script lives at `.claude/hooks/codegraph-sync-on-edit.sh` (in this plugin, committed). The project-level `settings.json` is intentionally **not** auto-installed by Claude Code agents — it must be created manually because it grants auto-execute privileges. See README / setup notes for the one-time `chmod +x` + settings.json installation steps.
+
+GitNexus has NO auto-sync — re-run `npx gitnexus analyze` manually after large refactors. The graph is fault-tolerant: even a stale GitNexus index returns useful answers, it just won't see brand-new symbols.
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
